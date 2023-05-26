@@ -34,4 +34,24 @@ public class Gruppo extends Chat{
         nome= nuovoNome;
     }
     
+    @Override
+    public void MostraMessaggi(){
+        for (int i=0;i<getNumeroMessaggi();i++){
+                System.out.println(getNicknameMittente(i) + " : ");
+                System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");
+                System.out.println(" ");
+                System.out.println(" ");
+        }
+    }
+    
+    
+    public void aggiungiPartecipanteGruppo(Utente amministratore, Utente nuovoUtente) throws NotAdministratorException{
+        if(amministratore.getID()==this.amministratore.getID()){
+            aggiungiUtente(nuovoUtente);
+            //Aggiungi sul databse
+        }
+        else{
+            throw new NotAdministratorException();
+        }
+    }
 }
