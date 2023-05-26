@@ -19,10 +19,12 @@ public abstract class Chat {
         messaggi = new ArrayList<Messaggio> (10);
     }
     
+    public void aggiungiUtente(Utente nuovoUtente){
+        partecipanti.add(nuovoUtente);
+    }
     
-    public Chat(Utente nuovoUtente, Messaggio nuovoMessaggio) {
-        this.partecipanti.add(nuovoUtente);
-        this.messaggi.add(nuovoMessaggio);
+    public void aggiungiMessaggio(Messaggio nuovoMessaggio){
+        messaggi.add(nuovoMessaggio);
     }
     
     
@@ -32,12 +34,21 @@ public abstract class Chat {
         }
     }
     
-    public void MostraMessaggi(){
-        for (int i=0;i<messaggi.size();i++){
-                System.out.println(messaggi.get(i).getMittente().getNickname() + " : ");
-                System.out.println("\u001B[1m" + messaggi.get(i).getTesto() + "\u001B[0m");
-                System.out.println(" ");
-                System.out.println(" ");
-        }
+    public int getNumeroPartecipanti(){
+        return partecipanti.size();
     }
+    
+    public int getNumeroMessaggi(){
+        return messaggi.size();
+    }
+    
+    public String getNicknameMittente(int indice){
+        return messaggi.get(indice).getMittente().getNickname();
+    }
+    
+    public String getTestoMessaggio(int indice){
+        return messaggi.get(indice).getTesto();
+    }
+    
+    public abstract void MostraMessaggi();
 }
