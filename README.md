@@ -1,2 +1,2 @@
 # Progetto Programmazione a oggetti
-![]([[http://url/to/img.png](https://github.com/Lomby1902/Programmazione_a_oggetti/blob/main/Diagramma.png](https://github.com/Lomby1902/Programmazione_a_oggetti/blob/main/Diagramma.png?raw=true)))
+![](https://github.com/Lomby1902/Programmazione_a_oggetti/blob/main/Diagramma.png?raw=true)
