@@ -11,4 +11,27 @@ package main;
 public class Gruppo extends Chat{
     private Utente amministratore;
     private String nome;
+    
+    public Gruppo(Utente nuovoAmministratore, String nuovoNome){
+        super();
+        amministratore = nuovoAmministratore;
+        nome = nuovoNome;
+    }
+    
+    public String getAmministratore(){
+        return amministratore.getNickname();
+    }
+    
+    public String getNome(){
+        return nome;
+    }
+    
+    public void setAmministratore(Utente u){
+        amministratore = u;
+    }
+    
+    public void setNome(String nuovoNome){
+        nome= nuovoNome;
+    }
+    
 }

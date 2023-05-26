@@ -10,4 +10,7 @@ package main;
  */
 public class ChatPrivata extends Chat{
     
+    public ChatPrivata(){
+        super();
+    }
 }
