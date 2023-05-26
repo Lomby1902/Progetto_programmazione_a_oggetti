@@ -34,4 +34,10 @@ public class ChatPrivata extends Chat{
             //Aggiungi utente nel database
         }
     }
+     
+     
+     public void aggiungiMessaggioChat(Messaggio nuoMessaggio){
+         aggiungiMessaggio(nuoMessaggio);
+         //Inserisci il messaggio sul database
+     }
 }

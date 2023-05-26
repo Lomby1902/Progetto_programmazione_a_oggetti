@@ -19,6 +19,16 @@ public class Utente {
         this.password = password;
     }
 
+    public ChatPrivata creaChatPrivata(){
+        ChatPrivata nuovaChatPrivata = new ChatPrivata();
+        try {
+            nuovaChatPrivata.aggiungiPartecipanteChat(this);
+        } catch (LimitNumberException e) {
+            System.out.println(e.getMessage());
+        }
+        return nuovaChatPrivata;
+    }
+    
     public int getID() {
         return ID;
     }

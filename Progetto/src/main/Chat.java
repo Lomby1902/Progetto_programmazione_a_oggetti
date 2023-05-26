@@ -23,6 +23,10 @@ public abstract class Chat {
         partecipanti.add(nuovoUtente);
     }
     
+    public void aggiungiMessaggio(Messaggio nuovoMessaggio){
+        messaggi.add(nuovoMessaggio);
+    }
+    
     
     public void MostraPartecipanti(){
         for (int i=0;i<partecipanti.size();i++){
