@@ -4,6 +4,10 @@
  */
 package main;
 
+import javax.swing.JOptionPane;
+import java.io.*;
+import java.net.*;
+
 /**
  *
  * @author matxd
@@ -51,6 +55,20 @@ public class Utente {
         this.stato = stato;
     }
     
+
+    public static void main(String[] args) throws IOException{
+        String serverAddress = "localhost";
+        int serverPort = 9090;
+        Socket s = new Socket(serverAddress, serverPort);
+        PrintWriter output = new PrintWriter (s.getOutputStream(), true);
+        BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        String msg = "";
+        msg = input.readLine();
+        System.out.println(msg);
+        output.close();
+        input.close();
+        s.close();
+    }
     
     
 }
