@@ -18,28 +18,26 @@ public class SocketServer {
         
     }
     
-    public void start(){
-        try{
-            ServerSocket listener = new ServerSocket(9090);
-            System.out.println("Server is running");
-            while(true){
-                Socket socket = listener.accept();
-                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                //Multithread
-                Thread clientThread = new Thread(new ClientHandler(socket));
-                clientThread.start();
-                output.close();
-                input.close();
-                socket.close();
-            }
-        }catch(IOException e) {
-                e.printStackTrace();
-            }
-    }
+    
     
     public static void main(String[] args) throws IOException{
-        SocketServer server = new SocketServer();
-        server.start();
+        ServerSocket listener = new ServerSocket(9091);
+        System.out.println("Server is running");
+        
+        try {
+            while (true) {                
+                Socket socket = listener.accept();
+                try{
+                    PrintWriter out= new PrintWriter(socket.getOutputStream(), true);
+                    out.println("Ciao");
+                }
+                finally{
+                    socket.close();
+                }
+            }
+        }
+        finally{
+            listener.close();
+        }
     }
 }

@@ -11,6 +11,7 @@ package main;
 public class Gruppo extends Chat{
     private Utente amministratore;
     private String nome;
+    private int ID;
     
     public Gruppo(Utente nuovoAmministratore, String nuovoNome){
         super();
@@ -45,9 +46,9 @@ public class Gruppo extends Chat{
     }
     
     
-    public void aggiungiPartecipanteGruppo(Utente amministratore, Utente nuovoUtente) throws NotAdministratorException{
+    public void aggiungiUtente(Utente amministratore, Utente nuovoUtente) throws NotAdministratorException{
         if(amministratore.getID()==this.amministratore.getID()){
-            aggiungiUtente(nuovoUtente);
+            super.aggiungiUtente(nuovoUtente);
             //Aggiungi sul databse
         }
         else{

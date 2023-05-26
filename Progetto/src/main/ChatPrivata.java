@@ -24,20 +24,5 @@ public class ChatPrivata extends Chat{
                 System.out.println(" ");
         }
     }
-    
-     public void aggiungiPartecipanteChat(Utente nuovoUtente) throws LimitNumberException{
-        if(getNumeroPartecipanti() ==2){
-            throw new LimitNumberException();
-        }
-        else{
-            aggiungiUtente(nuovoUtente);
-            //Aggiungi utente nel database
-        }
-    }
-     
-     
-     public void aggiungiMessaggioChat(Messaggio nuoMessaggio){
-         aggiungiMessaggio(nuoMessaggio);
-         //Inserisci il messaggio sul database
-     }
+  
 }

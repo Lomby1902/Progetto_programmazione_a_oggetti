@@ -8,10 +8,6 @@ import javax.swing.JOptionPane;
 import java.io.*;
 import java.net.*;
 
-/**
- *
- * @author matxd
- */
 public class Utente {
     private int ID;
     private String nickname;
@@ -23,15 +19,53 @@ public class Utente {
         this.password = password;
     }
 
+    
+    /**
+    * Questo metodo crea una chat privata ed 
+    * inserisce già l'utente che la crea.
+    * Restituisce l'oggetto ChatPrivata
+    */
     public ChatPrivata creaChatPrivata(){
         ChatPrivata nuovaChatPrivata = new ChatPrivata();
-        try {
-            nuovaChatPrivata.aggiungiPartecipanteChat(this);
-        } catch (LimitNumberException e) {
-            System.out.println(e.getMessage());
-        }
+        nuovaChatPrivata.aggiungiUtente(this);
         return nuovaChatPrivata;
     }
+    
+    /**
+     * Questo metodo aggiunge un nuovo utente alla chat privata cp
+     * @param nuovoUtente
+     * @param cp 
+     * 
+     */
+    public void aggiungiUtenteChat(Utente nuovoUtente, ChatPrivata cp ){
+         try {
+             if(cp.getNumeroPartecipanti()==2)
+                 throw new LimitNumberException();
+             cp.aggiungiUtente(nuovoUtente);
+             //aggiungi utente nel database
+         } catch (LimitNumberException e) {
+             System.out.println(e.getMessage());
+         }
+    }
+    
+    /**
+     * Questo metodo scrive un messaggio m nella chat privata cp
+     * @param m
+     * @param cp 
+     */
+    public void scriviMessaggioChat(Messaggio m, ChatPrivata cp){
+        cp.aggiungiMessaggio(m);
+         //Inserisci il messaggio sul database
+    }
+    
+    
+     public void aggiungiUtenteGruppo(Utente nuovoUtente, Gruppo g ){
+        g.aggiungiUtente(nuovoUtente);
+        //aggiungi utente nel database
+         
+    }
+    
+    
     
     public int getID() {
         return ID;
@@ -66,9 +100,12 @@ public class Utente {
     }
     
 
+     
+    
+    /*
     public static void main(String[] args) throws IOException{
         String serverAddress = "localhost";
-        int serverPort = 9090;
+        int serverPort = 9091;
         Socket s = new Socket(serverAddress, serverPort);
         PrintWriter output = new PrintWriter (s.getOutputStream(), true);
         BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -79,6 +116,6 @@ public class Utente {
         input.close();
         s.close();
     }
-    
+    */
     
 }

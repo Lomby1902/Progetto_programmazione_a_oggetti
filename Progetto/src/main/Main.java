@@ -14,21 +14,17 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       Utente giovanni = new Utente("Giovanni", "Password");
-       ChatPrivata cp = giovanni.creaChatPrivata();
-       Utente matteo = new Utente("Matteo", "Password");
-        
-       try {
-            cp.aggiungiPartecipanteChat(matteo);
-        } catch (LimitNumberException e) {
-            System.out.println(e.getMessage());
-        }
+        Utente giovanni = new Utente("Giovanni", "Password");
+        ChatPrivata cp = giovanni.creaChatPrivata();
+        Utente matteo = new Utente("Matteo", "Password");
+        giovanni.aggiungiUtenteChat(matteo,cp);
        
         Messaggio nuovoMessaggio = new Messaggio(giovanni,"Ciao come stai ?");
-        cp.aggiungiMessaggioChat(nuovoMessaggio);
+        giovanni.scriviMessaggioChat(nuovoMessaggio, cp);
         Messaggio secondoMessaggio= new Messaggio(matteo, "Tutto bene, tu ?");
-        cp.aggiungiMessaggioChat(secondoMessaggio);
+        matteo.scriviMessaggioChat(secondoMessaggio, cp);
         cp.MostraMessaggi();
+        cp.MostraPartecipanti();
     }
     
 }
