@@ -27,17 +27,12 @@ public class SocketServer {
         try {
             while (true) {                
                 Socket socket = listener.accept();
-                try{
-                    PrintWriter out= new PrintWriter(socket.getOutputStream(), true);
-                    out.println("Ciao");
-                }
-                finally{
-                    socket.close();
-                }
+                ClientHandler client = new ClientHandler(socket);
+                new Thread(client).start();
             }
-        }
-        finally{
+        }finally{
             listener.close();
         }
+        
     }
 }
