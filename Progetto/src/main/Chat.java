@@ -13,10 +13,12 @@ import java.util.ArrayList;
 public abstract class Chat {
     private ArrayList<Utente> partecipanti;
     private ArrayList<Messaggio> messaggi;
+    private int ID;
     
-    public Chat(){
+    public Chat(int ID){
         partecipanti= new ArrayList<Utente>(2);
         messaggi = new ArrayList<Messaggio> (10);
+        this.ID=ID;
     }
     
     public void aggiungiUtente(Utente nuovoUtente){
@@ -43,12 +45,19 @@ public abstract class Chat {
     }
     
     public String getNicknameMittente(int indice){
-        return messaggi.get(indice).getMittente().getNickname();
+        return messaggi.get(indice).getMittente();
     }
     
     public String getTestoMessaggio(int indice){
         return messaggi.get(indice).getTesto();
     }
     
+    public int getID(){
+        return ID;
+    }
+    
+    private void setID(int ID){
+        this.ID=ID;
+    }
     public abstract void MostraMessaggi();
 }

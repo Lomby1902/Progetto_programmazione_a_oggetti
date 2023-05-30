@@ -11,10 +11,9 @@ package main;
 public class Gruppo extends Chat{
     private Utente amministratore;
     private String nome;
-    private int ID;
     
-    public Gruppo(Utente nuovoAmministratore, String nuovoNome){
-        super();
+    public Gruppo(Utente nuovoAmministratore, String nuovoNome, int ID){
+        super(ID);
         amministratore = nuovoAmministratore;
         nome = nuovoNome;
     }

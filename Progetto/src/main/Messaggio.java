@@ -10,12 +10,12 @@ import java.time.Instant;
  */
 public class Messaggio {
     private Instant time;
-    private Utente mittente;
+    private String mittente;
     private String testo;
     
-    public Messaggio(Utente mittente, String testo) {
+    public Messaggio(String nickname, String testo) {
         this.time = Instant.now();
-        this.mittente = mittente;
+        this.mittente = nickname;
         this.testo = testo;
     }
 
@@ -27,12 +27,12 @@ public class Messaggio {
         this.time = time;
     }
 
-    public Utente getMittente() {
+    public String getMittente() {
         return mittente;
     }
 
-    public void setMittente(Utente mittente) {
-        this.mittente = mittente;
+    public void setMittente(String nickname) {
+        this.mittente = nickname;
     }
 
     public String getTesto() {

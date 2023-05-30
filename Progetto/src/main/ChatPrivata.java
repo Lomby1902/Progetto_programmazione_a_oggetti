@@ -10,8 +10,8 @@ package main;
  */
 public class ChatPrivata extends Chat{
     
-    public ChatPrivata(){
-        super();
+    public ChatPrivata(int ID){
+        super(ID);
     }
     
     

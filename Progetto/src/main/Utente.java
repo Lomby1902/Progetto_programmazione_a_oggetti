@@ -7,6 +7,7 @@ package main;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.net.*;
+import java.sql.SQLException;
 
 public class Utente {
     private int ID;
@@ -25,8 +26,9 @@ public class Utente {
     * inserisce già l'utente che la crea.
     * Restituisce l'oggetto ChatPrivata
     */
-    public ChatPrivata creaChatPrivata(){
-        ChatPrivata nuovaChatPrivata = new ChatPrivata();
+    public ChatPrivata creaChatPrivata() throws SQLException{
+        int id=Database.inserisciChatPrivata();
+        ChatPrivata nuovaChatPrivata = new ChatPrivata(id);
         nuovaChatPrivata.aggiungiUtente(this);
         return nuovaChatPrivata;
     }
