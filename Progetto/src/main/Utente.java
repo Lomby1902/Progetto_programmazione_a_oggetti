@@ -27,7 +27,8 @@ public class Utente {
     * Restituisce l'oggetto ChatPrivata
     */
     public ChatPrivata creaChatPrivata() throws SQLException{
-        int id=Database.inserisciChatPrivata();
+        //Inserisce la chat privata nel database e ne restituisce l'id
+        int id=Database.inserisciChatPrivata(this.getNickname());
         ChatPrivata nuovaChatPrivata = new ChatPrivata(id);
         nuovaChatPrivata.aggiungiUtente(this);
         return nuovaChatPrivata;

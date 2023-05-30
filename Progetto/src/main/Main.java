@@ -21,8 +21,11 @@ public class Main {
         Database db= new Database();
         Utente giovanni = new Utente("Giovanni", "Password");
         ChatPrivata cp=null;
+        
+        //L'utente crea una chat privata
         try {
             cp = giovanni.creaChatPrivata();
+            System.out.println("Chat creata correttamente");
         } catch (SQLException ex) {
             System.out.println("Errore nella creazione della Chat");
         }
