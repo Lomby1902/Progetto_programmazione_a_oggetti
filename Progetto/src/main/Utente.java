@@ -105,7 +105,7 @@ public class Utente {
 
      
     
-    
+    /*
     public static void main(String[] args) throws IOException{
         String serverAddress = "localhost";
         int serverPort = 9091;
@@ -119,6 +119,6 @@ public class Utente {
             input.close();
         }
     }
-    
+    */
     
 }

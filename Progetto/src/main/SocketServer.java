@@ -28,7 +28,8 @@ public class SocketServer {
             while (true) {                
                 Socket socket = listener.accept();
                 ClientHandler client = new ClientHandler(socket);
-                new Thread(client).start();
+                Thread T1 = new Thread(client);
+                T1.start();
             }
         }finally{
             listener.close();

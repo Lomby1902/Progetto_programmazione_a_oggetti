@@ -13,17 +13,36 @@ import java.sql.*;
  */
 public class Database {
     static Connection databaseConnection;
+    
+    
     public Database() {
             try{
                Class.forName("com.mysql.cj.jdbc.Driver");
                databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Progetto","root","");
-    }catch(ClassNotFoundException cnfe){
-        System.err.println(cnfe);
-}
-    catch(SQLException sqle){
-        System.err.println(sqle);
+            }
+            catch(ClassNotFoundException cnfe){
+               System.err.println(cnfe);
+            }
+            catch(SQLException sqle){
+               System.err.println(sqle);
+   
+            }
     }
+    
+    //Verifica se esiste l'utente
+    public static boolean esisteUtente(String nickname, String password) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "' AND Password='" + password +"'" ;
+        ResultSet result =statement.executeQuery(sqlString);
+        int righe=0;
+        //conta il numero di righe restituite dalla query
+        while(result.next()) {
+            righe++;
+        }
+         return righe >0;
     }
+    
+    
     
     
     /**
