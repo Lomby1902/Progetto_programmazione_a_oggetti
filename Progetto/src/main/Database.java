@@ -39,7 +39,8 @@ public class Database {
         while(result.next()) {
             righe++;
         }
-         return righe >0;
+        statement.close();
+        return righe >0;
     }
     
     
@@ -65,6 +66,7 @@ public class Database {
                }
         String sqlString3 ="CREATE TABLE Privata" + val +"messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
         statement.executeUpdate(sqlString3);
+        statement.close();
         return val;
     }
 }

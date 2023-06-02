@@ -5,6 +5,7 @@
 package main;
 import java.io.*;
 import java.net.*;
+import java.sql.SQLException;
 /**
  *
  * @author matxd
@@ -22,14 +23,29 @@ public class ClientHandler implements Runnable {
         try{
             BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true);
-            output.println("Ciao");
-            output.close();
-            input.close();
-            clientSocket.close();
-            
-        }catch(IOException e) {
-            e.printStackTrace();
+            String comando;
+            while ((comando=input.readLine()) !=null) {
+                String [] estratto=comando.split("/");
+               
+                //Operazione di verifica esistenza utente
+                if(estratto[0].equals("e")){
+                    String nickname= estratto[1];
+                    String password=estratto[2];
+                    if(Database.esisteUtente(nickname,password))
+                        output.println("OK");   
+                    else
+                        output.println("NO");
+                }
+                
+            }
         }
+        catch(SQLException s){
+            System.out.println("Errore nella connessione al database");
+        } 
+        catch(IOException e) {
+            System.out.println("Errore nella connessione al server");
+        }
+        
     }
     
 
