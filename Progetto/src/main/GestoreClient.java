@@ -12,14 +12,14 @@ import java.util.logging.Logger;
  *
  * @author matxd
  */
-public class ClientHandler implements Runnable {
+public class GestoreClient implements Runnable {
     
     private final Socket clientSocket;
     private Database db;
     BufferedReader input;
     PrintWriter output;
 
-    public ClientHandler(Socket clientSocket, Database db) {
+    public GestoreClient(Socket clientSocket, Database db) {
         this.clientSocket = clientSocket;
         this.db= db;
         try {
