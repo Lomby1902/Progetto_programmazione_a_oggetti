@@ -12,9 +12,9 @@ import java.net.*;
  *
  * @author matxd
  */
-public class SocketServer {
+public class Server {
     
-    public void SocketServer(){
+    public void Server(){
         
     }
     
