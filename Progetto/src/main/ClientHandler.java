@@ -52,10 +52,10 @@ public class ClientHandler implements Runnable {
             }
         }
         catch(SQLException s){
-            System.out.println("Errore nella connessione al database");
+            System.err.println("Errore nella connessione al database");
         } 
         catch(IOException e) {
-            System.out.println("Errore nella connessione al server");
+            System.err.println("Errore nella connessione al server");
         }
         
     }

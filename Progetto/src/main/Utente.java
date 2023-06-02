@@ -47,7 +47,7 @@ public class Utente {
              cp.aggiungiUtente(nuovoUtente);
              //aggiungi utente nel database
          } catch (LimitNumberException e) {
-             System.out.println(e.getMessage());
+             System.err.println(e.getMessage());
          }
     }
     
@@ -105,20 +105,6 @@ public class Utente {
 
      
     
-    /*
-    public static void main(String[] args) throws IOException{
-        String serverAddress = "localhost";
-        int serverPort = 9091;
-        try (Socket s = new Socket(serverAddress, serverPort)) {
-            PrintWriter output = new PrintWriter (s.getOutputStream(), true);
-            BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            String msg = "";
-            msg = input.readLine();
-            System.out.println(msg);
-            output.close();
-            input.close();
-        }
-    }
-    */
+   
     
 }
