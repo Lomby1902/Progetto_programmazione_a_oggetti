@@ -30,7 +30,7 @@ public class Database {
     }
     
     //Verifica se esiste l'utente
-    public static boolean esisteUtente(String nickname, String password) throws SQLException{
+    public boolean esisteUtente(String nickname, String password) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "' AND Password='" + password +"'" ;
         ResultSet result =statement.executeQuery(sqlString);

@@ -6,6 +6,8 @@ package main;
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author matxd
@@ -13,16 +15,26 @@ import java.sql.SQLException;
 public class ClientHandler implements Runnable {
     
     private final Socket clientSocket;
+    private Database db;
+    BufferedReader input;
+    PrintWriter output;
 
-    public ClientHandler(Socket clientSocket) {
+    public ClientHandler(Socket clientSocket, Database db) {
         this.clientSocket = clientSocket;
+        this.db= db;
+        try {
+            input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            output = new PrintWriter(clientSocket.getOutputStream(), true);
+        } catch (IOException ex) {
+            System.err.println("Errore nella connessione al server");
+        }
+        
     }
 
     @Override
     public void run() {
         try{
-            BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true);
+            
             String comando;
             while ((comando=input.readLine()) !=null) {
                 String [] estratto=comando.split("/");
@@ -31,7 +43,7 @@ public class ClientHandler implements Runnable {
                 if(estratto[0].equals("e")){
                     String nickname= estratto[1];
                     String password=estratto[2];
-                    if(Database.esisteUtente(nickname,password))
+                    if(db.esisteUtente(nickname,password))
                         output.println("OK");   
                     else
                         output.println("NO");

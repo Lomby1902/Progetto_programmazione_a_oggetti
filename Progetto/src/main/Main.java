@@ -29,11 +29,6 @@ public class Main {
     
     
     
-    
-    
-    
-    
-    
         //Menu di login
     public static void menuLogin(){
        
@@ -61,14 +56,14 @@ public class Main {
                 }
                 else{
                     //Stampa messaggio di errore
-                    System.out.println("\u001B[31mL'utente non esiste \u001B[0m");
+                    System.err.println("L'utente non esiste");
                     System.out.println("");
                     return;
                 }
              
         } 
         catch (IOException e) {
-            System.out.println("Errore nella connessione al server");
+            System.err.println("Errore nella connessione al server");
             return;
         }
         

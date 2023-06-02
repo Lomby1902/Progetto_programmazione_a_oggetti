@@ -28,7 +28,7 @@ public class SocketServer {
         try {
             while (true) {                
                 Socket socket = listener.accept();
-                ClientHandler client = new ClientHandler(socket);
+                ClientHandler client = new ClientHandler(socket, db);
                 Thread T1 = new Thread(client);
                 T1.start();
             }
