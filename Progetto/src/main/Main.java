@@ -54,7 +54,8 @@ public class Main {
                     int id= Integer.parseInt(comando[1]);
                     nuovoUtente= new Utente(id,nickname,password);
                     System.out.println("Benvenuto "+ nuovoUtente.getNickname());
-                    System.exit(0);
+                    System.out.println("ID Utente: " + nuovoUtente.getID());
+                    
                 }
                 //Messaggio di errore (Errore connessione o utente non esiste)
                 else{
@@ -99,7 +100,8 @@ public class Main {
                     nuovoUtente= new Utente(id,nickname,password);
                     System.out.println("Utente Registrato");
                     System.out.println("Benvenuto "+ nuovoUtente.getNickname());
-                    System.exit(0);
+                    System.out.println("ID Utente: " + nuovoUtente.getID());
+                    
                 }
                 //Messaggio di errore (Errore connessione o nickname già in uso)
                 else{
