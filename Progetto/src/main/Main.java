@@ -89,7 +89,7 @@ public class Main {
                 PrintWriter output = new PrintWriter (s.getOutputStream(), true);
                 BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 //Indica al thread del server che vuole registrare un utente
-                output.println("i/"+nickname+"/"+password);
+                output.println("u/"+nickname+"/"+password);
                 //Risposta del server
                 String risposta= input.readLine();
                  //Preleva i pezzi della risposta

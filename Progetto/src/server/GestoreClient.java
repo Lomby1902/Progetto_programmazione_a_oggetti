@@ -52,7 +52,7 @@ public class GestoreClient implements Runnable {
                 }
                 
                 //Operazione di registrazione utente
-                if(comando[0].equals("i")){
+                if(comando[0].equals("u")){
                     String nickname= comando[1];
                     String password=comando[2];
                     //Verifica se esiste già un utente con quel nickname
