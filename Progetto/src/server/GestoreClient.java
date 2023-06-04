@@ -48,7 +48,7 @@ public class GestoreClient implements Runnable {
                     if((id=db.getIdUtente(nickname,password))!=0)
                         output.println("OK/"+id);   
                     else
-                        output.println("L'utente non esiste");
+                        output.println("Username e/o password errati");
                 }
                 
                 //Operazione di registrazione utente
