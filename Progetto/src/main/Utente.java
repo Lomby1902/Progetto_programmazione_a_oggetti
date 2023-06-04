@@ -4,6 +4,7 @@
  */
 package main;
 
+import server.Database;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.net.*;
@@ -15,7 +16,8 @@ public class Utente {
     private String password;
     private boolean stato;
 
-    public Utente(String nickname, String password) {
+    public Utente(int ID, String nickname, String password) {
+        this.ID= ID;
         this.nickname = nickname;
         this.password = password;
     }
@@ -26,13 +28,7 @@ public class Utente {
     * inserisce già l'utente che la crea.
     * Restituisce l'oggetto ChatPrivata
     */
-    public ChatPrivata creaChatPrivata() throws SQLException{
-        //Inserisce la chat privata nel database e ne restituisce l'id
-        int id=Database.inserisciChatPrivata(this.getNickname());
-        ChatPrivata nuovaChatPrivata = new ChatPrivata(id);
-        nuovaChatPrivata.aggiungiUtente(this);
-        return nuovaChatPrivata;
-    }
+   
     
     /**
      * Questo metodo aggiunge un nuovo utente alla chat privata cp
@@ -47,7 +43,7 @@ public class Utente {
              cp.aggiungiUtente(nuovoUtente);
              //aggiungi utente nel database
          } catch (LimitNumberException e) {
-             System.err.println(e.getMessage());
+             System.out.println("\033[1;31m"+e.getMessage()+ "\033[0m");
          }
     }
     

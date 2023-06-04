@@ -30,9 +30,7 @@ public class Main {
     
     
         //Menu di login
-    public static void menuLogin(){
-       
-        
+    public static void menuLogin(){    
         Scanner tastiera= new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
         String nickname = tastiera.next();
@@ -46,32 +44,76 @@ public class Main {
                 PrintWriter output = new PrintWriter (s.getOutputStream(), true);
                 BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 //Indica al thread del server che vuole verificare l'esistenza di un utente e invia i dati
-                output.println("e/"+nickname+"/"+password);
-             
+                output.println("e/"+nickname+"/"+password); 
+                //Risposta del server
+                String risposta= input.readLine();
+                //Preleva i pezzi della risposta
+                String [] comando=risposta.split("/");
                 //Se l'utente esiste
-                if(input.readLine().equals("OK")){
-                    nuovoUtente= new Utente(nickname,password);
+                if(comando[0].equals("OK")){
+                    int id= Integer.parseInt(comando[1]);
+                    nuovoUtente= new Utente(id,nickname,password);
                     System.out.println("Benvenuto "+ nuovoUtente.getNickname());
                     System.exit(0);
                 }
+                //Messaggio di errore (Errore connessione o utente non esiste)
                 else{
-                    //Stampa messaggio di errore
-                    System.err.println("L'utente non esiste");
+                    System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
                     return;
                 }
              
         } 
         catch (IOException e) {
-            System.err.println("Errore nella connessione al server");
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
             return;
         }
         
+         
     }
     
     
-    
-    
+   //Menu per registrazione utente
+    public static void menuRegistrazione() {
+        Scanner tastiera= new Scanner(System.in);
+        System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
+        String nickname = tastiera.next();
+        if(nickname.equals("0"))
+               return;
+         System.out.println("Inserisci la password (Inserire 0 per tornare indietro):");
+         String password = tastiera.next();
+         if(password.equals("0"))
+               return;  
+         try {
+                PrintWriter output = new PrintWriter (s.getOutputStream(), true);
+                BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                //Indica al thread del server che vuole registrare un utente
+                output.println("i/"+nickname+"/"+password);
+                //Risposta del server
+                String risposta= input.readLine();
+                 //Preleva i pezzi della risposta
+                String [] comando=risposta.split("/");
+                //Se l'utente non esiste
+                if(comando[0].equals("OK")){
+                    int id= Integer.parseInt(comando[1]);
+                    nuovoUtente= new Utente(id,nickname,password);
+                    System.out.println("Utente Registrato");
+                    System.out.println("Benvenuto "+ nuovoUtente.getNickname());
+                    System.exit(0);
+                }
+                //Messaggio di errore (Errore connessione o nickname già in uso)
+                else{
+                    System.out.println("\033[1;31m"+ risposta + "\033[0m");
+                    System.out.println("");
+                    return;
+                }
+         }
+         catch (IOException e) {
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            return;
+        }
+         
+    }
     
     
     
@@ -94,10 +136,12 @@ public class Main {
                 case 1:
                         menuLogin();
                         break;
+                case 2:
+                        menuRegistrazione();
+                        break;
                 case 3: 
                         System.exit(0);
-                default:
-                    throw new AssertionError();
+              
             }
         
         }
@@ -116,7 +160,7 @@ public class Main {
             s = new Socket(serverAddress, serverPort);
             menuprincipale();
         } catch (IOException ex) {
-            System.out.println("Errore nella connessione al server");
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
         }
        
        

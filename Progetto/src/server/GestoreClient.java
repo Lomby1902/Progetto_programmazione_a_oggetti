@@ -8,7 +8,6 @@ import java.net.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import main.Database;
 /**
  *
  * @author matxd
@@ -27,7 +26,7 @@ public class GestoreClient implements Runnable {
             input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             output = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (IOException ex) {
-            System.err.println("Errore nella connessione al server");
+            System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
         }
         
     }
@@ -36,27 +35,43 @@ public class GestoreClient implements Runnable {
     public void run() {
         try{
             
-            String comando;
-            while ((comando=input.readLine()) !=null) {
-                String [] estratto=comando.split("/");
+            String richiesta;
+            while ((richiesta=input.readLine()) !=null) {
+                //Preleva i pezzi della richiesta
+                String [] comando=richiesta.split("/");
                
                 //Operazione di verifica esistenza utente
-                if(estratto[0].equals("e")){
-                    String nickname= estratto[1];
-                    String password=estratto[2];
-                    if(db.esisteUtente(nickname,password))
-                        output.println("OK");   
+                if(comando[0].equals("e")){
+                    String nickname= comando[1];
+                    String password=comando[2];
+                    int id=0;
+                    if((id=db.getIdUtente(nickname,password))!=0)
+                        output.println("OK/"+id);   
                     else
-                        output.println("NO");
+                        output.println("L'utente non esiste");
+                }
+                
+                //Operazione di registrazione utente
+                if(comando[0].equals("i")){
+                    String nickname= comando[1];
+                    String password=comando[2];
+                    //Verifica se esiste già un utente con quel nickname
+                    if(db.getIdUtente(nickname,password)==0){
+                        int id= db.inserisciUtente(nickname, password);
+                        output.println("OK/"+id); 
+                    }
+                    //Nickname già in uso
+                    else
+                        output.println("Nickname già in uso");
                 }
                 
             }
         }
         catch(SQLException s){
-            System.err.println("Errore nella connessione al database");
+            output.println("Errore nella connessione al database");
         } 
         catch(IOException e) {
-            System.err.println("Errore nella connessione al server");
+            output.println("Errore nella connessione al server");
         }
         
     }

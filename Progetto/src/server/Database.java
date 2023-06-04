@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package main;
+package server;
 
 import java.sql.*;
 
@@ -21,26 +21,28 @@ public class Database {
                databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Progetto","root","");
             }
             catch(ClassNotFoundException cnfe){
-               System.err.println(cnfe);
+               System.out.println("\033[1;31m"+ cnfe + "\033[0m");
             }
             catch(SQLException sqle){
-               System.err.println(sqle);
+               System.out.println("\033[1;31m"+ sqle + "\033[0m");
    
             }
     }
     
-    //Verifica se esiste l'utente
-    public boolean esisteUtente(String nickname, String password) throws SQLException{
+    //Verifica se esiste l'utente e ne restituisce l'id, altrimenti 0
+    public int getIdUtente(String nickname, String password) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "' AND Password='" + password +"'" ;
         ResultSet result =statement.executeQuery(sqlString);
-        int righe=0;
-        //conta il numero di righe restituite dalla query
+        int id=0;
         while(result.next()) {
-            righe++;
+           id=result.getInt("ID");
         }
         statement.close();
-        return righe >0;
+        if(id >0)
+            return id;
+        
+        return 0;
     }
     
     
@@ -52,7 +54,7 @@ public class Database {
      * @return
      * @throws SQLException 
      */
-    public static int inserisciChatPrivata(String Utente1) throws SQLException{
+    public int inserisciChatPrivata(String Utente1) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
         String sqlString1 ="INSERT INTO ChatPrivate(ID,Utente1,Utente2) VALUES(null, '"+Utente1 +"',null) "; 
@@ -68,5 +70,22 @@ public class Database {
         statement.executeUpdate(sqlString3);
         statement.close();
         return val;
+    }
+    
+    
+    //Inserisce un nuovo utente nel database e ne restituisce l'ID
+    public int inserisciUtente(String nickname, String password) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
+        String sqlString ="INSERT INTO Utenti(ID, Nickname, Password) VALUES(null, '" + nickname +"','"+ password +"')"; 
+        statement.executeUpdate(sqlString);
+        String sqlString2 ="SELECT * FROM Utenti ";
+        ResultSet result =statement.executeQuery(sqlString2);
+        int id=0;
+        while(result.next()){
+                  id=result.getInt("ID");
+               }
+        statement.close();
+        return id;
     }
 }
