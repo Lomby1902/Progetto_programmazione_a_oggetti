@@ -32,7 +32,21 @@ public class Database {
             }
     }
     
-    //Verifica se esiste l'utente e ne restituisce l'id, altrimenti 0
+    
+    public boolean esisteNickname(String nickname) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "'";
+        ResultSet result =statement.executeQuery(sqlString);
+        
+        if(result.next()) {
+           return true;
+        }
+       
+        return false;
+    }
+    
+    
+    //Restituisce l'id di un utente registrato, altrimenti 0
     public int getIdUtente(String nickname, String password) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "' AND Password='" + password +"'" ;
@@ -47,6 +61,26 @@ public class Database {
         
         return 0;
     }
+    
+    
+    public int inserisciGruppo(String Nome,int Amministratore, String [] partecipanti) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
+        String sqlString1 ="INSERT INTO GRUPPI(ID,Nome,Amministratore) VALUES(null, '"+Nome +"','" + Amministratore +"')"; 
+        statement.executeUpdate(sqlString1);
+        //Prende l'utlimo ID inserito e lo restituisce
+        String sqlString2 ="SELECT max(ID) FROM ChatPrivate ";
+        ResultSet result =statement.executeQuery(sqlString2);
+        int val=-1;
+        while(result.next()){
+                  val=result.getInt(1);
+               }
+        String sqlString3 ="CREATE TABLE Privata" + val +"messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
+        statement.executeUpdate(sqlString3);
+        statement.close();
+        return val;
+    }
+    
     
     
     
@@ -65,28 +99,28 @@ public class Database {
         //Prende l'utlimo ID inserito e lo restituisce
         String sqlString2 ="SELECT max(ID) FROM ChatPrivate ";
         ResultSet result =statement.executeQuery(sqlString2);
-        int val=-1;
+        int id=0;
         while(result.next()){
-                  val=result.getInt(1);
+                  id=result.getInt(1);
                }
-        String sqlString3 ="CREATE TABLE Privata" + val +"messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
+        String sqlString3 ="CREATE TABLE Privata" + id +"messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
         statement.executeUpdate(sqlString3);
         statement.close();
-        return val;
+        return id;
     }
     
     
     //Inserisce un nuovo utente nel database e ne restituisce l'ID
     public int inserisciUtente(String nickname, String password) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
+        //Inserisce l'utente
         String sqlString ="INSERT INTO Utenti(ID, Nickname, Password) VALUES(null, '" + nickname +"','"+ password +"')"; 
         statement.executeUpdate(sqlString);
-        String sqlString2 ="SELECT * FROM Utenti ";
+        String sqlString2 ="SELECT max(ID) FROM Utenti ";
         ResultSet result =statement.executeQuery(sqlString2);
         int id=0;
         while(result.next()){
-                  id=result.getInt("ID");
+                  id=result.getInt(1);
                }
         statement.close();
         return id;

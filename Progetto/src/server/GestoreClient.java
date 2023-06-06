@@ -58,7 +58,7 @@ public class GestoreClient implements Runnable {
                     String nickname= comando[1];
                     String password=comando[2];
                     //Verifica se esiste già un utente con quel nickname
-                    if(db.getIdUtente(nickname,password)==0){
+                    if(!db.esisteNickname(nickname)){
                         int id= db.inserisciUtente(nickname, password);
                         outputStream.writeObject("OK/"+id); 
                     }
@@ -83,13 +83,30 @@ public class GestoreClient implements Runnable {
                     else
                         outputStream.writeObject("Nessun Risultato");
                 }
+                
+                
+                //Comando creazione gruppo
+                if(comando[0].equals("g")){
+                     String nome= comando[1];
+                     String idAmministratore= comando[2];
+                     String [] nicknamePartecipanti= (String []) inputStream.readObject();
+                     
+                 }
+                
+                
+                
+                
+                
+                
+                
+                
+                
                   
             }
         }
         catch(SQLException | ClassNotFoundException | IOException e ){
             try {
                 outputStream.writeObject("Errore");
-                System.out.println(e.getMessage());
                
             } catch (IOException ex) {
              System.err.println("Errore nell'invio al client");

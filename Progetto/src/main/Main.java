@@ -32,9 +32,9 @@ public class Main {
     private static ObjectInputStream inputStream;
     
     
-    public static void menuUtente(){
-        System.out.println("Benvenuto "+ nuovoUtente.getNickname());
-        System.out.println("ID Utente: " + nuovoUtente.getID());
+    
+    
+    public static void menuChat(){
         System.out.println("");
         System.out.println("\u001B[1m"+"Le tue chat");
         System.out.println("");
@@ -54,8 +54,8 @@ public class Main {
                     //Se esiste almeno una chat in cui si trova l'utente
                     if(risposta.size()>0){
                         for(int i=0;i<risposta.size();i++){
-                                System.out.print("ID Chat: "+ risposta.get(i)[0]);
-                                System.out.print("   Utenti: "+ risposta.get(i)[1] + ", "+ risposta.get(i)[2]);
+                                System.out.print("\033[1;32m" +"ID Chat: "+ risposta.get(i)[0]);
+                                System.out.print("   Utenti: "+ risposta.get(i)[1] + ", "+ risposta.get(i)[2] + "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
                         }  
@@ -83,8 +83,8 @@ public class Main {
                     //Se esiste almeno una chat in cui si trova l'utente
                     if(risposta.size()>0){
                         for(int i=0;i<risposta.size();i++){
-                                System.out.print("ID Gruppo: "+ risposta.get(i)[0]);
-                                System.out.print("   Nome Gruppo: "+ risposta.get(i)[1]);
+                                System.out.print("\033[1;32m"+"ID Gruppo: "+ risposta.get(i)[0]);
+                                System.out.print("   Nome Gruppo: "+ risposta.get(i)[1]+  "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
                         }  
@@ -95,7 +95,7 @@ public class Main {
                     String risposta = (String) (oggettoRisposta);
                     System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
-                    return;
+                    
                 }
                 
                 
@@ -112,7 +112,69 @@ public class Main {
     
     
     
+    public static void menuCreaGruppo(){
+        System.out.println("");
+        System.out.println("Menu Creazione Gruppo");
+        System.out.println("");
+        System.out.println("Inserisci il nome del gruppo: (Inserire 0 per tornare indietro) :");
+        Scanner tastiera = new Scanner(System.in);
+        String nome= tastiera.next();
+        if (nome.equals("0"))
+            return;
+        System.out.println("Inserire i nickname dei partecipanti separati da una virgola");
+        String partecipanti= tastiera.next();
+        String [] nicknamePartecipanti = partecipanti.split(",");
+        //Rimuove eventuali spazi tra i nickname
+        for(int i=0; i<nicknamePartecipanti.length;i++){
+            nicknamePartecipanti[i]=nicknamePartecipanti[i].trim();
+        }
+        try {
+            //Indica al server l'operazione di creazione gruppo con amministratore l'utente attuale
+            outputStream.writeObject("g/"+nome +"/"+nuovoUtente.getID());
+            //Invia la lista dei partecipanti
+            outputStream.writeObject(nicknamePartecipanti);
+            
+            
+        } catch (IOException ex) {
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            return;
+        }
+    }
     
+    
+    
+    public static void menuUtente(){
+        System.out.println("Benvenuto "+ nuovoUtente.getNickname());
+        System.out.println("ID Utente: " + nuovoUtente.getID());
+        System.out.println("");
+         while (true) {            
+
+            System.out.println("Che operazione vuoi eseguire?");
+            System.out.println("");
+            System.out.println("1) Gestisci le tue chat");
+            System.out.println("2) Crea una nuova chat");
+            System.out.println("3) Crea un nuovo gruppo");
+            System.out.println("4) Indietro");
+            System.out.println("");
+            Scanner tastiera= new Scanner(System.in);
+            switch (tastiera.nextInt()) {
+                case 1:
+                        menuChat();
+                        break;
+                case 2:
+                        menuCreaGruppo();
+                        break;
+                case 3: 
+                    
+                        break;
+                case 4:
+                        return;
+              
+            }
+        
+        }
+        
+    }
     
     
     
