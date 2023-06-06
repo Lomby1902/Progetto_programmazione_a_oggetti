@@ -5,6 +5,9 @@
 package server;
 
 import java.sql.*;
+import java.util.ArrayList;
+import main.Chat;
+import main.ChatPrivata;
 
 
 /**
@@ -88,4 +91,27 @@ public class Database {
         statement.close();
         return id;
     }
+    
+    
+    //Restituisce un array contente le informazioni sui gruppo o sulle chat private in cui si trova l'utente
+    public ArrayList<String []> mostra(String tabella, String Nickname) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        ArrayList<String []> ritorno = new ArrayList<>();
+        if(tabella.equals("ChatPrivate")){
+            String sqlString ="SELECT * FROM ChatPrivate WHERE Utente1='"+ Nickname +"' OR Utente2= '"+ Nickname+ "'";
+            ResultSet result =statement.executeQuery(sqlString);
+             while(result.next()){    
+                  String chat []= new String[3];
+                  chat[0]=(Integer.toString(result.getInt("ID")));
+                  chat[1]= result.getString("Utente1");
+                  chat[2]= result.getString("Utente2");
+                  ritorno.add(chat);
+               }
+            statement.close();
+        }
+        
+        return ritorno;
+    } 
+    
+    
 }

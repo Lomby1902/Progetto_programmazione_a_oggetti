@@ -6,25 +6,27 @@ package server;
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author matxd
- */
+
+
+
+
 public class GestoreClient implements Runnable {
     
     private final Socket clientSocket;
     private Database db;
-    BufferedReader input;
-    PrintWriter output;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
 
     public GestoreClient(Socket clientSocket, Database db) {
         this.clientSocket = clientSocket;
         this.db= db;
         try {
-            input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            output = new PrintWriter(clientSocket.getOutputStream(), true);
+          
+            outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+            inputStream = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException ex) {
             System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
         }
@@ -36,7 +38,7 @@ public class GestoreClient implements Runnable {
         try{
             
             String richiesta;
-            while ((richiesta=input.readLine()) !=null) {
+            while ((richiesta=(String)inputStream.readObject()) !=null) {
                 //Preleva i pezzi della richiesta
                 String [] comando=richiesta.split("/");
                
@@ -46,9 +48,9 @@ public class GestoreClient implements Runnable {
                     String password=comando[2];
                     int id=0;
                     if((id=db.getIdUtente(nickname,password))!=0)
-                        output.println("OK/"+id);   
+                        outputStream.writeObject("OK/"+id);   
                     else
-                        output.println("Username e/o password errati");
+                       outputStream.writeObject("Username e/o password errati");
                 }
                 
                 //Operazione di registrazione utente
@@ -58,21 +60,40 @@ public class GestoreClient implements Runnable {
                     //Verifica se esiste già un utente con quel nickname
                     if(db.getIdUtente(nickname,password)==0){
                         int id= db.inserisciUtente(nickname, password);
-                        output.println("OK/"+id); 
+                        outputStream.writeObject("OK/"+id); 
                     }
                     //Nickname già in uso
                     else
-                        output.println("Nickname già in uso");
+                        outputStream.writeObject("Nickname già in uso");
                 }
                 
+                 //Operazione di visualizzazione chat o gruppi
+                if(comando[0].equals("s")){
+                    //tabella può essere chat private o gruppi
+                    String tabella= comando[1];
+                    String nickname=comando[2];
+                    //Verifica se il numero di chat o gruppi è maggiore di 0
+                    ArrayList<String []> arr= db.mostra(tabella, nickname);
+                    if(arr.size()!=0){ 
+                       outputStream.writeObject(arr);
+                         
+                    }
+                   //Nessun risultato
+                    else
+                        outputStream.writeObject("Nessun Risultato");
+                }
+                  
             }
         }
-        catch(SQLException s){
-            output.println("Errore nella connessione al database");
+        catch(SQLException | ClassNotFoundException | IOException e ){
+            try {
+                outputStream.writeUTF("Errore");
+            } catch (IOException ex) {
+             System.err.println("Errore nell'invio al client");
+            }
         } 
-        catch(IOException e) {
-            output.println("Errore nella connessione al server");
-        }
+       
+        
         
     }
     
