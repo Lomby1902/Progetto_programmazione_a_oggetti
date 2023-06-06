@@ -74,6 +74,7 @@ public class GestoreClient implements Runnable {
                     String nickname=comando[2];
                     //Verifica se il numero di chat o gruppi è maggiore di 0
                     ArrayList<String []> arr= db.mostra(tabella, nickname);
+                    
                     if(arr.size()!=0){ 
                        outputStream.writeObject(arr);
                          
@@ -87,7 +88,9 @@ public class GestoreClient implements Runnable {
         }
         catch(SQLException | ClassNotFoundException | IOException e ){
             try {
-                outputStream.writeUTF("Errore");
+                outputStream.writeObject("Errore");
+                System.out.println(e.getMessage());
+               
             } catch (IOException ex) {
              System.err.println("Errore nell'invio al client");
             }

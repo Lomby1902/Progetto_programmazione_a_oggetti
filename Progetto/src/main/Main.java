@@ -39,13 +39,14 @@ public class Main {
         System.out.println("\u001B[1m"+"Le tue chat");
         System.out.println("");
         
+        Object oggettoRisposta;
         try {
             
                 
                 //Indica al thread del server che vuole mostrare le chat private dell'utente
                 outputStream.writeObject("s/ChatPrivate"+"/"+ nuovoUtente.getNickname()); 
                 //Risposta del server
-                Object oggettoRisposta= inputStream.readObject();
+                oggettoRisposta= inputStream.readObject();
                 if(!(oggettoRisposta instanceof String)){
                     
                     ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
@@ -65,9 +66,39 @@ public class Main {
                     String risposta = (String) (oggettoRisposta);
                     System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
-                    return;
+                   
                 }
              
+                System.out.println("\u001B[1m"+"I tuoi Gruppi");
+                System.out.println("");
+                
+                //Indica al thread del server che vuole mostrare i gruppi dell'Utente
+                outputStream.writeObject("s/Gruppi"+"/"+ nuovoUtente.getNickname()); 
+                //Risposta del server
+                oggettoRisposta= inputStream.readObject();
+                if(!(oggettoRisposta instanceof String)){
+                    
+                    ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
+                    
+                    //Se esiste almeno una chat in cui si trova l'utente
+                    if(risposta.size()>0){
+                        for(int i=0;i<risposta.size();i++){
+                                System.out.print("ID Gruppo: "+ risposta.get(i)[0]);
+                                System.out.print("   Nome Gruppo: "+ risposta.get(i)[1]);
+                                System.out.println("");
+                                System.out.println("");
+                        }  
+                    }
+                }
+                //Messaggio di errore
+                else{
+                    String risposta = (String) (oggettoRisposta);
+                    System.out.println("\033[1;31m" + risposta + "\033[0m");
+                    System.out.println("");
+                    return;
+                }
+                
+                
         } 
         catch (IOException e) {
             System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");

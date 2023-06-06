@@ -97,6 +97,7 @@ public class Database {
     public ArrayList<String []> mostra(String tabella, String Nickname) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         ArrayList<String []> ritorno = new ArrayList<>();
+        //Se la richiesta è di mostrare le chat
         if(tabella.equals("ChatPrivate")){
             String sqlString ="SELECT * FROM ChatPrivate WHERE Utente1='"+ Nickname +"' OR Utente2= '"+ Nickname+ "'";
             ResultSet result =statement.executeQuery(sqlString);
@@ -107,8 +108,31 @@ public class Database {
                   chat[2]= result.getString("Utente2");
                   ritorno.add(chat);
                }
-            statement.close();
+           
         }
+        //Se la richiesta è di mostrare i gruppi
+        else if(tabella.equals("Gruppi")){
+            String sqlString ="SELECT * FROM Gruppi";
+            Statement statement2 = databaseConnection.createStatement();
+            ResultSet result =statement.executeQuery(sqlString);
+             while(result.next()){    
+                  int id= result.getInt("ID");
+                  String nome= result.getString("Nome");
+                  String sqlString2 ="SELECT * FROM Gruppo"+id+"Utenti WHERE Nickname='"+ Nickname+"'";
+                  ResultSet result2 =statement2.executeQuery(sqlString2);
+                  if(result2.next()){
+                    String gruppo []= new String[2];
+                    gruppo[0]=(Integer.toString(id));
+                    gruppo[1]= nome;
+                    ritorno.add(gruppo);
+                      System.out.println(nome);
+                  }
+
+               }
+           
+        }
+            
+            
         
         return ritorno;
     } 
