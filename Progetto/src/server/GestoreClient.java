@@ -47,7 +47,7 @@ public class GestoreClient implements Runnable {
                     String nickname= comando[1];
                     String password=comando[2];
                     int id=0;
-                    if((id=db.getIdUtente(nickname,password))!=0)
+                    if((id=db.login(nickname,password))!=0)
                         outputStream.writeObject("OK/"+id);   
                     else
                        outputStream.writeObject("Username e/o password errati");
@@ -58,7 +58,7 @@ public class GestoreClient implements Runnable {
                     String nickname= comando[1];
                     String password=comando[2];
                     //Verifica se esiste già un utente con quel nickname
-                    if(!db.esisteNickname(nickname)){
+                    if(db.getIdUtente(nickname)==0){
                         int id= db.inserisciUtente(nickname, password);
                         outputStream.writeObject("OK/"+id); 
                     }
@@ -85,12 +85,22 @@ public class GestoreClient implements Runnable {
                 }
                 
                 
-                //Comando creazione gruppo
+                //Operazione di creazione gruppo
                 if(comando[0].equals("g")){
                      String nome= comando[1];
                      String idAmministratore= comando[2];
-                     String [] nicknamePartecipanti= (String []) inputStream.readObject();
-                     
+                     ArrayList<String> nicknamePartecipanti= (ArrayList < String >)inputStream.readObject();
+                     for(int i=0;i<nicknamePartecipanti.size();i++){
+                         if(db.getIdUtente(nicknamePartecipanti.get(i))==0){
+                            outputStream.writeObject("Uno o più nickname inseriti non sono validi");
+                            return;
+                         }
+                     }
+                     int id=db.inserisciGruppo(nome, idAmministratore, nicknamePartecipanti);
+                     if(id!=0){
+                         outputStream.writeObject("OK/"+id); 
+                     }
+                    
                  }
                 
                 
@@ -107,6 +117,7 @@ public class GestoreClient implements Runnable {
         catch(SQLException | ClassNotFoundException | IOException e ){
             try {
                 outputStream.writeObject("Errore");
+                System.out.println(e.getMessage());
                
             } catch (IOException ex) {
              System.err.println("Errore nell'invio al client");

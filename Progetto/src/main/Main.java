@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -123,10 +124,12 @@ public class Main {
             return;
         System.out.println("Inserire i nickname dei partecipanti separati da una virgola");
         String partecipanti= tastiera.next();
-        String [] nicknamePartecipanti = partecipanti.split(",");
+        ArrayList<String> nicknamePartecipanti = new ArrayList<>(Arrays.asList( partecipanti.split(",")));
+        //Aggiunge l'utente corrente
+        nicknamePartecipanti.add(0,nuovoUtente.getNickname());
         //Rimuove eventuali spazi tra i nickname
-        for(int i=0; i<nicknamePartecipanti.length;i++){
-            nicknamePartecipanti[i]=nicknamePartecipanti[i].trim();
+        for(int i=0; i<nicknamePartecipanti.size();i++){
+            nicknamePartecipanti.set(i,nicknamePartecipanti.get(i).trim());
         }
         try {
             //Indica al server l'operazione di creazione gruppo con amministratore l'utente attuale
@@ -134,8 +137,27 @@ public class Main {
             //Invia la lista dei partecipanti
             outputStream.writeObject(nicknamePartecipanti);
             
+            //Risposta del server
+            String risposta= (String) inputStream.readObject();
+            //Preleva i pezzi della risposta
+            String [] comando=risposta.split("/");
+            //Se il gruppo è stato inserito
+            if(comando[0].equals("OK")){
+                System.out.println("\033[1;32m" + "Gruppo creato correttamente" + "\033[0m");  
+                return;
+                }
+                //Messaggio di errore (Errore connessione o utente non esiste)
+                else{
+                    System.out.println("\033[1;31m" + risposta + "\033[0m");
+                    System.out.println("");
+                    return;
+                }
+            
             
         } catch (IOException ex) {
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            return;
+        } catch (ClassNotFoundException ex) {
             System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
             return;
         }
@@ -162,10 +184,10 @@ public class Main {
                         menuChat();
                         break;
                 case 2:
-                        menuCreaGruppo();
+                        
                         break;
                 case 3: 
-                    
+                        menuCreaGruppo();
                         break;
                 case 4:
                         return;

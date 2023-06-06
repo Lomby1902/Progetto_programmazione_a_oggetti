@@ -22,6 +22,10 @@ public class Utente {
         this.password = password;
     }
 
+    public Utente(int ID, String nickname) {
+        this.ID= ID;
+        this.nickname = nickname;
+    }
     
     /**
     * Questo metodo crea una chat privata ed 
