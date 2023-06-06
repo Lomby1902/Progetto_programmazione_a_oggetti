@@ -39,6 +39,7 @@ public class GestoreClient implements Runnable {
             
             String richiesta;
             while ((richiesta=(String)inputStream.readObject()) !=null) {
+                System.out.println(richiesta);
                 //Preleva i pezzi della richiesta
                 String [] comando=richiesta.split("/");
                
@@ -90,15 +91,20 @@ public class GestoreClient implements Runnable {
                      String nome= comando[1];
                      String idAmministratore= comando[2];
                      ArrayList<String> nicknamePartecipanti= (ArrayList < String >)inputStream.readObject();
+                     boolean nicknamevalidi=true;
                      for(int i=0;i<nicknamePartecipanti.size();i++){
                          if(db.getIdUtente(nicknamePartecipanti.get(i))==0){
                             outputStream.writeObject("Uno o più nickname inseriti non sono validi");
-                            return;
+                            nicknamevalidi=false;
+                            break;
+                           
                          }
                      }
-                     int id=db.inserisciGruppo(nome, idAmministratore, nicknamePartecipanti);
-                     if(id!=0){
-                         outputStream.writeObject("OK/"+id); 
+                     if(nicknamevalidi){
+                        int id=db.inserisciGruppo(nome, idAmministratore, nicknamePartecipanti);
+                        if(id!=0){
+                            outputStream.writeObject("OK/"+id); 
+                        }
                      }
                     
                  }

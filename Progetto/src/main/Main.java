@@ -145,13 +145,13 @@ public class Main {
             if(comando[0].equals("OK")){
                 System.out.println("\033[1;32m" + "Gruppo creato correttamente" + "\033[0m");  
                 return;
-                }
+             }
                 //Messaggio di errore (Errore connessione o utente non esiste)
-                else{
-                    System.out.println("\033[1;31m" + risposta + "\033[0m");
-                    System.out.println("");
-                    return;
-                }
+            else{
+                System.out.println("\033[1;31m" + risposta + "\033[0m");
+                System.out.println("");
+                return;
+            }
             
             
         } catch (IOException ex) {

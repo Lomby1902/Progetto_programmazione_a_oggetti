@@ -157,13 +157,13 @@ public class Database {
         if(tabella.equals("ChatPrivate")){
             String sqlString ="SELECT * FROM ChatPrivate WHERE Utente1='"+ Nickname +"' OR Utente2= '"+ Nickname+ "'";
             ResultSet result =statement.executeQuery(sqlString);
-             while(result.next()){    
+            while(result.next()){    
                   String chat []= new String[3];
                   chat[0]=(Integer.toString(result.getInt("ID")));
                   chat[1]= result.getString("Utente1");
                   chat[2]= result.getString("Utente2");
                   ritorno.add(chat);
-               }
+            }
            
         }
         //Se la richiesta è di mostrare i gruppi
@@ -181,7 +181,6 @@ public class Database {
                     gruppo[0]=(Integer.toString(id));
                     gruppo[1]= nome;
                     ritorno.add(gruppo);
-                      System.out.println(nome);
                   }
 
                }
