@@ -31,7 +31,7 @@ public class Gruppo extends Chat{
     }
     
     public void setNome(String nuovoNome){
-        nome= nuovoNome;
+        nome = nuovoNome;
     }
     
     @Override
@@ -46,7 +46,7 @@ public class Gruppo extends Chat{
     
     
     public void aggiungiUtente(Utente amministratore, Utente nuovoUtente) throws NotAdministratorException{
-        if(amministratore.getID()==this.amministratore.getID()){
+        if(amministratore.getID() == this.amministratore.getID()){
             super.aggiungiUtente(nuovoUtente);
             //Aggiungi sul databse
         }

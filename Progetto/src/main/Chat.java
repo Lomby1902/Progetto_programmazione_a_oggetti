@@ -16,9 +16,9 @@ public abstract class Chat {
     private int ID;
     
     public Chat(int ID){
-        partecipanti= new ArrayList<Utente>(2);
+        partecipanti = new ArrayList<Utente>(2);
         messaggi = new ArrayList<Messaggio> (10);
-        this.ID=ID;
+        this.ID = ID;
     }
     
     public void aggiungiUtente(Utente nuovoUtente){
@@ -31,7 +31,7 @@ public abstract class Chat {
     
     
     public void MostraPartecipanti(){
-        for (int i=0;i<partecipanti.size();i++){
+        for (int i = 0; i < partecipanti.size(); i++){
                 System.out.println(partecipanti.get(i).getNickname());
         }
     }
@@ -57,7 +57,7 @@ public abstract class Chat {
     }
     
     private void setID(int ID){
-        this.ID=ID;
+        this.ID = ID;
     }
     public abstract void MostraMessaggi();
 }

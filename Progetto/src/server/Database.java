@@ -24,10 +24,10 @@ public class Database {
                databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Progetto","root","");
             }
             catch(ClassNotFoundException cnfe){
-               System.out.println("\033[1;31m"+ cnfe + "\033[0m");
+               System.out.println("\033[1;31m" + cnfe + "\033[0m");
             }
             catch(SQLException sqle){
-               System.out.println("\033[1;31m"+ sqle + "\033[0m");
+               System.out.println("\033[1;31m" + sqle + "\033[0m");
    
             }
     }
@@ -39,13 +39,13 @@ public class Database {
     //Restituisce 0 se non trova il nickname
     public int getIdUtente(String nickname) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "'";
-        ResultSet result =statement.executeQuery(sqlString);
-        int id=0;
+        String sqlString = "SELECT * FROM Utenti WHERE Nickname = '" + nickname + "'";
+        ResultSet result = statement.executeQuery(sqlString);
+        int id = 0;
         while(result.next()) {
-           id=result.getInt("ID");
+           id = result.getInt("ID");
         }
-        if(id>0) {
+        if(id > 0) {
            return id;
         }
        
@@ -59,14 +59,14 @@ public class Database {
     //Restituisce l'id di un utente registrato, altrimenti 0
     public int login(String nickname, String password) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        String sqlString ="SELECT * FROM Utenti WHERE Nickname = '"+ nickname + "' AND Password='" + password +"'" ;
-        ResultSet result =statement.executeQuery(sqlString);
-        int id=0;
+        String sqlString = "SELECT * FROM Utenti WHERE Nickname = '" + nickname + "' AND Password='" + password + "'" ;
+        ResultSet result = statement.executeQuery(sqlString);
+        int id = 0;
         while(result.next()) {
-           id=result.getInt("ID");
+           id = result.getInt("ID");
         }
         statement.close();
-        if(id >0)
+        if(id > 0)
             return id;
         
         return 0;
@@ -77,23 +77,23 @@ public class Database {
     public int inserisciGruppo(String Nome,String Amministratore, ArrayList<String> partecipanti) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
-        String sqlString1 ="INSERT INTO Gruppi(ID,Nome,Amministratore) VALUES(null, '"+Nome +"','" + Amministratore +"')"; 
+        String sqlString1 = "INSERT INTO Gruppi(ID,Nome,Amministratore) VALUES(null, '" + Nome + "','" + Amministratore + "')"; 
         statement.executeUpdate(sqlString1);
         //Prende l'utlimo ID inserito e lo restituisce
-        String sqlString2 ="SELECT max(ID) FROM Gruppi ";
-        ResultSet result =statement.executeQuery(sqlString2);
-        int id=0;
+        String sqlString2 = "SELECT max(ID) FROM Gruppi ";
+        ResultSet result = statement.executeQuery(sqlString2);
+        int id = 0;
         while(result.next()){
-                  id=result.getInt(1);
+                  id = result.getInt(1);
                }
-        String sqlString3 ="CREATE TABLE Gruppo" + id +"Utenti (Nickname varchar(255), ID int(11)) "; 
+        String sqlString3 = "CREATE TABLE Gruppo" + id + "Utenti (Nickname varchar(255), ID int(11)) "; 
         statement.executeUpdate(sqlString3);
-        for(int i=0;i<partecipanti.size();i++){
-            int idUtente=getIdUtente(partecipanti.get(i));
-            statement.executeUpdate( "INSERT INTO Gruppo" + id +"Utenti(Nickname,ID) VALUES('" + partecipanti.get(i)+"','"+ idUtente+"')");
+        for(int i = 0; i < partecipanti.size(); i++){
+            int idUtente = getIdUtente(partecipanti.get(i));
+            statement.executeUpdate( "INSERT INTO Gruppo" + id + "Utenti(Nickname,ID) VALUES('" + partecipanti.get(i) + "','" + idUtente + "')");
             
         }
-        String sqlString4= "CREATE TABLE Gruppo" + id +"Messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255))";
+        String sqlString4 = "CREATE TABLE Gruppo" + id + "Messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255))";
         statement.executeUpdate(sqlString4);
         statement.close();
         return id;
@@ -112,16 +112,16 @@ public class Database {
     public int inserisciChatPrivata(String Utente1, String Utente2) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
-        String sqlString1 ="INSERT INTO ChatPrivate(ID,Utente1,Utente2) VALUES(null, '"+Utente1 +"','" +Utente2+ "')"; 
+        String sqlString1 = "INSERT INTO ChatPrivate(ID,Utente1,Utente2) VALUES(null, '" + Utente1 + "','" + Utente2 + "')"; 
         statement.executeUpdate(sqlString1);
         //Prende l'utlimo ID inserito e lo restituisce
-        String sqlString2 ="SELECT max(ID) FROM ChatPrivate ";
-        ResultSet result =statement.executeQuery(sqlString2);
-        int id=0;
+        String sqlString2 = "SELECT max(ID) FROM ChatPrivate ";
+        ResultSet result = statement.executeQuery(sqlString2);
+        int id = 0;
         while(result.next()){
-                  id=result.getInt(1);
+                  id = result.getInt(1);
                }
-        String sqlString3 ="CREATE TABLE Privata" + id +"messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
+        String sqlString3 = "CREATE TABLE Privata" + id + "messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
         statement.executeUpdate(sqlString3);
         statement.close();
         return id;
@@ -132,13 +132,13 @@ public class Database {
     public int inserisciUtente(String nickname, String password) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         //Inserisce l'utente
-        String sqlString ="INSERT INTO Utenti(ID, Nickname, Password) VALUES(null, '" + nickname +"','"+ password +"')"; 
+        String sqlString = "INSERT INTO Utenti(ID, Nickname, Password) VALUES(null, '" + nickname + "','" + password + "')"; 
         statement.executeUpdate(sqlString);
-        String sqlString2 ="SELECT max(ID) FROM Utenti ";
-        ResultSet result =statement.executeQuery(sqlString2);
-        int id=0;
+        String sqlString2 = "SELECT max(ID) FROM Utenti ";
+        ResultSet result = statement.executeQuery(sqlString2);
+        int id = 0;
         while(result.next()){
-                  id=result.getInt(1);
+                  id = result.getInt(1);
                }
         statement.close();
         return id;
@@ -151,31 +151,31 @@ public class Database {
         ArrayList<String []> ritorno = new ArrayList<>();
         //Se la richiesta è di mostrare le chat
         if(tabella.equals("ChatPrivate")){
-            String sqlString ="SELECT * FROM ChatPrivate WHERE Utente1='"+ Nickname +"' OR Utente2= '"+ Nickname+ "'";
-            ResultSet result =statement.executeQuery(sqlString);
+            String sqlString = "SELECT * FROM ChatPrivate WHERE Utente1='" + Nickname + "' OR Utente2= '" + Nickname + "'";
+            ResultSet result = statement.executeQuery(sqlString);
             while(result.next()){    
-                  String chat []= new String[3];
-                  chat[0]=(Integer.toString(result.getInt("ID")));
-                  chat[1]= result.getString("Utente1");
-                  chat[2]= result.getString("Utente2");
+                  String chat [] = new String[3];
+                  chat[0] =(Integer.toString(result.getInt("ID")));
+                  chat[1] = result.getString("Utente1");
+                  chat[2] = result.getString("Utente2");
                   ritorno.add(chat);
             }
            
         }
         //Se la richiesta è di mostrare i gruppi
         else if(tabella.equals("Gruppi")){
-            String sqlString ="SELECT * FROM Gruppi";
+            String sqlString = "SELECT * FROM Gruppi";
             Statement statement2 = databaseConnection.createStatement();
-            ResultSet result =statement.executeQuery(sqlString);
+            ResultSet result = statement.executeQuery(sqlString);
              while(result.next()){    
-                  int id= result.getInt("ID");
-                  String nome= result.getString("Nome");
-                  String sqlString2 ="SELECT * FROM Gruppo"+id+"Utenti WHERE Nickname='"+ Nickname+"'";
-                  ResultSet result2 =statement2.executeQuery(sqlString2);
+                  int id = result.getInt("ID");
+                  String nome = result.getString("Nome");
+                  String sqlString2 = "SELECT * FROM Gruppo" + id + "Utenti WHERE Nickname='" + Nickname + "'";
+                  ResultSet result2 = statement2.executeQuery(sqlString2);
                   if(result2.next()){
-                    String gruppo []= new String[2];
-                    gruppo[0]=(Integer.toString(id));
-                    gruppo[1]= nome;
+                    String gruppo[] = new String[2];
+                    gruppo[0] = (Integer.toString(id));
+                    gruppo[1] = nome;
                     ritorno.add(gruppo);
                   }
 

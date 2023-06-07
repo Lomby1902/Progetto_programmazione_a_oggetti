@@ -17,13 +17,13 @@ public class Utente {
     private boolean stato;
 
     public Utente(int ID, String nickname, String password) {
-        this.ID= ID;
+        this.ID = ID;
         this.nickname = nickname;
         this.password = password;
     }
 
     public Utente(int ID, String nickname) {
-        this.ID= ID;
+        this.ID = ID;
         this.nickname = nickname;
     }
     
@@ -42,12 +42,12 @@ public class Utente {
      */
     public void aggiungiUtenteChat(Utente nuovoUtente, ChatPrivata cp ){
          try {
-             if(cp.getNumeroPartecipanti()==2)
+             if(cp.getNumeroPartecipanti() == 2)
                  throw new LimitNumberException();
              cp.aggiungiUtente(nuovoUtente);
              //aggiungi utente nel database
          } catch (LimitNumberException e) {
-             System.out.println("\033[1;31m"+e.getMessage()+ "\033[0m");
+             System.out.println("\033[1;31m" + e.getMessage() + "\033[0m");
          }
     }
     
