@@ -45,17 +45,17 @@ public class Main {
             
                 
                 //Indica al thread del server che vuole mostrare le chat private dell'utente
-                outputStream.writeObject("s/ChatPrivate"+"/"+ nuovoUtente.getNickname()); 
+                outputStream.writeObject("s/ChatPrivate" + "/" + nuovoUtente.getNickname()); 
                 //Risposta del server
-                oggettoRisposta= inputStream.readObject();
+                oggettoRisposta = inputStream.readObject();
                 if(!(oggettoRisposta instanceof String)){
                     
-                    ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
+                    ArrayList<String []> risposta = (ArrayList < String[] >)oggettoRisposta;
                     
                     //Se esiste almeno una chat in cui si trova l'utente
                         for(int i=0;i<risposta.size();i++){
-                                System.out.print("\033[1;32m" +"ID Chat: "+ risposta.get(i)[0]);
-                                System.out.print("   Utenti: "+ risposta.get(i)[1] + ", "+ risposta.get(i)[2] + "\033[0m");
+                                System.out.print("\033[1;32m" + "ID Chat: " + risposta.get(i)[0]);
+                                System.out.print("   Utenti: " + risposta.get(i)[1] + ", " + risposta.get(i)[2] + "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
                         }  
@@ -68,22 +68,22 @@ public class Main {
                    
                 }
              
-                System.out.println("\u001B[1m"+"I tuoi Gruppi");
+                System.out.println("\u001B[1m" + "I tuoi Gruppi");
                 System.out.println("");
                 
                 //Indica al thread del server che vuole mostrare i gruppi dell'Utente
-                outputStream.writeObject("s/Gruppi"+"/"+ nuovoUtente.getNickname()); 
+                outputStream.writeObject("s/Gruppi" + "/" + nuovoUtente.getNickname()); 
                 //Risposta del server
-                oggettoRisposta= inputStream.readObject();
+                oggettoRisposta = inputStream.readObject();
                 if(!(oggettoRisposta instanceof String)){
                     
-                    ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
+                    ArrayList<String []> risposta = (ArrayList < String[] >)oggettoRisposta;
                     
                     //Se esiste almeno una chat in cui si trova l'utente
-                    if(risposta.size()>0){
-                        for(int i=0;i<risposta.size();i++){
-                                System.out.print("\033[1;32m"+"ID Gruppo: "+ risposta.get(i)[0]);
-                                System.out.print("   Nome Gruppo: "+ risposta.get(i)[1]+  "\033[0m");
+                    if(risposta.size() > 0){
+                        for(int i = 0; i < risposta.size(); i++){
+                                System.out.print("\033[1;32m" + "ID Gruppo: " + risposta.get(i)[0]);
+                                System.out.print("   Nome Gruppo: " + risposta.get(i)[1] +  "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
                         }  
@@ -100,10 +100,10 @@ public class Main {
                 
         } 
         catch (IOException e) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-             System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+             System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
     }
@@ -120,27 +120,27 @@ public class Main {
         if (nome.equals("0"))
             return;
         System.out.println("Inserire i nickname dei partecipanti separati da una virgola");
-        String partecipanti= tastiera.nextLine();
+        String partecipanti = tastiera.nextLine();
         //Rimuove eventuali spazi tra i nickname
-        partecipanti=partecipanti.replaceAll("\\s+","");
+        partecipanti = partecipanti.replaceAll("\\s+","");
         ArrayList<String> nicknamePartecipanti = new ArrayList<>(Arrays.asList( partecipanti.split(",")));
         //Aggiunge l'utente corrente
         nicknamePartecipanti.add(0,nuovoUtente.getNickname()); 
         try {
             //Indica al server l'operazione di creazione gruppo con amministratore l'utente attuale
-            outputStream.writeObject("g/"+nome +"/"+nuovoUtente.getID());
+            outputStream.writeObject("g/" + nome + "/" + nuovoUtente.getID());
             //Invia la lista dei partecipanti
             outputStream.writeObject(nicknamePartecipanti);
             
             //Risposta del server
-            String risposta= (String) inputStream.readObject();
+            String risposta = (String) inputStream.readObject();
             //Preleva i pezzi della risposta
-            String [] comando=risposta.split("/");
+            String [] comando = risposta.split("/");
             //Se il gruppo è stato inserito
             if(comando[0].equals("OK")){
                 //Prende l'id del gruppo creato
-                int id= Integer.parseInt(comando[1]);
-                Gruppo nuovoGruppo= new Gruppo(nuovoUtente, nome, id);
+                int id = Integer.parseInt(comando[1]);
+                Gruppo nuovoGruppo = new Gruppo(nuovoUtente, nome, id);
                 System.out.println("\033[1;32m" + "Gruppo creato correttamente" + "\033[0m");  
                 return;
              }
@@ -153,10 +153,10 @@ public class Main {
             
             
         } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
     }
@@ -166,22 +166,22 @@ public class Main {
         System.out.println("");
         System.out.println("Menu Creazione Chat");
         System.out.println("");
-        Scanner tastiera= new Scanner(System.in);
+        Scanner tastiera = new Scanner(System.in);
         System.out.println("Inserire il nickname dell'altro partecipante");    
-        String partecipante= tastiera.nextLine();
+        String partecipante = tastiera.nextLine();
         try {
             //Indica al server l'operazione di creazione chat con l'altro utente e l'utente attuale come membri
-            outputStream.writeObject("c/"+nuovoUtente.getNickname() +"/"+partecipante);
+            outputStream.writeObject("c/" + nuovoUtente.getNickname() + "/" + partecipante);
             
             //Risposta del server
-            String risposta= (String) inputStream.readObject();
+            String risposta = (String) inputStream.readObject();
             //Preleva i pezzi della risposta
-            String [] comando=risposta.split("/");
+            String [] comando = risposta.split("/");
             //Se il gruppo è stato inserito
             if(comando[0].equals("OK")){
                 //Prende l'id del gruppo creato
-                int id= Integer.parseInt(comando[1]);
-                ChatPrivata Cp= new ChatPrivata(id);
+                int id = Integer.parseInt(comando[1]);
+                ChatPrivata Cp = new ChatPrivata(id);
                 System.out.println("\033[1;32m" + "Chat creata correttamente" + "\033[0m");  
                 return;
              }
@@ -194,17 +194,17 @@ public class Main {
             
             
         } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
     }
     
     
     public static void menuUtente(){
-        System.out.println("Benvenuto "+ nuovoUtente.getNickname());
+        System.out.println("Benvenuto " + nuovoUtente.getNickname());
         System.out.println("ID Utente: " + nuovoUtente.getID());
         System.out.println("");
          while (true) {            
@@ -216,7 +216,7 @@ public class Main {
             System.out.println("3) Crea un nuovo gruppo");
             System.out.println("4) Indietro");
             System.out.println("");
-            Scanner tastiera= new Scanner(System.in);
+            Scanner tastiera = new Scanner(System.in);
             switch (tastiera.nextInt()) {
                 case 1:
                         menuChat();
@@ -239,7 +239,7 @@ public class Main {
  
         //Menu di login
     public static void menuLogin(){    
-        Scanner tastiera= new Scanner(System.in);
+        Scanner tastiera = new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
         String nickname = tastiera.next();
         if(nickname.equals("0"))
@@ -253,13 +253,13 @@ public class Main {
                 //Indica al thread del server che vuole verificare l'esistenza di un utente e invia i dati
                 outputStream.writeObject("e/"+nickname+"/"+password); 
                 //Risposta del server
-                String risposta= (String) inputStream.readObject();
+                String risposta = (String) inputStream.readObject();
                 //Preleva i pezzi della risposta
-                String [] comando=risposta.split("/");
+                String [] comando = risposta.split("/");
                 //Se l'utente esiste
                 if(comando[0].equals("OK")){
-                    int id= Integer.parseInt(comando[1]);
-                    nuovoUtente= new Utente(id,nickname,password);
+                    int id = Integer.parseInt(comando[1]);
+                    nuovoUtente = new Utente(id,nickname,password);
                     menuUtente();
                     
                 }
@@ -272,10 +272,10 @@ public class Main {
              
         } 
         catch (IOException e) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
         
@@ -285,7 +285,7 @@ public class Main {
     
    //Menu per registrazione utente
     public static void menuRegistrazione() {
-        Scanner tastiera= new Scanner(System.in);
+        Scanner tastiera = new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
         String nickname = tastiera.next();
         if(nickname.equals("0"))
@@ -299,29 +299,29 @@ public class Main {
                 //Indica al thread del server che vuole registrare un utente
                 outputStream.writeObject("u/"+nickname+"/"+password);
                 //Risposta del server
-                String risposta= (String)inputStream.readObject();
+                String risposta = (String)inputStream.readObject();
                  //Preleva i pezzi della risposta
-                String [] comando=risposta.split("/");
+                String [] comando = risposta.split("/");
                 //Se l'utente non esiste
                 if(comando[0].equals("OK")){
-                    int id= Integer.parseInt(comando[1]);
-                    nuovoUtente= new Utente(id,nickname,password);
+                    int id = Integer.parseInt(comando[1]);
+                    nuovoUtente = new Utente(id,nickname,password);
                     System.out.println("Utente Registrato");
                     menuUtente();
                     
                 }
                 //Messaggio di errore (Errore connessione o nickname già in uso)
                 else{
-                    System.out.println("\033[1;31m"+ risposta + "\033[0m");
+                    System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
                     return;
                 }
          }
          catch (IOException e) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
          
@@ -339,7 +339,7 @@ public class Main {
             System.out.println("2) Registrazione");
             System.out.println("3) Uscire");
             System.out.println("");
-            Scanner tastiera= new Scanner(System.in);
+            Scanner tastiera = new Scanner(System.in);
             switch (tastiera.nextInt()) {
                 case 1:
                         menuLogin();
@@ -370,7 +370,7 @@ public class Main {
             inputStream = new ObjectInputStream(s.getInputStream());
             menuprincipale();
         } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
         }
        
        
