@@ -239,15 +239,7 @@ public class Main {
         
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
         //Menu di login
     public static void menuLogin(){    
         Scanner tastiera= new Scanner(System.in);
@@ -337,10 +329,6 @@ public class Main {
         }
          
     }
-    
-    
-    
-    
     
     
     //Menu principale
