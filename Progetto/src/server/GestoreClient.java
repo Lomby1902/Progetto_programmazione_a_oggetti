@@ -39,7 +39,6 @@ public class GestoreClient implements Runnable {
             
             String richiesta;
             while ((richiesta=(String)inputStream.readObject()) !=null) {
-                System.out.println(richiesta);
                 //Preleva i pezzi della richiesta
                 String [] comando=richiesta.split("/");
                
@@ -102,6 +101,26 @@ public class GestoreClient implements Runnable {
                      }
                      if(nicknamevalidi){
                         int id=db.inserisciGruppo(nome, idAmministratore, nicknamePartecipanti);
+                        if(id!=0){
+                            outputStream.writeObject("OK/"+id); 
+                        }
+                     }
+                    
+                 }
+                
+                //Operazione di creazione chat
+                if(comando[0].equals("c")){
+                     String Utente1= comando[1];
+                     String Utente2= comando[2];
+                     //Verifica se il nickname dell'altro utente esiste
+                     boolean nicknameValido=true;
+                     if(db.getIdUtente(Utente2)==0){
+                         outputStream.writeObject("Nickname dell'altro utente non valido");
+                         nicknameValido=false;      
+                         }
+  
+                     if(nicknameValido){
+                        int id=db.inserisciChatPrivata(Utente1,Utente2);
                         if(id!=0){
                             outputStream.writeObject("OK/"+id); 
                         }

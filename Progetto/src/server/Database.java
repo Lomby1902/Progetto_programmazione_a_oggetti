@@ -79,18 +79,15 @@ public class Database {
         //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
         String sqlString1 ="INSERT INTO Gruppi(ID,Nome,Amministratore) VALUES(null, '"+Nome +"','" + Amministratore +"')"; 
         statement.executeUpdate(sqlString1);
-        System.out.println("Query1");
         //Prende l'utlimo ID inserito e lo restituisce
         String sqlString2 ="SELECT max(ID) FROM Gruppi ";
         ResultSet result =statement.executeQuery(sqlString2);
-        System.out.println("Query2");
         int id=0;
         while(result.next()){
                   id=result.getInt(1);
                }
         String sqlString3 ="CREATE TABLE Gruppo" + id +"Utenti (Nickname varchar(255), ID int(11)) "; 
-         statement.executeUpdate(sqlString3);
-         System.out.println("Query3");
+        statement.executeUpdate(sqlString3);
         for(int i=0;i<partecipanti.size();i++){
             int idUtente=getIdUtente(partecipanti.get(i));
             statement.executeUpdate( "INSERT INTO Gruppo" + id +"Utenti(Nickname,ID) VALUES('" + partecipanti.get(i)+"','"+ idUtente+"')");
@@ -98,7 +95,6 @@ public class Database {
         }
         String sqlString4= "CREATE TABLE Gruppo" + id +"Messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255))";
         statement.executeUpdate(sqlString4);
-        System.out.println("Query4");
         statement.close();
         return id;
     }
@@ -113,10 +109,10 @@ public class Database {
      * @return
      * @throws SQLException 
      */
-    public int inserisciChatPrivata(String Utente1) throws SQLException{
+    public int inserisciChatPrivata(String Utente1, String Utente2) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         //Inserisce la chat privata nella tabella delle chat private inserendo già il creatore della chat
-        String sqlString1 ="INSERT INTO ChatPrivate(ID,Utente1,Utente2) VALUES(null, '"+Utente1 +"',null) "; 
+        String sqlString1 ="INSERT INTO ChatPrivate(ID,Utente1,Utente2) VALUES(null, '"+Utente1 +"','" +Utente2+ "')"; 
         statement.executeUpdate(sqlString1);
         //Prende l'utlimo ID inserito e lo restituisce
         String sqlString2 ="SELECT max(ID) FROM ChatPrivate ";

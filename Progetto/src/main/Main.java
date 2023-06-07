@@ -141,6 +141,9 @@ public class Main {
             String [] comando=risposta.split("/");
             //Se il gruppo è stato inserito
             if(comando[0].equals("OK")){
+                //Prende l'id del gruppo creato
+                int id= Integer.parseInt(comando[1]);
+                Gruppo nuovoGruppo= new Gruppo(nuovoUtente, nome, id);
                 System.out.println("\033[1;32m" + "Gruppo creato correttamente" + "\033[0m");  
                 return;
              }
@@ -162,6 +165,46 @@ public class Main {
     }
     
     
+     public static void menuCreaChat(){
+        System.out.println("");
+        System.out.println("Menu Creazione Chat");
+        System.out.println("");
+        Scanner tastiera= new Scanner(System.in);
+        System.out.println("Inserire il nickname dell'altro partecipante");    
+        String partecipante= tastiera.nextLine();
+        try {
+            //Indica al server l'operazione di creazione chat con l'altro utente e l'utente attuale come membri
+            outputStream.writeObject("c/"+nuovoUtente.getNickname() +"/"+partecipante);
+            
+            //Risposta del server
+            String risposta= (String) inputStream.readObject();
+            //Preleva i pezzi della risposta
+            String [] comando=risposta.split("/");
+            //Se il gruppo è stato inserito
+            if(comando[0].equals("OK")){
+                //Prende l'id del gruppo creato
+                int id= Integer.parseInt(comando[1]);
+                ChatPrivata Cp= new ChatPrivata(id);
+                System.out.println("\033[1;32m" + "Chat creata correttamente" + "\033[0m");  
+                return;
+             }
+                //Messaggio di errore (Errore connessione o utente non esiste)
+            else{
+                System.out.println("\033[1;31m" + risposta + "\033[0m");
+                System.out.println("");
+                return;
+            }
+            
+            
+        } catch (IOException ex) {
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            return;
+        } catch (ClassNotFoundException ex) {
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            return;
+        }
+    }
+    
     
     public static void menuUtente(){
         System.out.println("Benvenuto "+ nuovoUtente.getNickname());
@@ -182,7 +225,7 @@ public class Main {
                         menuChat();
                         break;
                 case 2:
-                        
+                        menuCreaChat();
                         break;
                 case 3: 
                         menuCreaGruppo();
