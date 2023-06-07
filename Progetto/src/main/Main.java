@@ -53,14 +53,12 @@ public class Main {
                     ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
                     
                     //Se esiste almeno una chat in cui si trova l'utente
-                    if(risposta.size()>0){
                         for(int i=0;i<risposta.size();i++){
                                 System.out.print("\033[1;32m" +"ID Chat: "+ risposta.get(i)[0]);
                                 System.out.print("   Utenti: "+ risposta.get(i)[1] + ", "+ risposta.get(i)[2] + "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
                         }  
-                    }
                 }
                 //Messaggio di errore
                 else{
