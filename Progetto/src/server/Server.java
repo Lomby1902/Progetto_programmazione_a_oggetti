@@ -21,7 +21,7 @@ public class Server {
     
     
     public static void main(String[] args) throws IOException{
-        Database db= new Database();
+            Database db= new Database();
         ServerSocket listener = new ServerSocket(9091);
         System.out.println("Server Partito");
         
