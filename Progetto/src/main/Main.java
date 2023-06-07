@@ -119,18 +119,16 @@ public class Main {
         System.out.println("");
         System.out.println("Inserisci il nome del gruppo: (Inserire 0 per tornare indietro) :");
         Scanner tastiera = new Scanner(System.in);
-        String nome= tastiera.next();
+        String nome= tastiera.nextLine();
         if (nome.equals("0"))
             return;
         System.out.println("Inserire i nickname dei partecipanti separati da una virgola");
-        String partecipanti= tastiera.next();
+        String partecipanti= tastiera.nextLine();
+        //Rimuove eventuali spazi tra i nickname
+        partecipanti=partecipanti.replaceAll("\\s+","");
         ArrayList<String> nicknamePartecipanti = new ArrayList<>(Arrays.asList( partecipanti.split(",")));
         //Aggiunge l'utente corrente
-        nicknamePartecipanti.add(0,nuovoUtente.getNickname());
-        //Rimuove eventuali spazi tra i nickname
-        for(int i=0; i<nicknamePartecipanti.size();i++){
-            nicknamePartecipanti.set(i,nicknamePartecipanti.get(i).trim());
-        }
+        nicknamePartecipanti.add(0,nuovoUtente.getNickname()); 
         try {
             //Indica al server l'operazione di creazione gruppo con amministratore l'utente attuale
             outputStream.writeObject("g/"+nome +"/"+nuovoUtente.getID());
