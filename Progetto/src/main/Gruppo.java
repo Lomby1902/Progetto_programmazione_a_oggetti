@@ -18,29 +18,38 @@ public class Gruppo extends Chat{
     private String amministratore;
     private String nome;
     
-    public Gruppo(Utente nuovoAmministratore, String nuovoNome, int ID){
+    public Gruppo(Utente nuovoAmministratore, String nuovoNome, String ID){
         super(ID);
         amministratore = nuovoAmministratore.getNickname();
         nome = nuovoNome;
     }
     
     
-    public Gruppo(int ID) throws IOException, ClassNotFoundException{
+    public Gruppo(String ID){
         super(ID);
-        ObjectOutputStream output= Main.getOutputStream();
-        ObjectInputStream input = Main.getInputStream();
-        output.writeObject("m/Gruppo/"+ID);
-        ArrayList<String> informazioni= (ArrayList<String>) input.readObject();
-        nome=informazioni.get(0);
-        amministratore=informazioni.get(1);
-        //Aggiunge i vari utenti scaricati dal database
-        for(int i=2;i<informazioni.size();i++){
-            aggiungiUtente(informazioni.get(i));
-        }
+        try{
+            ObjectOutputStream output= Main.getOutputStream();
+            ObjectInputStream input = Main.getInputStream();
+            output.writeObject("m/Gruppo/"+ID);
+            ArrayList<String> informazioni= (ArrayList<String>) input.readObject();
+            nome=informazioni.get(0);
+            amministratore=informazioni.get(1);
+            //Aggiunge i vari utenti scaricati dal database
+            for(int i=2;i<informazioni.size();i++){
+                aggiungiUtente(informazioni.get(i));
+            }
+    }catch(IOException | ClassNotFoundException e){
+        System.err.println("Errore nella connessione al gruppo");
+    }
+        
     }
     
     
- 
+    public void InviaMessaggio(Messaggio msg){
+        
+    }
+    
+    
     
     public String getNome(){
         return nome;

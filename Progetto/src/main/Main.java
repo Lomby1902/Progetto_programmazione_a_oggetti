@@ -186,7 +186,7 @@ public class Main {
             //Se il gruppo è stato inserito
             if(comando[0].equals("OK")){
                 //Prende l'id del gruppo creato
-                int id= Integer.parseInt(comando[1]);
+                String id= comando[1];
                 Gruppo nuovoGruppo= new Gruppo(nuovoUtente, nome, id);
                 System.out.println("\033[1;32m" + "Gruppo creato correttamente" + "\033[0m");  
                 return;

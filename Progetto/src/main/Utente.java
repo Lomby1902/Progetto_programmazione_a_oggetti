@@ -40,16 +40,11 @@ public class Utente {
      * @param cp 
      * 
      */
-    public void aggiungiUtenteChat(Utente nuovoUtente, ChatPrivata cp ){
-         try {
-             if(cp.getNumeroPartecipanti() == 2)
-                 throw new LimitNumberException();
-             cp.aggiungiUtente(nuovoUtente);
-             //aggiungi utente nel database
-         } catch (LimitNumberException e) {
-             System.out.println("\033[1;31m" + e.getMessage() + "\033[0m");
-         }
-    }
+    /*
+   
+    
+    
+    
     
     /**
      * Questo metodo scrive un messaggio m nella chat privata cp
@@ -61,13 +56,7 @@ public class Utente {
          //Inserisci il messaggio sul database
     }
     
-    
-     public void aggiungiUtenteGruppo(Utente nuovoUtente, Gruppo g ){
-        g.aggiungiUtente(nuovoUtente);
-        //aggiungi utente nel database
-         
-    }
-    
+   
     
     
     public int getID() {

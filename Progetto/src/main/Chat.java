@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public abstract class Chat {
     private ArrayList<String> partecipanti;
     private ArrayList<Messaggio> messaggi;
-    private int ID;
+    private string ID;
     
-    public Chat(int ID){
+    public Chat(string ID){
         partecipanti = new ArrayList<Utente>(2);
         messaggi = new ArrayList<Messaggio> (10);
         this.ID = ID;
