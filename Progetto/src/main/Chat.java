@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author giovanni
  */
 public abstract class Chat {
-    private ArrayList<Utente> partecipanti;
+    private ArrayList<String> partecipanti;
     private ArrayList<Messaggio> messaggi;
     private int ID;
     
@@ -21,7 +21,7 @@ public abstract class Chat {
         this.ID = ID;
     }
     
-    public void aggiungiUtente(Utente nuovoUtente){
+    public void aggiungiUtente(String nuovoUtente){
         partecipanti.add(nuovoUtente);
     }
     

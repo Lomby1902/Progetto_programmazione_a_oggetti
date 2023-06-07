@@ -378,4 +378,13 @@ public class Main {
     
     }
     
+    
+    public static ObjectOutputStream getOutputStream(){
+        return outputStream;
+    }
+    
+    public static ObjectInputStream getInputStream(){
+        return inputStream;
+    }
+    
 }

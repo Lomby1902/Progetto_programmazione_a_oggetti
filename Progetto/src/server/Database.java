@@ -99,7 +99,30 @@ public class Database {
         return id;
     }
     
-    
+    //Restituisce le informazioni del gruppo
+    public ArrayList<String> getInfoGruppo(String id) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        String sqlString = "SELECT * FROM Gruppi WHERE ID = '" + id + "'";
+        ResultSet result = statement.executeQuery(sqlString);
+        ArrayList<String> informazioni= new ArrayList<>();
+        
+        while(result.next()) {
+           //La prima informazione è il nome del gruppo
+           informazioni.add(result.getString("Nome"));
+           //La seconda informazione è l'id dell'amministratore
+           informazioni.add(result.getString("Amministratore"));
+           //Le altre informazioni sono i nickaname dei partecipanti
+           Statement statement2 = databaseConnection.createStatement();
+           String sqlString2 = "SELECT * FROM Gruppo"+id+"Utenti";
+           ResultSet result2 = statement2.executeQuery(sqlString2);
+           while(result2.next()){
+               informazioni.add(result2.getString("Nickname"));
+           }
+           
+        }
+        
+        return informazioni;
+    }
     
     
     

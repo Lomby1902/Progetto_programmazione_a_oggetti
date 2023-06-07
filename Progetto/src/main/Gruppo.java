@@ -4,31 +4,49 @@
  */
 package main;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 /**
  *
  * @author giovanni
  */
 public class Gruppo extends Chat{
-    private Utente amministratore;
+    private String amministratore;
     private String nome;
     
     public Gruppo(Utente nuovoAmministratore, String nuovoNome, int ID){
         super(ID);
-        amministratore = nuovoAmministratore;
+        amministratore = nuovoAmministratore.getNickname();
         nome = nuovoNome;
     }
     
-    public String getAmministratore(){
-        return amministratore.getNickname();
+    
+    public Gruppo(int ID) throws IOException, ClassNotFoundException{
+        super(ID);
+        ObjectOutputStream output= Main.getOutputStream();
+        ObjectInputStream input = Main.getInputStream();
+        output.writeObject("m/Gruppo/"+ID);
+        ArrayList<String> informazioni= (ArrayList<String>) input.readObject();
+        nome=informazioni.get(0);
+        amministratore=informazioni.get(1);
+        //Aggiunge i vari utenti scaricati dal database
+        for(int i=2;i<informazioni.size();i++){
+            aggiungiUtente(informazioni.get(i));
+        }
     }
+    
+    
+ 
     
     public String getNome(){
         return nome;
     }
     
-    public void setAmministratore(Utente u){
-        amministratore = u;
-    }
+   
     
     public void setNome(String nuovoNome){
         nome = nuovoNome;
@@ -45,13 +63,5 @@ public class Gruppo extends Chat{
     }
     
     
-    public void aggiungiUtente(Utente amministratore, Utente nuovoUtente) throws NotAdministratorException{
-        if(amministratore.getID() == this.amministratore.getID()){
-            super.aggiungiUtente(nuovoUtente);
-            //Aggiungi sul databse
-        }
-        else{
-            throw new NotAdministratorException();
-        }
-    }
+   
 }
