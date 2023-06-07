@@ -36,7 +36,7 @@ public class Main {
     
     public static void menuChat(){
         System.out.println("");
-        System.out.println("\u001B[1m"+"Le tue chat");
+        System.out.println("\u001B[1m" + "Le tue chat");
         System.out.println("");
         
         Object oggettoRisposta;
@@ -52,9 +52,10 @@ public class Main {
                     ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
                     
                     //Se esiste almeno una chat in cui si trova l'utente
-                        for(int i=0;i<risposta.size();i++){
-                                System.out.print("\033[1;32m" +"ID Chat: "+ risposta.get(i)[0]);
-                                System.out.print("   Utenti: "+ risposta.get(i)[1] + ", "+ risposta.get(i)[2] + "\033[0m");
+                        for(int i = 0; i < risposta.size(); i++){
+                                System.out.print("\033[1;32m" + "ID Chat: " + risposta.get(i)[0]);
+                                System.out.print("   Utenti: " + risposta.get(i)[1] + ", " + risposta.get(i)[2] + "\033[0m");
+
                                 System.out.println("");
                                 System.out.println("");
                         }  
@@ -75,8 +76,8 @@ public class Main {
                 //Risposta del server
                 oggettoRisposta= inputStream.readObject();
                 if(!(oggettoRisposta instanceof String)){
-                    
-                    ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
+
+                    ArrayList<String[]> risposta = (ArrayList <String[]>) oggettoRisposta;
                     
                     //Se esiste almeno una chat in cui si trova l'utente
                     if(risposta.size()>0){
@@ -96,6 +97,27 @@ public class Main {
                     
                 }
                 
+                Scanner tastiera = new Scanner(System.in);
+                while (true){
+                    System.out.println("Inserisci");
+                    System.out.println("g) Per accedere ad un gruppo");
+                    System.out.println("c) per accedere ad una chat privata");
+                    System.out.println("0) per tornare indietro");
+                    String type = tastiera.nextLine();
+                    if (type.equals("0")){
+                        return;
+                    }
+                    System.out.println("Inserisci l'ID corrispondente:");
+                    String ID = tastiera.nextLine();
+                    if(type.equals("g")){
+                        System.out.println("Accedo al gruppo");
+                        menuGruppo(ID);
+                    }else{
+                        System.out.println("Accedo alla chat privata");
+                        menuChatPrivata(ID);
+                    }                    
+                }
+                
                 
         } 
         catch (IOException e) {
@@ -107,6 +129,32 @@ public class Main {
         }
     }
     
+    public static void menuGruppo(String ID){
+        Gruppo gruppo = new Gruppo(ID);
+        ChatListener listener = new ChatListener(gruppo);
+        Thread T = new Thread(listener);
+        String nomeGruppo = gruppo.getNome();
+        System.out.println("Menu del gruppo " + nomeGruppo + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
+        System.out.println("@partecipanti - Stampa partecipanti");
+        System.out.println("@nome - Modifica il nome del gruppo (AMMINISTRATORE)");
+        System.out.println("@aggiungi - Aggiungi un utente al gruppo (AMMINISTRATORE)");
+        System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
+        System.out.println("@exit - Torna al menu delle chat");
+        T.start();
+        Scanner tastiera = new Scanner(System.in);
+        while(true){
+            String text = tastiera.nextLine();
+            Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
+            if (text.equals("@exit")){
+                return;
+            }
+            gruppo.InviaMessaggio(msg);
+        }
+    }
+    
+    public static void menuChatPrivata(String ID){
+        
+    }
      
     
     public static void menuCreaGruppo(){
@@ -115,7 +163,7 @@ public class Main {
         System.out.println("");
         System.out.println("Inserisci il nome del gruppo: (Inserire 0 per tornare indietro) :");
         Scanner tastiera = new Scanner(System.in);
-        String nome= tastiera.nextLine();
+        String nome = tastiera.nextLine();
         if (nome.equals("0"))
             return;
         System.out.println("Inserire i nickname dei partecipanti separati da una virgola");
