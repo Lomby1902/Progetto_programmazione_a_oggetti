@@ -10,7 +10,7 @@ package main;
  */
 public class ChatPrivata extends Chat{
     
-    public ChatPrivata(int ID){
+    public ChatPrivata(String ID){
         super(ID);
     }
     

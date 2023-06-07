@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package server;
+import server.Database;
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;

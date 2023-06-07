@@ -4,7 +4,6 @@
  */
 package main;
 
-import server.Database;
 import javax.swing.JOptionPane;
 import java.io.*;
 import java.net.*;

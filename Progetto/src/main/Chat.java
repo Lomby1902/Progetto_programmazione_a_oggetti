@@ -13,10 +13,10 @@ import java.util.ArrayList;
 public abstract class Chat {
     private ArrayList<String> partecipanti;
     private ArrayList<Messaggio> messaggi;
-    private string ID;
+    private String ID;
     
-    public Chat(string ID){
-        partecipanti = new ArrayList<Utente>(2);
+    public Chat(String ID){
+        partecipanti = new ArrayList<String>(2);
         messaggi = new ArrayList<Messaggio> (10);
         this.ID = ID;
     }
@@ -30,11 +30,7 @@ public abstract class Chat {
     }
     
     
-    public void MostraPartecipanti(){
-        for (int i = 0; i < partecipanti.size(); i++){
-                System.out.println(partecipanti.get(i).getNickname());
-        }
-    }
+  
     
     public int getNumeroPartecipanti(){
         return partecipanti.size();
@@ -52,12 +48,5 @@ public abstract class Chat {
         return messaggi.get(indice).getTesto();
     }
     
-    public int getID(){
-        return ID;
-    }
-    
-    private void setID(int ID){
-        this.ID = ID;
-    }
     public abstract void MostraMessaggi();
 }
