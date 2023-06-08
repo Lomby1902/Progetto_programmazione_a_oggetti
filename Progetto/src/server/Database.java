@@ -134,12 +134,17 @@ public class Database {
     public void rimuoviUtente(String idGruppo, String nickname) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         String sqlString = "DELETE FROM Gruppo"+idGruppo+"Utenti WHERE Nickname='"+ nickname+"'";
-        System.out.println(sqlString);
         statement.executeUpdate(sqlString);
         
     }
     
-    
+    //Aggiunge un utente dal gruppo
+    public void aggiungiUtente(String idGruppo, String nickname) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        int idUtente = getIdUtente(nickname);
+        String sqlString = "INSERT INTO Gruppo" + idGruppo + "Utenti(Nickname,ID) VALUES('" + nickname + "','" + idUtente + "')";
+        statement.executeUpdate(sqlString);
+    }
     
     
     
