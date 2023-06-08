@@ -4,14 +4,30 @@
  */
 package main;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 /**
  *
  * @author giovanni
  */
 public class ChatPrivata extends Chat{
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     
-    public ChatPrivata(String ID){
+    public ChatPrivata(String ID) throws IOException, ClassNotFoundException{
         super(ID);
+        output= Main.getOutputStream();
+        input = Main.getInputStream();
+        //Indica al server di voler ottenere informazioni sulla chat
+        output.writeObject("i/ChatPrivata/"+ID);
+            ArrayList<String> informazioni= (ArrayList<String>) input.readObject();
+            //Aggiunge i due utenti scaricati dal database
+            for(int i=0;i<informazioni.size();i++){
+                aggiungiUtente(informazioni.get(i));
+            }
     }
     
     

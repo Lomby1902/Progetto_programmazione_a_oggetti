@@ -131,13 +131,10 @@ public class GestoreClient implements Runnable {
                 //Operazione di prelievo informazioni su una chat o gruppo
                 if(comando[0].equals("i")){
                      String tabella = comando[1];
-                     String id = comando[2];
-                     //Verifica se le informazioni richieste sono sul gruppo
-                     if(tabella.equals("Gruppo")){
-                         ArrayList<String> informazioniGruppo= db.getInfoGruppo(id);
-                         outputStream.writeObject(informazioniGruppo);
-                     }
-                     //Operazioni per la chat
+                     String id = comando[2];  
+                     ArrayList<String> informazioniGruppo= db.getInfo(id,tabella);
+                     outputStream.writeObject(informazioniGruppo);
+
                  }
                 
 
