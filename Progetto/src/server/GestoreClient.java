@@ -141,11 +141,18 @@ public class GestoreClient implements Runnable {
                 //Operazioni di manage gruppo
                 if(comando[0].equals("m")){
                     //Estrae l'operazione
-                     String operazione = comando[1];
-                     if(operazione.equals("r")){
+                    String operazione = comando[1];
+                    //Rimuove un utente
+                    if(operazione.equals("r")){
                         String idGruppo = comando[2];
                         String nickname= comando[3];
                         db.rimuoviUtente(idGruppo, nickname);           
+                    }
+                    //Aggiunge un utente
+                    if(operazione.equals("a")){
+                        String idGruppo = comando[2];
+                        String nickname = comando[3];
+                        db.aggiungiUtente(idGruppo, nickname);
                     }
                   
                  }

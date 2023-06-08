@@ -34,7 +34,7 @@ public class Main {
     
      
     
-    public static void menuChat(){
+    public static void menuChats(){
         System.out.println("");
         System.out.println("\u001B[1m" + "Le tue chat");
         System.out.println("");
@@ -149,6 +149,22 @@ public class Main {
         }
     }
     
+    public static void menuAggiunta(Gruppo g){
+        System.out.println("");
+        System.out.println("Inserire il nickname dell'utente da aggiungere(0 per tornare indietro)");
+        Scanner tastiera= new Scanner(System.in);
+        String nickname= tastiera.nextLine();
+        if (nickname.equals("0"))
+            return;
+        try{
+            g.aggiungiPartecipante(nuovoUtente.getNickname(), nickname);
+            System.out.println("\033[1;32m" + "Utente aggiunto correttamente" + "\033[0m");
+        } catch (NotAdministratorException n){
+            System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+        } catch (IOException ex) {
+            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+        }
+    }
     
     public static void menuGruppo(String ID){
         //Crea un gruppo a partire dal suo ID, andando a scaricare le informazioni dal server
@@ -171,13 +187,20 @@ public class Main {
        
             String text = tastiera.nextLine();
             Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
-            if (text.equals("@exit")){
-                return;
+            switch (text) {
+                case "@exit":
+                    return;
+                case "@partecipanti":
+                    gruppo.mostraPartecipanti();
+                    break;
+                case "@rimuovi":
+                    menuRimozione(gruppo);
+                    break;
+                case "@aggiungi":
+                    menuAggiunta(gruppo);
+                default:
+                    break;
             }
-            else if(text.equals("@partecipanti"))
-                gruppo.mostraPartecipanti();
-            else if(text.equals("@rimuovi"))
-                menuRimozione(gruppo);
         }
     }catch(IOException | ClassNotFoundException e){
           System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
@@ -300,7 +323,7 @@ public class Main {
             Scanner tastiera= new Scanner(System.in);
             switch (tastiera.nextInt()) {
                 case 1:
-                        menuChat();
+                        menuChats();
                         break;
                 case 2:
                         menuCreaChat();

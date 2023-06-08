@@ -55,16 +55,31 @@ public class Gruppo extends Chat{
                 throw new NotAdministratorException();
             else{
                 if(!(getPartecipanti().contains(nickname))){
-                output.writeObject("L'utente inserito non esiste oppure non fa parte del gruppo");
+                    System.out.println("\033[1;31m" + "L'utente inserito non esiste oppure non fa parte del gruppo" + "\033[0m");
                 }
                 else{
                     //Indica l'operazione di manage e poi la rimozione nello specifico
-                    output.writeObject("m/r/"+getID()+"/"+nickname);
-                }
-                super.eliminaPartecipante(nickname);
+                    output.writeObject("m/r/" + getID() + "/" + nickname);
+                    super.eliminaPartecipante(nickname);
+                }                
             }
-}
+    }
     
+    public void aggiungiPartecipante(String utente, String nickname) throws NotAdministratorException, IOException{
+        if(!(utente.equals(amministratore))){
+            throw new NotAdministratorException();
+        }else{
+            if(getPartecipanti().contains(nickname)){
+                System.out.println("\033[1;31m" + "L'utente e' gia' presente nel gruppo" + "\033[0m");                
+            }
+            else{
+                //Indica l'operazione di merge e poi l'aggiunta nello specifico
+                output.writeObject("m/a/" + getID() + "/" + nickname);
+                super.aggiungiUtente(nickname);
+            }
+            
+        }
+    }
     
     public void InviaMessaggio(Messaggio msg){
         
