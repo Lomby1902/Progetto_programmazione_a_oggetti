@@ -29,8 +29,19 @@ public abstract class Chat {
         messaggi.add(nuovoMessaggio);
     }
     
+    public ArrayList<String> getPartecipanti(){
+        return partecipanti;
+    }
     
-  
+    public void eliminaPartecipante(String nickname){
+        for(int i=0;i<partecipanti.size();i++){
+            if(partecipanti.get(i).equals(nickname)){
+                partecipanti.remove(i);
+                break;
+            }
+        }
+    }
+    
     
     public int getNumeroPartecipanti(){
         return partecipanti.size();
@@ -40,6 +51,9 @@ public abstract class Chat {
         return messaggi.size();
     }
     
+    public String getID(){
+        return ID;
+    }
     public String getNicknameMittente(int indice){
         return messaggi.get(indice).getMittente();
     }

@@ -126,6 +126,29 @@ public class Database {
     
     
     
+    
+    
+    
+    
+    //Rimuove un utente dal gruppo
+    public void rimuoviUtente(String idGruppo, String nickname) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        String sqlString = "DELETE FROM Gruppo"+idGruppo+"Utenti WHERE Nickname='"+ nickname+"'";
+        System.out.println(sqlString);
+        statement.executeUpdate(sqlString);
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Inserisce la chat privata nel database e ne restituisce l'id
      * @param Utente1

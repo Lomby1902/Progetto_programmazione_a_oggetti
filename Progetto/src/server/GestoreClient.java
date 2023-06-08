@@ -88,7 +88,7 @@ public class GestoreClient implements Runnable {
                 //Operazione di creazione gruppo
                 if(comando[0].equals("g")){
                      String nome = comando[1];
-                     String idAmministratore = comando[2];
+                     String Amministratore = comando[2];
                      ArrayList<String> nicknamePartecipanti = (ArrayList < String >)inputStream.readObject();
                      boolean nicknamevalidi = true;
                      for(int i = 0; i < nicknamePartecipanti.size(); i++){
@@ -100,7 +100,7 @@ public class GestoreClient implements Runnable {
                          }
                      }
                      if(nicknamevalidi){
-                        int id = db.inserisciGruppo(nome, idAmministratore, nicknamePartecipanti);
+                        int id = db.inserisciGruppo(nome, Amministratore, nicknamePartecipanti);
                         if(id != 0){
                             outputStream.writeObject("OK/" + id); 
                         }
@@ -128,8 +128,8 @@ public class GestoreClient implements Runnable {
                     
                  }
                 
-                //Operazione di gestione di una chat o gruppo 
-                if(comando[0].equals("m")){
+                //Operazione di prelievo informazioni su una chat o gruppo
+                if(comando[0].equals("i")){
                      String tabella = comando[1];
                      String id = comando[2];
                      //Verifica se le informazioni richieste sono sul gruppo
@@ -137,15 +137,22 @@ public class GestoreClient implements Runnable {
                          ArrayList<String> informazioniGruppo= db.getInfoGruppo(id);
                          outputStream.writeObject(informazioniGruppo);
                      }
-                    
+                     //Operazioni per la chat
                  }
                 
-                
-                
-                
-                
-                
-                
+
+                //Operazioni di manage gruppo
+                if(comando[0].equals("m")){
+                    //Estrae l'operazione
+                     String operazione = comando[1];
+                     if(operazione.equals("r")){
+                        String idGruppo = comando[2];
+                        String nickname= comando[3];
+                        db.rimuoviUtente(idGruppo, nickname);           
+                    }
+                  
+                 }
+                          
                   
             }
         }

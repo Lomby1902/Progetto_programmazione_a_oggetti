@@ -129,27 +129,61 @@ public class Main {
         }
     }
     
+    
+    
+    public static void menuRimozione(Gruppo g){
+        System.out.println("");
+        System.out.println("Inserisci il nickname dell'utente da eliminare(0 per tornare indietro): ");
+        Scanner tastiera= new Scanner(System.in);
+        String nickname= tastiera.nextLine();
+        if (nickname.equals("0"))
+            return;
+        try {
+            g.eliminaPartecipante(nuovoUtente.getNickname(),nickname);
+             System.out.println("\033[1;32m" + "Utente rimosso correttamente" + "\033[0m");
+        
+        } catch (NotAdministratorException n) {
+            System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+        } catch (IOException ex) {
+           System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+        }
+    }
+    
+    
     public static void menuGruppo(String ID){
+        //Crea un gruppo a partire dal suo ID, andando a scaricare le informazioni dal server
+        try {
         Gruppo gruppo = new Gruppo(ID);
-        ChatListener listener = new ChatListener(gruppo);
-        Thread T = new Thread(listener);
         String nomeGruppo = gruppo.getNome();
+         //Thread per scaricare i messaggi
+        ChatListener listener = new ChatListener(gruppo);       
+        Thread T = new Thread(listener);  
+        T.start();
+        while(true){
         System.out.println("Menu del gruppo " + nomeGruppo + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
         System.out.println("@partecipanti - Stampa partecipanti");
         System.out.println("@nome - Modifica il nome del gruppo (AMMINISTRATORE)");
         System.out.println("@aggiungi - Aggiungi un utente al gruppo (AMMINISTRATORE)");
         System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
         System.out.println("@exit - Torna al menu delle chat");
-        T.start();
+       
         Scanner tastiera = new Scanner(System.in);
-        while(true){
+       
             String text = tastiera.nextLine();
             Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
             if (text.equals("@exit")){
                 return;
             }
-            gruppo.InviaMessaggio(msg);
+            else if(text.equals("@partecipanti"))
+                gruppo.mostraPartecipanti();
+            else if(text.equals("@rimuovi"))
+                menuRimozione(gruppo);
         }
+    }catch(IOException | ClassNotFoundException e){
+          System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+          return;
+    }
+        
     }
     
     public static void menuChatPrivata(String ID){
@@ -175,7 +209,7 @@ public class Main {
         nicknamePartecipanti.add(0,nuovoUtente.getNickname()); 
         try {
             //Indica al server l'operazione di creazione gruppo con amministratore l'utente attuale
-            outputStream.writeObject("g/"+nome +"/"+nuovoUtente.getID());
+            outputStream.writeObject("g/"+nome +"/"+nuovoUtente.getNickname());
             //Invia la lista dei partecipanti
             outputStream.writeObject(nicknamePartecipanti);
             
@@ -404,9 +438,7 @@ public class Main {
 
     
 
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String[] args) {
         
         String serverAddress = "localhost";
