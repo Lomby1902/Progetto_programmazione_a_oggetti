@@ -146,6 +146,13 @@ public class Database {
         statement.executeUpdate(sqlString);
     }
     
+    //Modifica nome del gruppo
+    public void modificaNome(String idGruppo, String nuovoNome) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        String sqlString = "UPDATE gruppi SET Nome = '" + nuovoNome + "' WHERE ID = '" + idGruppo + "'";
+        statement.executeUpdate(sqlString);
+        
+    }
     
     
     
