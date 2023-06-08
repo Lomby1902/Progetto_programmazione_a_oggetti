@@ -112,9 +112,11 @@ public class Main {
                     if(type.equals("g")){
                         System.out.println("Accedo al gruppo");
                         menuGruppo(ID);
+                        break;
                     }else{
                         System.out.println("Accedo alla chat privata");
                         menuChatPrivata(ID);
+                        break;
                     }                    
                 }
                 
@@ -198,12 +200,13 @@ public class Main {
         System.out.println("@aggiungi - Aggiungi un utente al gruppo (AMMINISTRATORE)");
         System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
         System.out.println("@elimina - Elimina il gruppo (AMMINISTRATORE)");
-        System.out.println("@exit - Torna al menu del gruppo");
+        System.out.println("@esci - Torna al menu del gruppo");
         Scanner tastiera = new Scanner(System.in);
         while(true){
             String text = tastiera.nextLine();           
             switch (text) {
-                case "@exit":
+                case "@esci":
+                    menuChats();
                     return;
                 case "@partecipanti":
                     gruppo.mostraPartecipanti();
@@ -218,7 +221,8 @@ public class Main {
                     gruppo.elimina();
                     //Distrugge l'oggetto gruppo
                     gruppo=null;
-                    break;
+                    menuChats();
+                    return;
                 case "@nome":
                     menuNome(gruppo);
                     break;
@@ -255,15 +259,16 @@ public class Main {
             while(true){
                 System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
                 System.out.println("@partecipanti - Stampa partecipanti");
-                System.out.println("@cancella - Cancella chat");
-                System.out.println("@exit - Torna al menu della chat");
+                System.out.println("@elimina - Elimina la chat");
+                System.out.println("@esci - Torna al menu della chat");
 
                 Scanner tastiera = new Scanner(System.in);
 
                 String text = tastiera.nextLine();
                 Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                 switch (text) {
-                    case "@exit":
+                    case "@esci":
+                        menuChats();
                         return;
                     case "@partecipanti":
                         cp.mostraPartecipanti();
@@ -272,7 +277,8 @@ public class Main {
                         cp.elimina();
                         //Distrugge l'oggetto chat Privata
                         cp=null;
-                        break;
+                        menuChats();
+                        return;
                     default:
                         break;
                     }

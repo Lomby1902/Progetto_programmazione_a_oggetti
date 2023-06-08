@@ -282,6 +282,7 @@ public class Database {
         statement.executeUpdate(sqlString3);
        }
        
+       statement.close();
     }
     
     
