@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package server;
+import main.Messaggio;
 import java.io.*;
 import java.net.*;
 import java.sql.SQLException;
@@ -125,18 +126,23 @@ public class GestoreClient implements Runnable {
                             outputStream.writeObject("OK/" + id); 
                         }
                      }
-                    
                  }
                 
                 //Operazione di prelievo informazioni su una chat o gruppo
                 if(comando[0].equals("i")){
-                     String tabella = comando[1];
-                     String id = comando[2];  
-                     ArrayList<String> informazioni= db.getInfo(id,tabella);
-                     outputStream.writeObject(informazioni);
-
-                 }
+                    String tabella = comando[1];
+                    String id = comando[2];  
+                    ArrayList<String> informazioni= db.getInfo(id,tabella);
+                    outputStream.writeObject(informazioni);
+                }
                 
+                //Aggiornamento dei messaggi
+                if(comando[0].equals("a")){
+                    String id = comando[1];
+                    String type = comando[2];
+                    ArrayList<Messaggio> nuoviMessaggi = db.aggiornaMessaggi(id, type);
+                    outputStream.writeObject(nuoviMessaggi);
+                }
 
                 //Operazioni di manage gruppo
                 if(comando[0].equals("m")){

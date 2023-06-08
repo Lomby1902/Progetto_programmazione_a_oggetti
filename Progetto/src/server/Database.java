@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import main.Chat;
 import main.ChatPrivata;
+import main.Messaggio;
+import java.time.Instant;
 
 
 /**
@@ -285,6 +287,21 @@ public class Database {
        statement.close();
     }
     
-    
+    public ArrayList<Messaggio> aggiornaMessaggi(String ID, String type) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        ArrayList<Messaggio> ritorno = new ArrayList<>();
+        if(type.equals("g")){
+            String sqlString = "SELECT * FROM Gruppo" + ID + "messaggi";
+            ResultSet result = statement.executeQuery(sqlString);
+            while(result.next()){
+                Instant tempo = result.getTimestamp("time").toInstant();
+                String mittente = result.getString("Mittente");
+                String testo = result.getString("Testo");
+                Messaggio msg = new Messaggio(tempo, mittente, testo);
+                ritorno.add(msg);
+            }
+        }
+        return ritorno;
+    }
     
 }

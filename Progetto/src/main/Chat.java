@@ -4,6 +4,9 @@
  */
 package main;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -14,8 +17,12 @@ public abstract class Chat {
     private ArrayList<String> partecipanti;
     private ArrayList<Messaggio> messaggi;
     private String ID;
+    protected ObjectOutputStream output;
+    protected ObjectInputStream input;
     
     public Chat(String ID){
+        output= Main.getOutputStream();
+        input = Main.getInputStream();
         partecipanti = new ArrayList<String>(2);
         messaggi = new ArrayList<Messaggio> (10);
         this.ID = ID;
@@ -42,6 +49,33 @@ public abstract class Chat {
         }
     }
     
+    public boolean aggiornaMessaggi(String type) throws IOException, ClassNotFoundException{
+        //Serve per comunicare se sono arrivati nuovi messaggi
+        boolean temp = false;
+        //serve per controllare se un messaggio è già presente nei messaggi salvati in locale in modo che non venga salvato lo stesso messaggio due volte
+        boolean control = false;
+        output.writeObject("a/" + ID + "/" + type);
+        ArrayList<Messaggio> nuoviMessaggi = (ArrayList<Messaggio>) input.readObject();
+        for(int i = 0; i < nuoviMessaggi.size(); i++){
+            if (messaggi.isEmpty()){
+                aggiungiMessaggio(nuoviMessaggi.get(i));
+                temp = true;
+            }else{
+                for(int j = 0; j < messaggi.size(); j++){
+                    if (nuoviMessaggi.get(i).getTime().equals(messaggi.get(j).getTime())){
+                        control = true;
+                    }
+                }
+                if(control == false){
+                    aggiungiMessaggio(nuoviMessaggi.get(i));
+                    temp = true;
+                }
+            }
+            
+            
+        }
+        return temp;
+    }
     
     public int getNumeroPartecipanti(){
         return partecipanti.size();

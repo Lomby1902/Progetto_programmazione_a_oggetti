@@ -3,18 +3,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package main;
+import java.io.Serializable;
 import java.time.Instant;
 /**
  *
  * @author matxd
  */
-public class Messaggio {
+public class Messaggio implements Serializable{
     private Instant time;
     private String mittente;
     private String testo;
     
     public Messaggio(String nickname, String testo) {
         this.time = Instant.now();
+        this.mittente = nickname;
+        this.testo = testo;
+    }
+    
+    public Messaggio(Instant time, String nickname, String testo) {
+        this.time = time;
         this.mittente = nickname;
         this.testo = testo;
     }

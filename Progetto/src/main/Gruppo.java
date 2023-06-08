@@ -19,13 +19,10 @@ import java.util.logging.Logger;
 public class Gruppo extends Chat{
     private String amministratore;
     private String nome;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
     
     public Gruppo(Utente nuovoAmministratore, String nuovoNome, String ID){
         super(ID);
-        output= Main.getOutputStream();
-        input = Main.getInputStream();
+        
         amministratore = nuovoAmministratore.getNickname();
         nome = nuovoNome;
     }
@@ -34,8 +31,7 @@ public class Gruppo extends Chat{
     public Gruppo(String ID) throws IOException, ClassNotFoundException{
         super(ID);
         
-            output= Main.getOutputStream();
-            input = Main.getInputStream();
+          
             //Indica al server di voler ottenere informazioni sul gruppo
             output.writeObject("i/Gruppo/"+ID);
             ArrayList<String> informazioni= (ArrayList<String>) input.readObject();
@@ -106,6 +102,7 @@ public class Gruppo extends Chat{
     }
     
     
+    @Override
     public void mostraPartecipanti(){
         System.out.println("");
         System.out.println("Membri del gruppo: ");
@@ -124,20 +121,35 @@ public class Gruppo extends Chat{
     }
     
     
-     public void elimina() throws IOException{
+    public void elimina(String utente) throws NotAdministratorException, IOException{
+        if(!(utente.equals(amministratore))){
+            throw new NotAdministratorException();
+        }else{
             output.writeObject("d/Gruppo/"+getID());
             System.out.println("\033[1;32m" +"Gruppo eliminato correttamente" +"\033[0m");
             System.out.println("");
-        }
+        }               
+    }
     
     @Override
     public void MostraMessaggi(){
-        for (int i=0;i<getNumeroMessaggi();i++){
-                System.out.println(getNicknameMittente(i) + " : ");
-                System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");
-                System.out.println(" ");
-                System.out.println(" ");
+        try {
+            boolean temp = aggiornaMessaggi("g");
+            if (temp == true){
+                for (int i=0;i<getNumeroMessaggi();i++){
+                    System.out.println(getNicknameMittente(i) + " : ");
+                    System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");
+                    System.out.println(" ");
+                    System.out.println(" ");
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Gruppo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Gruppo.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        
     }
     
     
