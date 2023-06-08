@@ -192,7 +192,7 @@ public class Main {
             //Thread per scaricare i messaggi
             ChatListener listener = new ChatListener(gruppo);       
             Thread T = new Thread(listener);  
-            T.start();
+            //T.start();
             String nomeGruppo = gruppo.getNome();
             System.out.println("Menu del gruppo " + nomeGruppo + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
             System.out.println("@partecipanti - Stampa partecipanti");
@@ -256,7 +256,7 @@ public class Main {
              //Thread per scaricare i messaggi
             ChatListener listener = new ChatListener(cp);       
             Thread T = new Thread(listener);  
-            T.start();
+            //T.start();
             while(true){
                 System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
                 System.out.println("@partecipanti - Stampa partecipanti");
@@ -307,39 +307,8 @@ public class Main {
         ArrayList<String> nicknamePartecipanti = new ArrayList<>(Arrays.asList( partecipanti.split(",")));
         //Aggiunge l'utente corrente
         nicknamePartecipanti.add(0,nuovoUtente.getNickname()); 
-        try {
-            //Indica al server l'operazione di creazione gruppo con amministratore l'utente attuale
-            outputStream.writeObject("g/"+nome +"/"+nuovoUtente.getNickname());
-            //Invia la lista dei partecipanti
-            outputStream.writeObject(nicknamePartecipanti);
-            
-            //Risposta del server
-            String risposta= (String) inputStream.readObject();
-            //Preleva i pezzi della risposta
-            String [] comando=risposta.split("/");
-            //Se il gruppo è stato inserito
-            if(comando[0].equals("OK")){
-                //Prende l'id del gruppo creato
-                String id= comando[1];
-                Gruppo nuovoGruppo= new Gruppo(nuovoUtente, nome, id);
-                System.out.println("\033[1;32m" + "Gruppo creato correttamente" + "\033[0m");  
-                return;
-             }
-                //Messaggio di errore (Errore connessione o utente non esiste)
-            else{
-                System.out.println("\033[1;31m" + risposta + "\033[0m");
-                System.out.println("");
-                return;
-            }
-            
-            
-        } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
-            return;
-        } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
-            return;
-        }
+        nuovoUtente.creaGruppo(nome, nicknamePartecipanti);
+        
     }
     
     
@@ -350,37 +319,7 @@ public class Main {
         Scanner tastiera= new Scanner(System.in);
         System.out.println("Inserire il nickname dell'altro partecipante");    
         String partecipante= tastiera.nextLine();
-        try {
-            //Indica al server l'operazione di creazione chat con l'altro utente e l'utente attuale come membri
-            outputStream.writeObject("c/"+nuovoUtente.getNickname() +"/"+partecipante);
-            
-            //Risposta del server
-            String risposta= (String) inputStream.readObject();
-            //Preleva i pezzi della risposta
-            String [] comando=risposta.split("/");
-            //Se il gruppo è stato inserito
-            if(comando[0].equals("OK")){
-                //Prende l'id del gruppo creato
-                String id= comando[1];
-                ChatPrivata Cp= new ChatPrivata(id);
-                System.out.println("\033[1;32m" + "Chat creata correttamente" + "\033[0m");  
-                return;
-             }
-                //Messaggio di errore (Errore connessione o utente non esiste)
-            else{
-                System.out.println("\033[1;31m" + risposta + "\033[0m");
-                System.out.println("");
-                return;
-            }
-            
-            
-        } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
-            return;
-        } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
-            return;
-        }
+        nuovoUtente.creaChat(partecipante);
     }
     
     

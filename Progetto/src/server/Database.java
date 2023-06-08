@@ -291,7 +291,7 @@ public class Database {
         Statement statement = databaseConnection.createStatement();
         ArrayList<Messaggio> ritorno = new ArrayList<>();
         if(type.equals("g")){
-            String sqlString = "SELECT * FROM Gruppo" + ID + "messaggi";
+            String sqlString = "SELECT * FROM Gruppo" + ID + "Messaggi";
             ResultSet result = statement.executeQuery(sqlString);
             while(result.next()){
                 Instant tempo = result.getTimestamp("time").toInstant();
