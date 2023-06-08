@@ -181,7 +181,8 @@ public class Main {
         System.out.println("@nome - Modifica il nome del gruppo (AMMINISTRATORE)");
         System.out.println("@aggiungi - Aggiungi un utente al gruppo (AMMINISTRATORE)");
         System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
-        System.out.println("@exit - Torna al menu delle chat");
+        System.out.println("@elimina - Elimina il gruppo (AMMINISTRATORE)");
+        System.out.println("@exit - Torna al menu del gruppo");
        
         Scanner tastiera = new Scanner(System.in);
        
@@ -198,6 +199,11 @@ public class Main {
                     break;
                 case "@aggiungi":
                     menuAggiunta(gruppo);
+                case "@elimina":
+                    gruppo.elimina();
+                    //Distrugge l'oggetto gruppo
+                    gruppo=null;
+                    break;
                 default:
                     break;
             }
@@ -210,7 +216,42 @@ public class Main {
     }
     
     public static void menuChatPrivata(String ID){
-        
+            //Crea una chat a partire dal suo ID, andando a scaricare le informazioni dal server
+        try {
+            ChatPrivata cp = new ChatPrivata(ID);
+             //Thread per scaricare i messaggi
+            ChatListener listener = new ChatListener(cp);       
+            Thread T = new Thread(listener);  
+            T.start();
+            while(true){
+                System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
+                System.out.println("@partecipanti - Stampa partecipanti");
+                System.out.println("@cancella - Cancella chat");
+                System.out.println("@exit - Torna al menu della chat");
+
+                Scanner tastiera = new Scanner(System.in);
+
+                String text = tastiera.nextLine();
+                Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
+                switch (text) {
+                    case "@exit":
+                        return;
+                    case "@partecipanti":
+                        cp.mostraPartecipanti();
+                        break;
+                    case "@elimina":
+                        cp.elimina();
+                        //Distrugge l'oggetto chat Privata
+                        cp=null;
+                        break;
+                    default:
+                        break;
+                    }
+            }
+    }catch(IOException | ClassNotFoundException e){
+          System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+          return;
+    }
     }
      
     

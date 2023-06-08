@@ -116,6 +116,12 @@ public class Gruppo extends Chat{
     }
     
     
+     public void elimina() throws IOException{
+            output.writeObject("d/Gruppo/"+getID());
+            System.out.println("\033[1;32m" +"Gruppo eliminato correttamente" +"\033[0m");
+            System.out.println("");
+        }
+    
     @Override
     public void MostraMessaggi(){
         for (int i=0;i<getNumeroMessaggi();i++){

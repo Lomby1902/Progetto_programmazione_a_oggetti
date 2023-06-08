@@ -62,5 +62,7 @@ public abstract class Chat {
         return messaggi.get(indice).getTesto();
     }
     
+    public abstract void mostraPartecipanti();
+    
     public abstract void MostraMessaggi();
 }

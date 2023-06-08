@@ -132,8 +132,8 @@ public class GestoreClient implements Runnable {
                 if(comando[0].equals("i")){
                      String tabella = comando[1];
                      String id = comando[2];  
-                     ArrayList<String> informazioniGruppo= db.getInfo(id,tabella);
-                     outputStream.writeObject(informazioniGruppo);
+                     ArrayList<String> informazioni= db.getInfo(id,tabella);
+                     outputStream.writeObject(informazioni);
 
                  }
                 
@@ -142,6 +142,7 @@ public class GestoreClient implements Runnable {
                 if(comando[0].equals("m")){
                     //Estrae l'operazione
                     String operazione = comando[1];
+                    
                     //Rimuove un utente
                     if(operazione.equals("r")){
                         String idGruppo = comando[2];
@@ -156,6 +157,15 @@ public class GestoreClient implements Runnable {
                     }
                   
                  }
+                
+                //Operazioni di cancellazione
+                if(comando[0].equals("d")){
+                    //Estrae la tabella (o gruppo o chat privata)
+                    String tabella = comando[1];
+                    String id= comando[2];
+                    db.elimina(tabella, id);        
+                 }
+                
                           
                   
             }

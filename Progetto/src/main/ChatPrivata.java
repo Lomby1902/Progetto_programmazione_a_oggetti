@@ -31,7 +31,26 @@ public class ChatPrivata extends Chat{
     }
     
     
-    
+        @Override
+        public void mostraPartecipanti(){
+            System.out.println("");
+            System.out.println("Membri della chat: ");
+            System.out.println("");
+            ArrayList<String> Partecipanti = getPartecipanti();
+            for(int i=0;i<Partecipanti.size();i++){
+                System.out.println("\033[1;32m" + Partecipanti.get(i) + "\033[0m");
+                System.out.println("");
+            }
+        }
+        
+        public void elimina() throws IOException{
+            output.writeObject("d/ChatPrivata/"+getID());
+            System.out.println("\033[1;32m" +"Chat eliminata correttamente" +"\033[0m");
+            System.out.println("");
+        }
+        
+         
+        
     @Override
     public void MostraMessaggi(){
         for (int i=0;i<getNumeroMessaggi();i++){

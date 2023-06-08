@@ -103,9 +103,10 @@ public class Database {
     public ArrayList<String> getInfo(String id, String tabella) throws SQLException{
         Statement statement = databaseConnection.createStatement();
         ArrayList<String> informazioni= new ArrayList<>();
-        
+       
             //Se sta richiedendo informazioni su un gruppo
             if(tabella.equals("Gruppo")){
+            Statement statement2 = databaseConnection.createStatement();
             String sqlString = "SELECT * FROM Gruppi WHERE ID = '" + id + "'";
             ResultSet result = statement.executeQuery(sqlString);
             while(result.next()) {
@@ -113,8 +114,7 @@ public class Database {
                informazioni.add(result.getString("Nome"));
                //La seconda informazione è l'id dell'amministratore
                informazioni.add(result.getString("Amministratore"));
-               //Le altre informazioni sono i nickaname dei partecipanti
-               Statement statement2 = databaseConnection.createStatement();
+               //Le altre informazioni sono i nickaname dei partecipanti   
                String sqlString2 = "SELECT * FROM Gruppo"+id+"Utenti";
                ResultSet result2 = statement2.executeQuery(sqlString2);
                while(result2.next()){
@@ -122,9 +122,20 @@ public class Database {
                }
 
             }
+            statement2.close();
+            
         }
+            else if(tabella.equals("ChatPrivata")){
+                String sqlString = "SELECT * FROM ChatPrivate WHERE ID = '" + id + "'";
+                ResultSet result = statement.executeQuery(sqlString);
+                while(result.next()) {
+                    informazioni.add(result.getString("Utente1"));
+                    informazioni.add(result.getString("Utente2"));
+                    
+                }
+            }
         
-        
+        statement.close();
         return informazioni;
     }
     
@@ -176,7 +187,7 @@ public class Database {
         while(result.next()){
                   id = result.getInt(1);
                }
-        String sqlString3 = "CREATE TABLE Privata" + id + "messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
+        String sqlString3 = "CREATE TABLE Privata" + id + "Messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255)) "; 
         statement.executeUpdate(sqlString3);
         statement.close();
         return id;
@@ -242,6 +253,30 @@ public class Database {
         
         return ritorno;
     } 
+    
+    
+    public void elimina(String tabella, String ID) throws SQLException{
+       Statement statement = databaseConnection.createStatement();
+       //Se deve eliminare una chat Privata
+       if(tabella.equals("ChatPrivata")){
+        String sqlString="DELETE FROM ChatPrivate WHERE ID="+ ID;
+        statement.executeUpdate(sqlString);
+        String sqlString2= "DROP TABLE Privata"+ID+"Messaggi";
+        statement.executeUpdate(sqlString2);
+       }
+       
+       //Se deve eliminare un gruppo
+       else if(tabella.equals("Gruppo")){
+        String sqlString="DELETE FROM Gruppi WHERE ID="+ ID;
+        statement.executeUpdate(sqlString);
+        String sqlString2= "DROP TABLE Gruppo"+ID+"Utenti";
+        statement.executeUpdate(sqlString2);
+        String sqlString3= "DROP TABLE Gruppo"+ID+"Messaggi";
+        statement.executeUpdate(sqlString3);
+       }
+       
+    }
+    
     
     
 }
