@@ -91,10 +91,18 @@ public class Gruppo extends Chat{
         return nome;
     }
     
-   
     
-    public void setNome(String nuovoNome){
-        nome = nuovoNome;
+    public void setNome(String utente, String nuovoNome) throws NotAdministratorException, IOException{
+        if(!(utente.equals(amministratore))){
+            throw new NotAdministratorException();
+        }else{
+            if(this.nome.equals(nuovoNome)){
+                System.out.println("\033[1;31m" + "Nome uguale all'attuale" + "\033[0m");
+            } else{
+                this.nome = nuovoNome;
+                output.writeObject("m/n/" + getID() + "/" + nuovoNome);
+            }
+        }     
     }
     
     

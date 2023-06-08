@@ -155,6 +155,12 @@ public class GestoreClient implements Runnable {
                         String nickname = comando[3];
                         db.aggiungiUtente(idGruppo, nickname);
                     }
+                    //Modifica nome gruppo
+                    if(operazione.equals("n")){
+                        String idGruppo = comando[2];
+                        String nuovoNome = comando[3];
+                        db.modificaNome(idGruppo, nuovoNome);
+                    }
                   
                  }
                 
