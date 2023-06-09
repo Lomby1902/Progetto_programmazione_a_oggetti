@@ -166,7 +166,7 @@ public class Database {
     //Modifica nome del gruppo
     public void modificaNome(String idGruppo, String nuovoNome) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        String sqlString = "UPDATE gruppi SET Nome = '" + nuovoNome + "' WHERE ID = '" + idGruppo + "'";
+        String sqlString = "UPDATE Gruppi SET Nome = '" + nuovoNome + "' WHERE ID = '" + idGruppo + "'";
         statement.executeUpdate(sqlString);
         
     }

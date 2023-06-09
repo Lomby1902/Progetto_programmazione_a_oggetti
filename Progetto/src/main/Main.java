@@ -200,6 +200,7 @@ public class Main {
             System.out.println("@aggiungi - Aggiungi un utente al gruppo (AMMINISTRATORE)");
             System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
             System.out.println("@elimina - Elimina il gruppo (AMMINISTRATORE)");
+            System.out.println("@comandi - Mostra i comandi");
             System.out.println("@esci - Torna al menu del gruppo");
             Scanner tastiera = new Scanner(System.in);
             while(true){
@@ -233,8 +234,9 @@ public class Main {
                         System.out.println("@nome - Modifica il nome del gruppo (AMMINISTRATORE)");
                         System.out.println("@aggiungi - Aggiungi un utente al gruppo (AMMINISTRATORE)");
                         System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
-                        System.out.println("@exit - Torna al menu delle chat");
-                        System.out.println("@comandi - Stampa la lista dei comandi");
+                        System.out.println("@elimina - Elimina il gruppo (AMMINISTRATORE)");
+                        System.out.println("@comandi - Mostra i comandi");
+                        System.out.println("@esci - Torna al menu del gruppo");
                         break;
                     default:
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
@@ -261,6 +263,7 @@ public class Main {
                 System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
                 System.out.println("@partecipanti - Stampa partecipanti");
                 System.out.println("@elimina - Elimina la chat");
+                System.out.println("@comandi - Mostra i comandi");
                 System.out.println("@esci - Torna al menu della chat");
 
                 Scanner tastiera = new Scanner(System.in);
@@ -280,6 +283,13 @@ public class Main {
                         cp=null;
                         menuChats();
                         return;
+                    case "@comandi":
+                        System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
+                        System.out.println("@partecipanti - Stampa partecipanti");
+                        System.out.println("@elimina - Elimina la chat");
+                        System.out.println("@comandi - Mostra i comandi");
+                        System.out.println("@esci - Torna al menu della chat");
+                        
                     default:
                         break;
                     }
