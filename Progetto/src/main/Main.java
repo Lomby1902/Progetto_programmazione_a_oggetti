@@ -31,6 +31,8 @@ public class Main {
     private static Utente nuovoUtente;
     private static ObjectOutputStream outputStream;
     private static ObjectInputStream inputStream;
+    private static ArrayList<String> gruppi = new ArrayList<>();
+    private static ArrayList<String> chats=new ArrayList<>();
     
      
     
@@ -55,9 +57,9 @@ public class Main {
                         for(int i = 0; i < risposta.size(); i++){
                                 System.out.print("\033[1;32m" + "ID Chat: " + risposta.get(i)[0]);
                                 System.out.print("   Utenti: " + risposta.get(i)[1] + ", " + risposta.get(i)[2] + "\033[0m");
-
                                 System.out.println("");
                                 System.out.println("");
+                                chats.add(risposta.get(i)[0]);
                         }  
                 }
                 //Messaggio di errore
@@ -79,13 +81,15 @@ public class Main {
 
                     ArrayList<String[]> risposta = (ArrayList <String[]>) oggettoRisposta;
                     
-                    //Se esiste almeno una chat in cui si trova l'utente
+                    
+                    //Se esiste almeno un gruppo in cui si trova l'utente
                     if(risposta.size()>0){
                         for(int i=0;i<risposta.size();i++){
                                 System.out.print("\033[1;32m"+"ID Gruppo: "+ risposta.get(i)[0]);
                                 System.out.print("   Nome Gruppo: "+ risposta.get(i)[1]+  "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
+                                gruppi.add(risposta.get(i)[0]);
                         }  
                     }
                 }
@@ -110,10 +114,16 @@ public class Main {
                     System.out.println("Inserisci l'ID corrispondente:");
                     String ID = tastiera.nextLine();
                     if(type.equals("g")){
+                        if(!gruppi.contains(ID)){
+                            throw new InvalidIdExcpetion();
+                        }
                         System.out.println("Accedo al gruppo");
                         menuGruppo(ID);
                         break;
                     }else{
+                        if(!chats.contains(ID)){
+                            throw new InvalidIdExcpetion();
+                        }
                         System.out.println("Accedo alla chat privata");
                         menuChatPrivata(ID);
                         break;
@@ -128,6 +138,9 @@ public class Main {
         } catch (ClassNotFoundException ex) {
              System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
             return;
+        } catch (InvalidIdExcpetion ex) {
+            System.out.println("\033[1;31m"+ "Id non valido" + "\033[0m");
+            System.out.println("");
         }
     }
     
