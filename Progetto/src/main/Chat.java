@@ -99,7 +99,7 @@ public abstract class Chat {
     }
     
     public String getTimeMessaggio(int indice){
-        return messaggi.get(indice).getTime();
+        return messaggi.get(indice).getTime().substring(0,5);
     }
     
     public abstract void mostraPartecipanti();

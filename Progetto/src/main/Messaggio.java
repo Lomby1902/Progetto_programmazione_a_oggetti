@@ -29,7 +29,7 @@ public class Messaggio implements Serializable{
     }
 
     public String getTime() {
-         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault());
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault());
         return formatter.format(time);
     }
 
