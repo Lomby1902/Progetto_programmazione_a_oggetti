@@ -134,14 +134,12 @@ public class Gruppo extends Chat{
     @Override
     public void MostraMessaggi(){
         try {
-            boolean temp = aggiornaMessaggi("g");
-            if (temp == true){
-                for (int i=0;i<getNumeroMessaggi();i++){
-                    System.out.println(getNicknameMittente(i) + " : ");
-                    System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");
-                    System.out.println(" ");
-                    System.out.println(" ");
-                }
+            int temp = aggiornaMessaggi("g");
+            for (int i = getNumeroMessaggi() - temp; i < getNumeroMessaggi(); i++){
+                System.out.println(getNicknameMittente(i) + " : ");
+                System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");
+                System.out.println(" ");
+                System.out.println(" ");
             }
         } catch (IOException ex) {
             Logger.getLogger(Gruppo.class.getName()).log(Level.SEVERE, null, ex);

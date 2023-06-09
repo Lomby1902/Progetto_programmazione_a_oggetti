@@ -192,7 +192,7 @@ public class Main {
             //Thread per scaricare i messaggi
             ChatListener listener = new ChatListener(gruppo);       
             Thread T = new Thread(listener);  
-            //T.start();
+            T.start();
             String nomeGruppo = gruppo.getNome();
             System.out.println("Menu del gruppo " + nomeGruppo + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
             System.out.println("@partecipanti - Stampa partecipanti");
@@ -201,6 +201,7 @@ public class Main {
             System.out.println("@rimuovi - Rimuovi un utente dal gruppo (AMMINISTRATORE)");
             System.out.println("@elimina - Elimina il gruppo (AMMINISTRATORE)");
             System.out.println("@esci - Torna al menu del gruppo");
+            System.out.println("@comandi - Stampa la lista dei comandi");
             Scanner tastiera = new Scanner(System.in);
             while(true){
                 String text = tastiera.nextLine();           
@@ -253,10 +254,10 @@ public class Main {
             //Crea una chat a partire dal suo ID, andando a scaricare le informazioni dal server
         try {
             ChatPrivata cp = new ChatPrivata(ID);
-             //Thread per scaricare i messaggi
+            //Thread per scaricare i messaggi
             ChatListener listener = new ChatListener(cp);       
             Thread T = new Thread(listener);  
-            //T.start();
+            T.start();
             while(true){
                 System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
                 System.out.println("@partecipanti - Stampa partecipanti");

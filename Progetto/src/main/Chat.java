@@ -49,9 +49,9 @@ public abstract class Chat {
         }
     }
     
-    public boolean aggiornaMessaggi(String type) throws IOException, ClassNotFoundException{
+    public int aggiornaMessaggi(String type) throws IOException, ClassNotFoundException{
         //Serve per comunicare se sono arrivati nuovi messaggi
-        boolean temp = false;
+        int temp = 0;
         //serve per controllare se un messaggio è già presente nei messaggi salvati in locale in modo che non venga salvato lo stesso messaggio due volte
         boolean control = false;
         output.writeObject("a/" + ID + "/" + type);
@@ -59,7 +59,7 @@ public abstract class Chat {
         for(int i = 0; i < nuoviMessaggi.size(); i++){
             if (messaggi.isEmpty()){
                 aggiungiMessaggio(nuoviMessaggi.get(i));
-                temp = true;
+                temp++;
             }else{
                 for(int j = 0; j < messaggi.size(); j++){
                     if (nuoviMessaggi.get(i).getTime().equals(messaggi.get(j).getTime())){
@@ -68,8 +68,9 @@ public abstract class Chat {
                 }
                 if(control == false){
                     aggiungiMessaggio(nuoviMessaggi.get(i));
-                    temp = true;
+                    temp++;
                 }
+                control = false;
             }
             
             
