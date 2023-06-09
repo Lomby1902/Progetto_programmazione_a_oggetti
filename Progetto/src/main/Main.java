@@ -269,14 +269,17 @@ public class Main {
             ChatListener listener = new ChatListener(cp, nuovoUtente.getNickname());       
             Thread T = new Thread(listener);  
             T.start();
-            System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
-            System.out.println("@partecipanti - Stampa partecipanti");
-            System.out.println("@elimina - Elimina la chat");
-            System.out.println("@comandi - Mostra i comandi");
-            System.out.println("@esci - Torna al menu della chat");
             while(true){
+                System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
+                System.out.println("@partecipanti - Stampa partecipanti");
+                System.out.println("@elimina - Elimina la chat");
+                System.out.println("@comandi - Mostra i comandi");
+                System.out.println("@esci - Torna al menu della chat");
+
                 Scanner tastiera = new Scanner(System.in);
+
                 String text = tastiera.nextLine();
+                Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                 switch (text) {
                     case "@esci":
                         listener.stop();
@@ -302,9 +305,8 @@ public class Main {
                         System.out.println("@elimina - Elimina la chat");
                         System.out.println("@comandi - Mostra i comandi");
                         System.out.println("@esci - Torna al menu della chat");
-                        break;          
+                        
                     default:
-                        Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                         break;
                     }
             }

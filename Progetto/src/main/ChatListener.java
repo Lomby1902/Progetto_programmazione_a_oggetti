@@ -19,9 +19,7 @@ public class ChatListener implements Runnable{
         if((temp instanceof Gruppo)){
             gruppo = (Gruppo) temp;
             Utente=utente;
-            chatPrivata=null;
         }else{
-            gruppo=null;
             chatPrivata = (ChatPrivata) temp;
             Utente=utente;
         }
@@ -40,7 +38,7 @@ public class ChatListener implements Runnable{
                     gruppo.MostraMessaggi(Utente);
                 
             }else{        
-                    chatPrivata.MostraMessaggi(Utente);
+                    chatPrivata.MostraMessaggi();
             }
       }
     }
