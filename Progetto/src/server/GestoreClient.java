@@ -136,7 +136,7 @@ public class GestoreClient implements Runnable {
                     outputStream.writeObject(informazioni);
                 }
                 
-                //Aggiornamento dei messaggi
+                 //Aggiornamento dei messaggi
                 if(comando[0].equals("a")){
                     String id = comando[1];
                     String type = comando[2];
@@ -176,6 +176,19 @@ public class GestoreClient implements Runnable {
                     String tabella = comando[1];
                     String id= comando[2];
                     db.elimina(tabella, id);        
+                 }
+                
+                
+                //Operazioni di inserimento messaggio
+                if(comando[0].equals("w")){
+                    System.out.println(richiesta);
+                    //Estrae la tabella (o gruppo o chat privata)
+                    String tabella = comando[1];
+                    String id = comando[2];    
+                    Object risposta=inputStream.readObject();
+                    System.out.println(risposta);
+                    Messaggio mess= (Messaggio) risposta ;
+                    db.inserisciMessaggio(mess, tabella, id);        
                  }
                 
                           

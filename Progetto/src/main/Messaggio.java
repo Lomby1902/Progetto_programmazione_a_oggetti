@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 /**
  *
  * @author matxd
@@ -17,7 +18,6 @@ public class Messaggio implements Serializable{
     private String testo;
     
     public Messaggio(String nickname, String testo) {
-        this.time = Instant.now();
         this.mittente = nickname;
         this.testo = testo;
     }
@@ -33,6 +33,9 @@ public class Messaggio implements Serializable{
         return formatter.format(time);
     }
 
+     public Instant getInstant(){
+        return time;
+    }
     public void setTime(Instant time) {
         this.time = time;
     }

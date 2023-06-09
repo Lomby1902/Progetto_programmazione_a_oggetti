@@ -77,9 +77,7 @@ public class Gruppo extends Chat{
         }
     }
     
-    public void InviaMessaggio(Messaggio msg){
-        
-    }
+   
     
     
     
@@ -173,6 +171,15 @@ public class Gruppo extends Chat{
         }
 
         
+    }
+    
+
+   
+    public void inviaMessaggio(Messaggio nuovoMessaggio) throws IOException {
+        
+        output.writeObject("w/Gruppo/"+getID());
+        output.writeObject(nuovoMessaggio);
+        return;
     }
     
     

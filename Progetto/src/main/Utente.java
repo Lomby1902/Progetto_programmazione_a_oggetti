@@ -55,10 +55,7 @@ public class Utente {
      * @param m
      * @param cp 
      */
-    public void scriviMessaggioChat(Messaggio m, ChatPrivata cp){
-        cp.aggiungiMessaggio(m);
-         //Inserisci il messaggio sul database
-    }
+
     
    public void creaGruppo(String nome,ArrayList<String> nicknamePartecipanti){
        try {

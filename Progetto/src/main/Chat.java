@@ -24,8 +24,8 @@ public abstract class Chat {
     public Chat(String ID){
         output= Main.getOutputStream();
         input = Main.getInputStream();
-        partecipanti = new ArrayList<String>(2);
-        messaggi = new ArrayList<Messaggio> (10);
+        partecipanti = new ArrayList<String>(0);
+        messaggi = new ArrayList<Messaggio> (0);
         this.ID = ID;
     }
     
@@ -33,7 +33,7 @@ public abstract class Chat {
         partecipanti.add(nuovoUtente);
     }
     
-    public void aggiungiMessaggio(Messaggio nuovoMessaggio){
+    public void aggiungiMessaggio(Messaggio nuovoMessaggio) {
         messaggi.add(nuovoMessaggio);
     }
     

@@ -13,7 +13,7 @@ public class ChatListener implements Runnable{
     private Gruppo gruppo;
     private ChatPrivata chatPrivata;
     private String Utente;
-    private volatile boolean exit = false;
+    private  boolean exit = false;
     
     public ChatListener(Object temp, String utente){
         if((temp instanceof Gruppo)){
@@ -31,18 +31,23 @@ public class ChatListener implements Runnable{
          exit = true;
     }
     
-    
+    public void riparti(){
+        exit=false;
+    }
     @Override
     public void run() {
         while(!exit){
           
             if (gruppo != null){     
                     gruppo.MostraMessaggi(Utente);
+                    System.out.println("Thread");
                 
             }else{        
                     chatPrivata.MostraMessaggi(Utente);
             }
       }
+        
+        
     }
     
     

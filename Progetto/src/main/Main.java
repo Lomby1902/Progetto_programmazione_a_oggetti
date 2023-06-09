@@ -13,6 +13,8 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -221,14 +223,8 @@ public class Main {
                 String text = tastiera.nextLine();           
                 switch (text) {
                     case "@esci":
-                        listener.stop();
-                    
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                           System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
-                        }
-                    
+                        listener.stop();     
+                        Thread.sleep(100);
                         menuChats();
                         return;
 
@@ -262,8 +258,13 @@ public class Main {
                         System.out.println("@esci - Torna al menu del gruppo");
                         break;
                     default:
+                        listener.stop();
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
-                        break;
+                        gruppo.inviaMessaggio(msg);
+                        listener.riparti();
+                        
+                        
+                        
                 }
             }
         }catch(IOException | ClassNotFoundException e){
@@ -271,6 +272,8 @@ public class Main {
             return;
         }catch(NotAdministratorException n){
             System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+        } catch (InterruptedException ex) {
+             System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
         }
     }
     
@@ -317,8 +320,11 @@ public class Main {
                         System.out.println("@esci - Torna al menu della chat");
                         break;          
                     default:
+                        listener.stop();
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
-                        break;
+                        cp.inviaMessaggio(msg);
+                        listener.riparti();
+                        
                     }
             }
     }catch(IOException | ClassNotFoundException e){

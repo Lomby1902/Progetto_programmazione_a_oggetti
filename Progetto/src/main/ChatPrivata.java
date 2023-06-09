@@ -93,5 +93,12 @@ public class ChatPrivata extends Chat{
 
         
     }
+   
+ 
+    public void inviaMessaggio(Messaggio nuovoMessaggio) throws IOException {
+        output.writeObject("w/ChatPrivata/"+getID());
+        output.writeObject(nuovoMessaggio);
+    }
+    
   
 }

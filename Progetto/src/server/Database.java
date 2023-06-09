@@ -10,6 +10,8 @@ import main.Chat;
 import main.ChatPrivata;
 import main.Messaggio;
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 
 /**
@@ -289,7 +291,7 @@ public class Database {
     
     public ArrayList<Messaggio> aggiornaMessaggi(String ID, String type) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        ArrayList<Messaggio> ritorno = new ArrayList<>();
+        ArrayList<Messaggio> ritorno = new ArrayList<>(0);
         if(type.equals("g")){
             String sqlString = "SELECT * FROM Gruppo" + ID + "Messaggi";
             ResultSet result = statement.executeQuery(sqlString);
@@ -314,6 +316,22 @@ public class Database {
             }
         }
         return ritorno;
+    }
+    
+    public void inserisciMessaggio(Messaggio mes, String tabella, String id) throws SQLException{
+        Statement statement = databaseConnection.createStatement();
+        String timestamp = Instant.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ").replace("Z", "");
+        if(tabella.equals("ChatPrivata")){  
+            String sqlString = "INSERT INTO Privata"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ timestamp+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
+            statement.executeUpdate(sqlString);
+         
+        }
+        else if(tabella.equals("Gruppo")){  
+            String sqlString = "INSERT INTO Gruppo"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ timestamp+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
+            statement.executeUpdate(sqlString);
+           
+        }
+        
     }
     
 }
