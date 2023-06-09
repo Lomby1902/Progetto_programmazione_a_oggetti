@@ -167,9 +167,9 @@ public class Gruppo extends Chat{
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Gruppo.class.getName()).log(Level.SEVERE, null, ex);
+             System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Gruppo.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
         }
 
         

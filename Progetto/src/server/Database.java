@@ -301,6 +301,18 @@ public class Database {
                 ritorno.add(msg);
             }
         }
+        
+        else if(type.equals("c")){
+            String sqlString = "SELECT * FROM Privata" + ID + "Messaggi";
+            ResultSet result = statement.executeQuery(sqlString);
+            while(result.next()){
+                Instant tempo = result.getTimestamp("time").toInstant();
+                String mittente = result.getString("Mittente");
+                String testo = result.getString("Testo");
+                Messaggio msg = new Messaggio(tempo, mittente, testo);
+                ritorno.add(msg);
+            }
+        }
         return ritorno;
     }
     
