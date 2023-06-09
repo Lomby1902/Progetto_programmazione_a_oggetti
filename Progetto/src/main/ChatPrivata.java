@@ -14,13 +14,10 @@ import java.util.ArrayList;
  * @author giovanni
  */
 public class ChatPrivata extends Chat{
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
+   
     
     public ChatPrivata(String ID) throws IOException, ClassNotFoundException{
         super(ID);
-        output= Main.getOutputStream();
-        input = Main.getInputStream();
         //Indica al server di voler ottenere informazioni sulla chat
         output.writeObject("i/ChatPrivata/"+ID);
             ArrayList<String> informazioni= (ArrayList<String>) input.readObject();
@@ -51,7 +48,7 @@ public class ChatPrivata extends Chat{
         
          
         
-    @Override
+    
     public void MostraMessaggi(){
         for (int i=0;i<getNumeroMessaggi();i++){
                 System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");

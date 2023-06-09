@@ -7,6 +7,7 @@ package main;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
@@ -97,7 +98,10 @@ public abstract class Chat {
         return messaggi.get(indice).getTesto();
     }
     
-    public abstract void mostraPartecipanti();
+    public String getTimeMessaggio(int indice){
+        return messaggi.get(indice).getTime();
+    }
     
-    public abstract void MostraMessaggi();
+    public abstract void mostraPartecipanti();
+   
 }

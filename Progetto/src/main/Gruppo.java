@@ -131,15 +131,40 @@ public class Gruppo extends Chat{
         }               
     }
     
-    @Override
-    public void MostraMessaggi(){
+    public void MostraMessaggi(String Utente){
         try {
             int temp = aggiornaMessaggi("g");
             for (int i = getNumeroMessaggi() - temp; i < getNumeroMessaggi(); i++){
-                System.out.println(getNicknameMittente(i) + " : ");
-                System.out.println("\u001B[1m" + getTestoMessaggio(i) + "\u001B[0m");
-                System.out.println(" ");
-                System.out.println(" ");
+                  int lunghezzaMessaggio=getTestoMessaggio(i).length();
+                if(getNicknameMittente(i).equals(Utente)){
+                  
+                    System.out.println("");
+                    System.out.print("                      ");
+                    for(int k=0;k<lunghezzaMessaggio+4;k++)
+                        System.out.print("*");
+                    System.out.println("");
+                    System.out.print("                      ");
+                    System.out.println(getTestoMessaggio(i));
+                    System.out.print("                      ");
+                    System.out.println("\u001B[1m" + getTimeMessaggio(i) + "\u001B[0m");
+                    System.out.print("                      ");
+                    for(int k=0;k<lunghezzaMessaggio+4;k++)
+                        System.out.print("*");
+                    System.out.println("");
+                    System.out.println("");
+                }else{
+                    System.out.println("");
+                    for(int k=0;k<lunghezzaMessaggio+4;k++)
+                        System.out.print("*");
+                    System.out.println("");
+                    System.out.println("\u001B[1m" + getNicknameMittente(i) +"\u001B[0m");
+                    System.out.println(getTestoMessaggio(i));
+                    System.out.println("\u001B[1m" + getTimeMessaggio(i) + "\u001B[0m");
+                    for(int k=0;k<lunghezzaMessaggio+4;k++)
+                        System.out.print("*");
+                    System.out.println("");
+                    System.out.println("");
+                }
             }
         } catch (IOException ex) {
             Logger.getLogger(Gruppo.class.getName()).log(Level.SEVERE, null, ex);

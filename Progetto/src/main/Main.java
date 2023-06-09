@@ -190,7 +190,7 @@ public class Main {
         try {
             Gruppo gruppo = new Gruppo(ID);
             //Thread per scaricare i messaggi
-            ChatListener listener = new ChatListener(gruppo);       
+            ChatListener listener = new ChatListener(gruppo, nuovoUtente.getNickname());       
             Thread T = new Thread(listener);  
             T.start();
             String nomeGruppo = gruppo.getNome();
@@ -208,8 +208,17 @@ public class Main {
                 String text = tastiera.nextLine();           
                 switch (text) {
                     case "@esci":
+                        listener.stop();
+                    
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ex) {
+                           System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
+                        }
+                    
                         menuChats();
                         return;
+
                     case "@partecipanti":
                         gruppo.mostraPartecipanti();
                         break;
@@ -257,7 +266,7 @@ public class Main {
         try {
             ChatPrivata cp = new ChatPrivata(ID);
             //Thread per scaricare i messaggi
-            ChatListener listener = new ChatListener(cp);       
+            ChatListener listener = new ChatListener(cp, nuovoUtente.getNickname());       
             Thread T = new Thread(listener);  
             T.start();
             while(true){
@@ -273,6 +282,12 @@ public class Main {
                 Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                 switch (text) {
                     case "@esci":
+                        listener.stop();
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ex) {
+                           System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
+                        }
                         menuChats();
                         return;
                     case "@partecipanti":

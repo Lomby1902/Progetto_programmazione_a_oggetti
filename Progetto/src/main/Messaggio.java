@@ -5,6 +5,8 @@
 package main;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 /**
  *
  * @author matxd
@@ -26,8 +28,9 @@ public class Messaggio implements Serializable{
         this.testo = testo;
     }
 
-    public Instant getTime() {
-        return time;
+    public String getTime() {
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault());
+        return formatter.format(time);
     }
 
     public void setTime(Instant time) {

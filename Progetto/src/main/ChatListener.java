@@ -10,28 +10,37 @@ package main;
  */
 public class ChatListener implements Runnable{
     
-    Gruppo gruppo;
-    ChatPrivata chatPrivata;
+    private Gruppo gruppo;
+    private ChatPrivata chatPrivata;
+    private String Utente;
+    private volatile boolean exit = false;
     
-    public ChatListener(Object temp){
+    public ChatListener(Object temp, String utente){
         if((temp instanceof Gruppo)){
             gruppo = (Gruppo) temp;
+            Utente=utente;
         }else{
             chatPrivata = (ChatPrivata) temp;
+            Utente=utente;
         }
     } 
 
+     public void stop() {
+         exit = true;
+    }
+    
+    
     @Override
     public void run() {
-        if (gruppo != null){
-            while(true){
-                gruppo.MostraMessaggi();
+        while(!exit){
+          
+            if (gruppo != null){     
+                    gruppo.MostraMessaggi(Utente);
+                
+            }else{        
+                    chatPrivata.MostraMessaggi();
             }
-        }else{
-            while(true){
-                chatPrivata.MostraMessaggi();
-            }
-        }
+      }
     }
     
     
