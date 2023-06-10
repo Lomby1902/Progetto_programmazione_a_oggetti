@@ -5,6 +5,7 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -20,6 +21,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 
@@ -35,10 +43,14 @@ public class Main {
     private static ObjectInputStream inputStream;
     private static ArrayList<String> gruppi = new ArrayList<>();
     private static ArrayList<String> chats=new ArrayList<>();
-    
+    private static String indirizzo;
+    private static int porta;
      
+   
+    
     
     public static void menuChats(){
+        System.out.print("\033\143");
         System.out.println("");
         System.out.println("\u001B[1m" + "Le tue chat");
         System.out.println("");
@@ -184,6 +196,7 @@ public class Main {
     }
     
     public static void menuNome(Gruppo g){
+        
         System.out.println("");
         System.out.println("Inserire il nuovo nome del gruppo (0 per tornare indietro)");
         Scanner tastiera= new Scanner(System.in);
@@ -200,7 +213,12 @@ public class Main {
         }
     }
     
+    
+    
+    
+    
     public static void menuGruppo(String ID){
+         System.out.print("\033\143");
         //Crea un gruppo a partire dal suo ID, andando a scaricare le informazioni dal server
         try {
             Gruppo gruppo = new Gruppo(ID);
@@ -260,7 +278,7 @@ public class Main {
                     default:
                         listener.stop();
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
-                        gruppo.inviaMessaggio(msg);
+                        gruppo.inviaMessaggio(msg); 
                         listener = new ChatListener(gruppo, nuovoUtente.getNickname());       
                         T = new Thread(listener);  
                         T.start();
@@ -281,6 +299,7 @@ public class Main {
     }
     
     public static void menuChatPrivata(String ID){
+         System.out.print("\033\143");
             //Crea una chat a partire dal suo ID, andando a scaricare le informazioni dal server
         try {
             ChatPrivata cp = new ChatPrivata(ID);
@@ -338,6 +357,7 @@ public class Main {
      
     
     public static void menuCreaGruppo(){
+        System.out.print("\033\143"); 
         System.out.println("");
         System.out.println("Menu Creazione Gruppo");
         System.out.println("");
@@ -359,6 +379,7 @@ public class Main {
     
     
      public static void menuCreaChat(){
+        System.out.print("\033\143");  
         System.out.println("");
         System.out.println("Menu Creazione Chat");
         System.out.println("");
@@ -374,7 +395,7 @@ public class Main {
         System.out.println("ID Utente: " + nuovoUtente.getID());
         System.out.println("");
          while (true) {            
-
+            System.out.print("\033\143"); 
             System.out.println("Che operazione vuoi eseguire?");
             System.out.println("");
             System.out.println("1) Gestisci le tue chat");
@@ -383,17 +404,17 @@ public class Main {
             System.out.println("4) Indietro");
             System.out.println("");
             Scanner tastiera= new Scanner(System.in);
-            switch (tastiera.nextInt()) {
-                case 1:
+            switch (tastiera.nextLine()) {
+                case "1":
                         menuChats();
                         break;
-                case 2:
+                case "2":
                         menuCreaChat();
                         break;
-                case 3: 
+                case "3": 
                         menuCreaGruppo();
                         break;
-                case 4:
+                case "4":
                         return;
                  default:
                         System.out.println("Comando non riconosciuto");
@@ -406,7 +427,8 @@ public class Main {
     
  
         //Menu di login
-    public static void menuLogin(){    
+    public static void menuLogin(){   
+        System.out.print("\033\143");
         Scanner tastiera= new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
         String nickname = tastiera.next();
@@ -453,6 +475,7 @@ public class Main {
     
    //Menu per registrazione utente
     public static void menuRegistrazione() {
+        System.out.print("\033\143");
         Scanner tastiera= new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
         String nickname = tastiera.next();
@@ -498,8 +521,8 @@ public class Main {
     
     //Menu principale
     public static void menuprincipale(){
-        while (true) {            
-
+        while (true) {         
+            System.out.print("\033\143"); 
             System.out.println("Benvenuto su JavaChat");
             System.out.println("Che operazione vuoi eseguire?");
             System.out.println("");
@@ -508,14 +531,15 @@ public class Main {
             System.out.println("3) Uscire");
             System.out.println("");
             Scanner tastiera= new Scanner(System.in);
-            switch (tastiera.nextInt()) {
-                case 1:
+            switch (tastiera.nextLine()) {
+                case "1":
                         menuLogin();
                         break;
-                case 2:
+                case "2":
                         menuRegistrazione();
                         break;
-                case 3: 
+                case "3":
+                        System.out.print("\033\143"); 
                         System.exit(0);
                 default:
                         System.out.println("Comando non riconosciuto");
@@ -527,13 +551,46 @@ public class Main {
 
     
 
+    
+       public static void leggiConfigurazione(){
+        try {
+            DocumentBuilderFactory dbf=  DocumentBuilderFactory.newInstance();
+            DocumentBuilder dB = dbf.newDocumentBuilder();
+            Document doc= dB.parse(new File("configurazione.xml"));
+            
+            Element root= doc.getDocumentElement();
+            root.normalize();
+            NodeList children= root.getChildNodes();
+            for(int i=0;i<children.getLength();i++){
+                if(children.item(i).getNodeType()== Element.ELEMENT_NODE){
+                    if(children.item(i).getNodeName().equals("indirizzo")){
+                        indirizzo=children.item(i).getTextContent();
+                    }
+                    if(children.item(i).getNodeName().equals("porta"))
+                        porta=Integer.parseInt(children.item(i).getTextContent());
+                }   
+            }
+        } catch (ParserConfigurationException ex) {
+            System.out.println("Errore");
+        } catch (SAXException ex) {
+             System.out.println("Errore");
+        } catch (IOException ex) {
+            System.out.println("Errore");
+       }
+    }
+    
+    
+    
+    
+    
+    
+    
    
     public static void main(String[] args) {
-        
-        String serverAddress = "localhost";
-        int serverPort = 9091;
+       
+        leggiConfigurazione();
         try {
-            s = new Socket(serverAddress, serverPort);
+            s = new Socket(indirizzo, porta);
             outputStream = new ObjectOutputStream(s.getOutputStream());
             inputStream = new ObjectInputStream(s.getInputStream());
             menuprincipale();
