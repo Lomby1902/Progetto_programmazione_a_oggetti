@@ -179,7 +179,7 @@ public class Gruppo extends Chat{
         
         output.writeObject("w/Gruppo/"+getID());
         output.writeObject(nuovoMessaggio);
-        return;
+        
     }
     
     

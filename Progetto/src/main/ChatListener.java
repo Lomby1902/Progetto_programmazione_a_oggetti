@@ -31,22 +31,17 @@ public class ChatListener implements Runnable{
          exit = true;
     }
     
-    public void riparti(){
-        exit=false;
-    }
     @Override
     public void run() {
-        while(!exit){
-          
-            if (gruppo != null){     
-                    gruppo.MostraMessaggi(Utente);
-                    System.out.println("Thread");
-                
-            }else{        
-                    chatPrivata.MostraMessaggi(Utente);
-            }
-      }
-        
+        while(true){
+            while(!exit){
+                if (gruppo != null){     
+                        gruppo.MostraMessaggi(Utente);                
+                }else{        
+                        chatPrivata.MostraMessaggi(Utente);
+                }
+          }
+        }
         
     }
     

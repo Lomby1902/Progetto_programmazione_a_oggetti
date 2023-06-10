@@ -5,6 +5,7 @@
 package server;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import main.Chat;
 import main.ChatPrivata;
@@ -319,15 +320,16 @@ public class Database {
     }
     
     public void inserisciMessaggio(Messaggio mes, String tabella, String id) throws SQLException{
+        SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Statement statement = databaseConnection.createStatement();
-        String timestamp = Instant.now().truncatedTo(ChronoUnit.SECONDS).toString().replace("T", " ").replace("Z", "");
         if(tabella.equals("ChatPrivata")){  
-            String sqlString = "INSERT INTO Privata"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ timestamp+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
+            String sqlString = "INSERT INTO Privata"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ sdf3.format(timestamp)+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
             statement.executeUpdate(sqlString);
          
         }
         else if(tabella.equals("Gruppo")){  
-            String sqlString = "INSERT INTO Gruppo"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ timestamp+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
+            String sqlString = "INSERT INTO Gruppo"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ sdf3.format(timestamp)+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
             statement.executeUpdate(sqlString);
            
         }

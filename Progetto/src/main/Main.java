@@ -261,7 +261,10 @@ public class Main {
                         listener.stop();
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                         gruppo.inviaMessaggio(msg);
-                        listener.riparti();
+                        listener = new ChatListener(gruppo, nuovoUtente.getNickname());       
+                        T = new Thread(listener);  
+                        T.start();
+                        
                         
                         
                         
@@ -296,11 +299,7 @@ public class Main {
                 switch (text) {
                     case "@esci":
                         listener.stop();
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                           System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
-                        }
+                        Thread.sleep(100);
                         menuChats();
                         return;
                     case "@partecipanti":
@@ -323,14 +322,18 @@ public class Main {
                         listener.stop();
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                         cp.inviaMessaggio(msg);
-                        listener.riparti();
+                        listener = new ChatListener(cp, nuovoUtente.getNickname());       
+                        T = new Thread(listener);  
+                        T.start();
                         
                     }
             }
     }catch(IOException | ClassNotFoundException e){
           System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
           return;
-    }
+    }   catch (InterruptedException ex) {
+               System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
+        }
     }
      
     
@@ -392,6 +395,8 @@ public class Main {
                         break;
                 case 4:
                         return;
+                 default:
+                        System.out.println("Comando non riconosciuto");
               
             }
         
@@ -512,6 +517,8 @@ public class Main {
                         break;
                 case 3: 
                         System.exit(0);
+                default:
+                        System.out.println("Comando non riconosciuto");
               
             }
         
