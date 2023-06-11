@@ -256,6 +256,7 @@ public class Main {
                         menuAggiunta(gruppo);
                         break;
                     case "@elimina":
+                        listener.stop();
                         gruppo.elimina(nuovoUtente.getNickname());
                         //Distrugge l'oggetto gruppo
                         gruppo=null;
@@ -325,6 +326,7 @@ public class Main {
                         cp.mostraPartecipanti();
                         break;
                     case "@elimina":
+                        listener.stop();
                         cp.elimina();
                         //Distrugge l'oggetto chat Privata
                         cp=null;
@@ -395,7 +397,6 @@ public class Main {
         System.out.println("ID Utente: " + nuovoUtente.getID());
         System.out.println("");
          while (true) {            
-            System.out.print("\033\143"); 
             System.out.println("Che operazione vuoi eseguire?");
             System.out.println("");
             System.out.println("1) Gestisci le tue chat");
