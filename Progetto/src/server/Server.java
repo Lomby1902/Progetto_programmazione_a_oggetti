@@ -30,20 +30,20 @@ public class Server {
     
     public static void leggiConfigurazione(){
         try {
-            DocumentBuilderFactory dbf=  DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory dbf =  DocumentBuilderFactory.newInstance();
             DocumentBuilder dB = dbf.newDocumentBuilder();
-            Document doc= dB.parse(new File("configurazione.xml"));
+            Document doc = dB.parse(new File("configurazione.xml"));
             
-            Element root= doc.getDocumentElement();
+            Element root = doc.getDocumentElement();
             root.normalize();
-            NodeList children= root.getChildNodes();
-            for(int i=0;i<children.getLength();i++){
-                if(children.item(i).getNodeType()== Element.ELEMENT_NODE){
+            NodeList children = root.getChildNodes();
+            for(int i = 0; i < children.getLength(); i++){
+                if(children.item(i).getNodeType() == Element.ELEMENT_NODE){
                     if(children.item(i).getNodeName().equals("indirizzo")){
-                        indirizzo=children.item(i).getTextContent();
+                        indirizzo = children.item(i).getTextContent();
                     }
                     if(children.item(i).getNodeName().equals("porta"))
-                        porta=Integer.parseInt(children.item(i).getTextContent());
+                        porta = Integer.parseInt(children.item(i).getTextContent());
                 }   
             }
         } catch (ParserConfigurationException ex) {
@@ -62,8 +62,7 @@ public class Server {
         leggiConfigurazione();
         Database db = new Database();
         ServerSocket listener = new ServerSocket(porta);
-        System.out.println("Server Partito alla porta "+ porta);
-        
+        System.out.println("Server Partito alla porta " + porta);
         try {
             while (true) {                
                 Socket socket = listener.accept();
@@ -75,6 +74,5 @@ public class Server {
         }finally{
             listener.close();
         }
-        
     }
 }

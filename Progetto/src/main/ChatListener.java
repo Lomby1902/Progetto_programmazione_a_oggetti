@@ -18,17 +18,17 @@ public class ChatListener implements Runnable{
     public ChatListener(Object temp, String utente){
         if((temp instanceof Gruppo)){
             gruppo = (Gruppo) temp;
-            Utente=utente;
-            chatPrivata=null;
+            Utente = utente;
+            chatPrivata = null;
         }else{
-            gruppo=null;
+            gruppo = null;
             chatPrivata = (ChatPrivata) temp;
-            Utente=utente;
+            Utente = utente;
         }
     } 
 
-     public void stop() {
-         exit = true;
+    public void stop() {
+        exit = true;
     }
     
     @Override
@@ -40,10 +40,7 @@ public class ChatListener implements Runnable{
                 }else{        
                         chatPrivata.MostraMessaggi(Utente);
                 }
-          }
-        }
-        
+            }
+        }      
     }
-    
-    
 }

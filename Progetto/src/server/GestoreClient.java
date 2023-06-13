@@ -41,14 +41,14 @@ public class GestoreClient implements Runnable {
             String richiesta;
             while ((richiesta = (String)inputStream.readObject()) != null) {
                 //Preleva i pezzi della richiesta
-                String [] comando = richiesta.split("/");
+                String[] comando = richiesta.split("/");
                
                 //Operazione di verifica esistenza utente
                 if(comando[0].equals("e")){
                     String nickname = comando[1];
                     String password = comando[2];
                     int id = 0;
-                    if((id = db.login(nickname,password))!= 0)
+                    if((id = db.login(nickname,password)) != 0)
                         outputStream.writeObject("OK/" + id);   
                     else
                        outputStream.writeObject("Username e/o password errati");
@@ -74,59 +74,55 @@ public class GestoreClient implements Runnable {
                     String tabella = comando[1];
                     String nickname = comando[2];
                     //Verifica se il numero di chat o gruppi è maggiore di 0
-                    ArrayList<String []> arr = db.mostra(tabella, nickname);
+                    ArrayList<String[]> arr = db.mostra(tabella, nickname);
                     
                     if(arr.size() != 0){ 
                        outputStream.writeObject(arr);
-                         
                     }
                    //Nessun risultato
                     else
                         outputStream.writeObject("Nessun Risultato");
                 }
                 
-                
                 //Operazione di creazione gruppo
                 if(comando[0].equals("g")){
-                     String nome = comando[1];
-                     String Amministratore = comando[2];
-                     ArrayList<String> nicknamePartecipanti = (ArrayList < String >)inputStream.readObject();
-                     boolean nicknamevalidi = true;
-                     for(int i = 0; i < nicknamePartecipanti.size(); i++){
-                         if(db.getIdUtente(nicknamePartecipanti.get(i)) == 0){
+                    String nome = comando[1];
+                    String Amministratore = comando[2];
+                    ArrayList<String> nicknamePartecipanti = (ArrayList < String >)inputStream.readObject();
+                    boolean nicknamevalidi = true;
+                    for(int i = 0; i < nicknamePartecipanti.size(); i++){
+                        if(db.getIdUtente(nicknamePartecipanti.get(i)) == 0){
                             outputStream.writeObject("Uno o più nickname inseriti non sono validi");
                             nicknamevalidi = false;
-                            break;
-                           
-                         }
-                     }
-                     if(nicknamevalidi){
+                            break;       
+                        }
+                    }
+                    if(nicknamevalidi){
                         int id = db.inserisciGruppo(nome, Amministratore, nicknamePartecipanti);
                         if(id != 0){
                             outputStream.writeObject("OK/" + id); 
                         }
-                     }
-                    
-                 }
+                    }    
+                }
                 
                 //Operazione di creazione chat
                 if(comando[0].equals("c")){
-                     String Utente1 = comando[1];
-                     String Utente2 = comando[2];
-                     //Verifica se il nickname dell'altro utente esiste
-                     boolean nicknameValido = true;
-                     if(db.getIdUtente(Utente2) == 0){
-                         outputStream.writeObject("Nickname dell'altro utente non valido");
-                         nicknameValido = false;      
-                         }
+                    String Utente1 = comando[1];
+                    String Utente2 = comando[2];
+                    //Verifica se il nickname dell'altro utente esiste
+                    boolean nicknameValido = true;
+                    if(db.getIdUtente(Utente2) == 0){
+                        outputStream.writeObject("Nickname dell'altro utente non valido");
+                        nicknameValido = false;      
+                        }
   
-                     if(nicknameValido){
+                    if(nicknameValido){
                         int id = db.inserisciChatPrivata(Utente1,Utente2);
                         if(id != 0){
                             outputStream.writeObject("OK/" + id); 
                         }
-                     }
-                 }
+                    }
+                }
                 
                 //Operazione di prelievo informazioni su una chat o gruppo
                 if(comando[0].equals("i")){
@@ -152,7 +148,7 @@ public class GestoreClient implements Runnable {
                     //Rimuove un utente
                     if(operazione.equals("r")){
                         String idGruppo = comando[2];
-                        String nickname= comando[3];
+                        String nickname = comando[3];
                         db.rimuoviUtente(idGruppo, nickname);           
                     }
                     //Aggiunge un utente
@@ -167,16 +163,15 @@ public class GestoreClient implements Runnable {
                         String nuovoNome = comando[3];
                         db.modificaNome(idGruppo, nuovoNome);
                     }
-                  
-                 }
+                }
                 
                 //Operazioni di cancellazione
                 if(comando[0].equals("d")){
                     //Estrae la tabella (o gruppo o chat privata)
                     String tabella = comando[1];
-                    String id= comando[2];
+                    String id = comando[2];
                     db.elimina(tabella, id);        
-                 }
+                }
                 
                 
                 //Operazioni di inserimento messaggio
@@ -185,14 +180,11 @@ public class GestoreClient implements Runnable {
                     //Estrae la tabella (o gruppo o chat privata)
                     String tabella = comando[1];
                     String id = comando[2];    
-                    Object risposta=inputStream.readObject();
+                    Object risposta = inputStream.readObject();
                     System.out.println(risposta);
-                    Messaggio mess= (Messaggio) risposta ;
+                    Messaggio mess = (Messaggio) risposta ;
                     db.inserisciMessaggio(mess, tabella, id);        
-                 }
-                
-                          
-                  
+                }  
             }
         }
         catch(SQLException | ClassNotFoundException | IOException e){
@@ -201,13 +193,8 @@ public class GestoreClient implements Runnable {
                 System.out.println(e.getMessage());
                
             } catch (IOException ex) {
-             System.err.println("Errore nell'invio al client");
+                System.err.println("Errore nell'invio al client");
             }
         } 
-       
-        
-        
     }
-    
-
 }

@@ -54,19 +54,14 @@ public class Main {
         System.out.println("");
         System.out.println("\u001B[1m" + "Le tue chat");
         System.out.println("");
-        
         Object oggettoRisposta;
         try {
-            
-                
                 //Indica al thread del server che vuole mostrare le chat private dell'utente
-                outputStream.writeObject("s/ChatPrivate"+"/"+ nuovoUtente.getNickname()); 
+                outputStream.writeObject("s/ChatPrivate" + "/" + nuovoUtente.getNickname()); 
                 //Risposta del server
-                oggettoRisposta= inputStream.readObject();
+                oggettoRisposta = inputStream.readObject();
                 if(!(oggettoRisposta instanceof String)){
-                    
-                    ArrayList<String []> risposta= (ArrayList < String[] >)oggettoRisposta;
-                    
+                    ArrayList<String[]> risposta = (ArrayList < String[]>)oggettoRisposta;
                     //Se esiste almeno una chat in cui si trova l'utente
                         for(int i = 0; i < risposta.size(); i++){
                                 System.out.print("\033[1;32m" + "ID Chat: " + risposta.get(i)[0]);
@@ -81,26 +76,20 @@ public class Main {
                     String risposta = (String) (oggettoRisposta);
                     System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
-                   
                 }
-             
                 System.out.println("\u001B[1m"+"I tuoi Gruppi");
                 System.out.println("");
-                
                 //Indica al thread del server che vuole mostrare i gruppi dell'Utente
-                outputStream.writeObject("s/Gruppi"+"/"+ nuovoUtente.getNickname()); 
+                outputStream.writeObject("s/Gruppi" + "/" + nuovoUtente.getNickname()); 
                 //Risposta del server
-                oggettoRisposta= inputStream.readObject();
+                oggettoRisposta = inputStream.readObject();
                 if(!(oggettoRisposta instanceof String)){
-
                     ArrayList<String[]> risposta = (ArrayList <String[]>) oggettoRisposta;
-                    
-                    
                     //Se esiste almeno un gruppo in cui si trova l'utente
-                    if(risposta.size()>0){
-                        for(int i=0;i<risposta.size();i++){
-                                System.out.print("\033[1;32m"+"ID Gruppo: "+ risposta.get(i)[0]);
-                                System.out.print("   Nome Gruppo: "+ risposta.get(i)[1]+  "\033[0m");
+                    if(risposta.size() > 0){
+                        for(int i = 0; i < risposta.size(); i++){
+                                System.out.print("\033[1;32m" + "ID Gruppo: " + risposta.get(i)[0]);
+                                System.out.print("   Nome Gruppo: " + risposta.get(i)[1] +  "\033[0m");
                                 System.out.println("");
                                 System.out.println("");
                                 gruppi.add(risposta.get(i)[0]);
@@ -112,25 +101,27 @@ public class Main {
                     String risposta = (String) (oggettoRisposta);
                     System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
-                    
                 }
-                
                 Scanner tastiera = new Scanner(System.in);
                 while (true){
                     System.out.println("Inserisci");
-                    System.out.println("g) Per accedere ad un gruppo");
-                    System.out.println("c) per accedere ad una chat privata");
-                    System.out.println("0) per tornare indietro");
+                    System.out.println("1) Per accedere ad un gruppo");
+                    System.out.println("2) per accedere ad una chat privata");
+                    System.out.println("3) per tornare indietro");
+                    System.out.println("");
                     String type = tastiera.nextLine();
-                    if (type.equals("0")){
+                    if (type.equals("3")){
                         return;
                     }
+                    System.out.println("");
                     System.out.println("Inserisci l'ID corrispondente:");
+                    System.out.println("");
                     String ID = tastiera.nextLine();
-                    if(type.equals("g")){
+                    if(type.equals("1")){
                         if(!gruppi.contains(ID)){
                             throw new InvalidIdExcpetion();
                         }
+                        System.out.println("");
                         System.out.println("Accedo al gruppo");
                         menuGruppo(ID);
                         break;
@@ -143,17 +134,15 @@ public class Main {
                         break;
                     }                    
                 }
-                
-                
         } 
         catch (IOException e) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-             System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+             System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (InvalidIdExcpetion ex) {
-            System.out.println("\033[1;31m"+ "Id non valido" + "\033[0m");
+            System.out.println("\033[1;31m" + "Id non valido" + "\033[0m");
             System.out.println("");
         }
     }
@@ -163,8 +152,8 @@ public class Main {
     public static void menuRimozione(Gruppo g){
         System.out.println("");
         System.out.println("Inserisci il nickname dell'utente da eliminare(0 per tornare indietro): ");
-        Scanner tastiera= new Scanner(System.in);
-        String nickname= tastiera.nextLine();
+        Scanner tastiera = new Scanner(System.in);
+        String nickname = tastiera.nextLine();
         if (nickname.equals("0"))
             return;
         try {
@@ -172,26 +161,26 @@ public class Main {
              System.out.println("\033[1;32m" + "Utente rimosso correttamente" + "\033[0m");
         
         } catch (NotAdministratorException n) {
-            System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+            System.out.println("\033[1;31m" + n.getMessage() + "\033[0m");
         } catch (IOException ex) {
-           System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+           System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
         }
     }
     
     public static void menuAggiunta(Gruppo g){
         System.out.println("");
         System.out.println("Inserire il nickname dell'utente da aggiungere(0 per tornare indietro)");
-        Scanner tastiera= new Scanner(System.in);
-        String nickname= tastiera.nextLine();
+        Scanner tastiera = new Scanner(System.in);
+        String nickname = tastiera.nextLine();
         if (nickname.equals("0"))
             return;
         try{
             g.aggiungiPartecipante(nuovoUtente.getNickname(), nickname);
             System.out.println("\033[1;32m" + "Utente aggiunto correttamente" + "\033[0m");
         } catch (NotAdministratorException n){
-            System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+            System.out.println("\033[1;31m" + n.getMessage() + "\033[0m");
         } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
         }
     }
     
@@ -199,7 +188,7 @@ public class Main {
         
         System.out.println("");
         System.out.println("Inserire il nuovo nome del gruppo (0 per tornare indietro)");
-        Scanner tastiera= new Scanner(System.in);
+        Scanner tastiera = new Scanner(System.in);
         String nome = tastiera.nextLine();
         if (nome.equals("0"))
             return;
@@ -207,15 +196,11 @@ public class Main {
             g.setNome(nuovoUtente.getNickname(), nome);
             System.out.println("\033[1;32m" + "Nome aggiornato correttamente" + "\033[0m");
         } catch (NotAdministratorException n){
-            System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+            System.out.println("\033[1;31m" + n.getMessage() + "\033[0m");
         } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
         }
     }
-    
-    
-    
-    
     
     public static void menuGruppo(String ID){
          System.out.print("\033\143");
@@ -227,6 +212,7 @@ public class Main {
             Thread T = new Thread(listener);  
             T.start();
             String nomeGruppo = gruppo.getNome();
+            System.out.println("");
             System.out.println("Menu del gruppo " + nomeGruppo + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
             System.out.println("@partecipanti - Stampa partecipanti");
             System.out.println("@nome - Modifica il nome del gruppo (AMMINISTRATORE)");
@@ -236,6 +222,7 @@ public class Main {
             System.out.println("@comandi - Mostra i comandi");
             System.out.println("@esci - Torna al menu del gruppo");
             System.out.println("@comandi - Stampa la lista dei comandi");
+            System.out.println("");
             Scanner tastiera = new Scanner(System.in);
             while(true){
                 String text = tastiera.nextLine();           
@@ -245,7 +232,6 @@ public class Main {
                         Thread.sleep(100);
                         menuChats();
                         return;
-
                     case "@partecipanti":
                         gruppo.mostraPartecipanti();
                         break;
@@ -259,7 +245,7 @@ public class Main {
                         listener.stop();
                         gruppo.elimina(nuovoUtente.getNickname());
                         //Distrugge l'oggetto gruppo
-                        gruppo=null;
+                        gruppo = null;
                         menuChats();
                         return;
                     case "@nome":
@@ -267,6 +253,7 @@ public class Main {
                         break;
                     case "@comandi":
                         nomeGruppo = gruppo.getNome();
+                        System.out.println("");
                         System.out.println("Menu del gruppo " + nomeGruppo + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
                         System.out.println("@partecipanti - Stampa partecipanti");
                         System.out.println("@nome - Modifica il nome del gruppo (AMMINISTRATORE)");
@@ -275,6 +262,7 @@ public class Main {
                         System.out.println("@elimina - Elimina il gruppo (AMMINISTRATORE)");
                         System.out.println("@comandi - Mostra i comandi");
                         System.out.println("@esci - Torna al menu del gruppo");
+                        System.out.println("");
                         break;
                     default:
                         listener.stop();
@@ -283,19 +271,15 @@ public class Main {
                         listener = new ChatListener(gruppo, nuovoUtente.getNickname());       
                         T = new Thread(listener);  
                         T.start();
-                        
-                        
-                        
-                        
                 }
             }
         }catch(IOException | ClassNotFoundException e){
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }catch(NotAdministratorException n){
-            System.out.println("\033[1;31m"+n.getMessage()+ "\033[0m");
+            System.out.println("\033[1;31m" + n.getMessage() + "\033[0m");
         } catch (InterruptedException ex) {
-             System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
+             System.out.println("\033[1;31m" + "Errore" + "\033[0m");
         }
     }
     
@@ -308,11 +292,13 @@ public class Main {
             ChatListener listener = new ChatListener(cp, nuovoUtente.getNickname());       
             Thread T = new Thread(listener);  
             T.start();
+            System.out.println("");
             System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
             System.out.println("@partecipanti - Stampa partecipanti");
             System.out.println("@elimina - Elimina la chat");
             System.out.println("@comandi - Mostra i comandi");
             System.out.println("@esci - Torna al menu della chat");
+            System.out.println("");
             while(true){
                 Scanner tastiera = new Scanner(System.in);
                 String text = tastiera.nextLine();
@@ -329,15 +315,17 @@ public class Main {
                         listener.stop();
                         cp.elimina();
                         //Distrugge l'oggetto chat Privata
-                        cp=null;
+                        cp = null;
                         menuChats();
                         return;
                     case "@comandi":
+                        System.out.println("");
                         System.out.println("Menu della chat " + ID + ", inserisci uno dei seguenti comandi da tastiera o invia dei messaggi");
                         System.out.println("@partecipanti - Stampa partecipanti");
                         System.out.println("@elimina - Elimina la chat");
                         System.out.println("@comandi - Mostra i comandi");
                         System.out.println("@esci - Torna al menu della chat");
+                        System.out.println("");
                         break;          
                     default:
                         listener.stop();
@@ -346,14 +334,13 @@ public class Main {
                         listener = new ChatListener(cp, nuovoUtente.getNickname());       
                         T = new Thread(listener);  
                         T.start();
-                        
                     }
             }
     }catch(IOException | ClassNotFoundException e){
-          System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+          System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
           return;
     }   catch (InterruptedException ex) {
-               System.out.println("\033[1;31m"+ "Errore" + "\033[0m");
+               System.out.println("\033[1;31m" + "Errore" + "\033[0m");
         }
     }
      
@@ -364,19 +351,22 @@ public class Main {
         System.out.println("Menu Creazione Gruppo");
         System.out.println("");
         System.out.println("Inserisci il nome del gruppo: (Inserire 0 per tornare indietro) :");
+        System.out.println("");
         Scanner tastiera = new Scanner(System.in);
         String nome = tastiera.nextLine();
         if (nome.equals("0"))
             return;
+        System.out.println("");
         System.out.println("Inserire i nickname dei partecipanti separati da una virgola");
-        String partecipanti= tastiera.nextLine();
+        System.out.println("");
+        String partecipanti = tastiera.nextLine();
+        System.out.println("");
         //Rimuove eventuali spazi tra i nickname
-        partecipanti=partecipanti.replaceAll("\\s+","");
+        partecipanti = partecipanti.replaceAll("\\s+","");
         ArrayList<String> nicknamePartecipanti = new ArrayList<>(Arrays.asList( partecipanti.split(",")));
         //Aggiunge l'utente corrente
         nicknamePartecipanti.add(0,nuovoUtente.getNickname()); 
         nuovoUtente.creaGruppo(nome, nicknamePartecipanti);
-        
     }
     
     
@@ -385,18 +375,21 @@ public class Main {
         System.out.println("");
         System.out.println("Menu Creazione Chat");
         System.out.println("");
-        Scanner tastiera= new Scanner(System.in);
-        System.out.println("Inserire il nickname dell'altro partecipante");    
-        String partecipante= tastiera.nextLine();
+        Scanner tastiera = new Scanner(System.in);
+        System.out.println("Inserire il nickname dell'altro partecipante");
+        System.out.println("");
+        String partecipante = tastiera.nextLine();
+        System.out.println("");
         nuovoUtente.creaChat(partecipante);
     }
     
     
     public static void menuUtente(){
+        System.out.println("");
         System.out.println("Benvenuto "+ nuovoUtente.getNickname());
         System.out.println("ID Utente: " + nuovoUtente.getID());
-        System.out.println("");
          while (true) {            
+            System.out.println("");
             System.out.println("Che operazione vuoi eseguire?");
             System.out.println("");
             System.out.println("1) Gestisci le tue chat");
@@ -404,7 +397,7 @@ public class Main {
             System.out.println("3) Crea un nuovo gruppo");
             System.out.println("4) Indietro");
             System.out.println("");
-            Scanner tastiera= new Scanner(System.in);
+            Scanner tastiera = new Scanner(System.in);
             switch (tastiera.nextLine()) {
                 case "1":
                         menuChats();
@@ -428,31 +421,33 @@ public class Main {
     
  
         //Menu di login
-    public static void menuLogin(){   
+    public static void menuLogin(){  
+        System.out.println("");
         System.out.print("\033\143");
-        Scanner tastiera= new Scanner(System.in);
+        Scanner tastiera = new Scanner(System.in);
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
+        System.out.println("");
         String nickname = tastiera.next();
         if(nickname.equals("0"))
                return;
-         System.out.println("Inserisci la password (Inserire 0 per tornare indietro):");
-         String password = tastiera.next();
-         if(password.equals("0"))
+        System.out.println("");
+        System.out.println("Inserisci la password (Inserire 0 per tornare indietro):");
+        System.out.println("");
+        String password = tastiera.next();
+        if(password.equals("0"))
                return;
-         try {
-                 
+        try {
                 //Indica al thread del server che vuole verificare l'esistenza di un utente e invia i dati
-                outputStream.writeObject("e/"+nickname+"/"+password); 
+                outputStream.writeObject("e/" + nickname + "/" + password); 
                 //Risposta del server
-                String risposta= (String) inputStream.readObject();
+                String risposta = (String) inputStream.readObject();
                 //Preleva i pezzi della risposta
-                String [] comando=risposta.split("/");
+                String [] comando = risposta.split("/");
                 //Se l'utente esiste
                 if(comando[0].equals("OK")){
-                    int id= Integer.parseInt(comando[1]);
-                    nuovoUtente= new Utente(id,nickname,password);
+                    int id = Integer.parseInt(comando[1]);
+                    nuovoUtente = new Utente(id, nickname, password);
                     menuUtente();
-                    
                 }
                 //Messaggio di errore (Errore connessione o utente non esiste)
                 else{
@@ -463,60 +458,60 @@ public class Main {
              
         } 
         catch (IOException e) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
-        
-         
     }
     
     
    //Menu per registrazione utente
     public static void menuRegistrazione() {
         System.out.print("\033\143");
-        Scanner tastiera= new Scanner(System.in);
+        Scanner tastiera = new Scanner(System.in);
+        System.out.println("");
         System.out.println("Inserisci il tuo nickname (Inserire 0 per tornare indietro):");
+        System.out.println("");
         String nickname = tastiera.next();
+        System.out.println("");
         if(nickname.equals("0"))
                return;
          System.out.println("Inserisci la password (Inserire 0 per tornare indietro):");
+         System.out.println("");
          String password = tastiera.next();
+         System.out.println("");
          if(password.equals("0"))
                return;  
          try {
-           
                 //Indica al thread del server che vuole registrare un utente
-                outputStream.writeObject("u/"+nickname+"/"+password);
+                outputStream.writeObject("u/" + nickname + "/" + password);
                 //Risposta del server
-                String risposta= (String)inputStream.readObject();
+                String risposta = (String)inputStream.readObject();
                  //Preleva i pezzi della risposta
-                String [] comando=risposta.split("/");
+                String [] comando = risposta.split("/");
                 //Se l'utente non esiste
                 if(comando[0].equals("OK")){
-                    int id= Integer.parseInt(comando[1]);
-                    nuovoUtente= new Utente(id,nickname,password);
+                    int id = Integer.parseInt(comando[1]);
+                    nuovoUtente = new Utente(id,nickname,password);
                     System.out.println("Utente Registrato");
                     menuUtente();
-                    
                 }
                 //Messaggio di errore (Errore connessione o nickname già in uso)
                 else{
-                    System.out.println("\033[1;31m"+ risposta + "\033[0m");
+                    System.out.println("\033[1;31m" + risposta + "\033[0m");
                     System.out.println("");
                     return;
                 }
          }
          catch (IOException e) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         } catch (ClassNotFoundException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
             return;
         }
-         
     }
     
     
@@ -531,7 +526,7 @@ public class Main {
             System.out.println("2) Registrazione");
             System.out.println("3) Uscire");
             System.out.println("");
-            Scanner tastiera= new Scanner(System.in);
+            Scanner tastiera = new Scanner(System.in);
             switch (tastiera.nextLine()) {
                 case "1":
                         menuLogin();
@@ -544,31 +539,26 @@ public class Main {
                         System.exit(0);
                 default:
                         System.out.println("Comando non riconosciuto");
-              
             }
-        
         }
     }
 
     
-
-    
-       public static void leggiConfigurazione(){
+    public static void leggiConfigurazione(){
         try {
-            DocumentBuilderFactory dbf=  DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder dB = dbf.newDocumentBuilder();
-            Document doc= dB.parse(new File("configurazione.xml"));
-            
-            Element root= doc.getDocumentElement();
+            Document doc = dB.parse(new File("configurazione.xml"));
+            Element root = doc.getDocumentElement();
             root.normalize();
-            NodeList children= root.getChildNodes();
-            for(int i=0;i<children.getLength();i++){
-                if(children.item(i).getNodeType()== Element.ELEMENT_NODE){
+            NodeList children = root.getChildNodes();
+            for(int i = 0; i < children.getLength(); i++){
+                if(children.item(i).getNodeType() == Element.ELEMENT_NODE){
                     if(children.item(i).getNodeName().equals("indirizzo")){
-                        indirizzo=children.item(i).getTextContent();
+                        indirizzo = children.item(i).getTextContent();
                     }
                     if(children.item(i).getNodeName().equals("porta"))
-                        porta=Integer.parseInt(children.item(i).getTextContent());
+                        porta = Integer.parseInt(children.item(i).getTextContent());
                 }   
             }
         } catch (ParserConfigurationException ex) {
@@ -596,13 +586,8 @@ public class Main {
             inputStream = new ObjectInputStream(s.getInputStream());
             menuprincipale();
         } catch (IOException ex) {
-            System.out.println("\033[1;31m"+ "Errore nella connessione al server" + "\033[0m");
+            System.out.println("\033[1;31m" + "Errore nella connessione al server" + "\033[0m");
         }
-       
-       
-        
-        
-    
     }
     
     

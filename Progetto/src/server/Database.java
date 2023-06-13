@@ -53,7 +53,6 @@ public class Database {
         if(id > 0) {
            return id;
         }
-       
         return 0;
     }
     
@@ -73,7 +72,6 @@ public class Database {
         statement.close();
         if(id > 0)
             return id;
-        
         return 0;
     }
     
@@ -96,7 +94,6 @@ public class Database {
         for(int i = 0; i < partecipanti.size(); i++){
             int idUtente = getIdUtente(partecipanti.get(i));
             statement.executeUpdate( "INSERT INTO Gruppo" + id + "Utenti(Nickname,ID) VALUES('" + partecipanti.get(i) + "','" + idUtente + "')");
-            
         }
         String sqlString4 = "CREATE TABLE Gruppo" + id + "Messaggi (time datetime NOT NULL, Mittente varchar(255), Testo varchar(255))";
         statement.executeUpdate(sqlString4);
@@ -107,8 +104,7 @@ public class Database {
     //Restituisce le informazioni del gruppo o sulla chat
     public ArrayList<String> getInfo(String id, String tabella) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        ArrayList<String> informazioni= new ArrayList<>();
-       
+        ArrayList<String> informazioni = new ArrayList<>();
             //Se sta richiedendo informazioni su un gruppo
             if(tabella.equals("Gruppo")){
             Statement statement2 = databaseConnection.createStatement();
@@ -120,15 +116,13 @@ public class Database {
                //La seconda informazione è l'id dell'amministratore
                informazioni.add(result.getString("Amministratore"));
                //Le altre informazioni sono i nickaname dei partecipanti   
-               String sqlString2 = "SELECT * FROM Gruppo"+id+"Utenti";
+               String sqlString2 = "SELECT * FROM Gruppo" + id + "Utenti";
                ResultSet result2 = statement2.executeQuery(sqlString2);
                while(result2.next()){
                    informazioni.add(result2.getString("Nickname"));
                }
-
             }
             statement2.close();
-            
         }
             else if(tabella.equals("ChatPrivata")){
                 String sqlString = "SELECT * FROM ChatPrivate WHERE ID = '" + id + "'";
@@ -136,26 +130,19 @@ public class Database {
                 while(result.next()) {
                     informazioni.add(result.getString("Utente1"));
                     informazioni.add(result.getString("Utente2"));
-                    
                 }
             }
-        
         statement.close();
         return informazioni;
     }
     
     
     
-    
-    
-    
-    
     //Rimuove un utente dal gruppo
     public void rimuoviUtente(String idGruppo, String nickname) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        String sqlString = "DELETE FROM Gruppo"+idGruppo+"Utenti WHERE Nickname='"+ nickname+"'";
+        String sqlString = "DELETE FROM Gruppo" + idGruppo + "Utenti WHERE Nickname='" + nickname+"'";
         statement.executeUpdate(sqlString);
-        
     }
     
     //Aggiunge un utente dal gruppo
@@ -172,12 +159,7 @@ public class Database {
         String sqlString = "UPDATE Gruppi SET Nome = '" + nuovoNome + "' WHERE ID = '" + idGruppo + "'";
         statement.executeUpdate(sqlString);
         
-    }
-    
-    
-    
-    
-    
+    } 
     
     
     
@@ -224,9 +206,9 @@ public class Database {
     
     
     //Restituisce un array contente le informazioni sui gruppo o sulle chat private in cui si trova l'utente
-    public ArrayList<String []> mostra(String tabella, String Nickname) throws SQLException{
+    public ArrayList<String[]> mostra(String tabella, String Nickname) throws SQLException{
         Statement statement = databaseConnection.createStatement();
-        ArrayList<String []> ritorno = new ArrayList<>();
+        ArrayList<String[]> ritorno = new ArrayList<>();
         //Se la richiesta è di mostrare le chat
         if(tabella.equals("ChatPrivate")){
             String sqlString = "SELECT * FROM ChatPrivate WHERE Utente1='" + Nickname + "' OR Utente2= '" + Nickname + "'";
@@ -238,7 +220,6 @@ public class Database {
                   chat[2] = result.getString("Utente2");
                   ritorno.add(chat);
             }
-           
         }
         //Se la richiesta è di mostrare i gruppi
         else if(tabella.equals("Gruppi")){
@@ -256,13 +237,8 @@ public class Database {
                     gruppo[1] = nome;
                     ritorno.add(gruppo);
                   }
-
                }
-           
         }
-            
-            
-        
         return ritorno;
     } 
     
@@ -271,22 +247,20 @@ public class Database {
        Statement statement = databaseConnection.createStatement();
        //Se deve eliminare una chat Privata
        if(tabella.equals("ChatPrivata")){
-        String sqlString="DELETE FROM ChatPrivate WHERE ID="+ ID;
+        String sqlString = "DELETE FROM ChatPrivate WHERE ID=" + ID;
         statement.executeUpdate(sqlString);
-        String sqlString2= "DROP TABLE Privata"+ID+"Messaggi";
+        String sqlString2 = "DROP TABLE Privata" + ID + "Messaggi";
         statement.executeUpdate(sqlString2);
        }
-       
        //Se deve eliminare un gruppo
        else if(tabella.equals("Gruppo")){
-        String sqlString="DELETE FROM Gruppi WHERE ID="+ ID;
+        String sqlString = "DELETE FROM Gruppi WHERE ID=" + ID;
         statement.executeUpdate(sqlString);
-        String sqlString2= "DROP TABLE Gruppo"+ID+"Utenti";
+        String sqlString2 = "DROP TABLE Gruppo" + ID + "Utenti";
         statement.executeUpdate(sqlString2);
-        String sqlString3= "DROP TABLE Gruppo"+ID+"Messaggi";
+        String sqlString3 = "DROP TABLE Gruppo" + ID + "Messaggi";
         statement.executeUpdate(sqlString3);
        }
-       
        statement.close();
     }
     
@@ -304,7 +278,6 @@ public class Database {
                 ritorno.add(msg);
             }
         }
-        
         else if(type.equals("c")){
             String sqlString = "SELECT * FROM Privata" + ID + "Messaggi";
             ResultSet result = statement.executeQuery(sqlString);
@@ -324,16 +297,12 @@ public class Database {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Statement statement = databaseConnection.createStatement();
         if(tabella.equals("ChatPrivata")){  
-            String sqlString = "INSERT INTO Privata"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ sdf3.format(timestamp)+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
+            String sqlString = "INSERT INTO Privata" + id + "Messaggi(time, Mittente, Testo) VALUES('" + sdf3.format(timestamp) + "', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
             statement.executeUpdate(sqlString);
-         
         }
         else if(tabella.equals("Gruppo")){  
-            String sqlString = "INSERT INTO Gruppo"+id+"Messaggi(time, Mittente, Testo) VALUES('"+ sdf3.format(timestamp)+"', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
+            String sqlString = "INSERT INTO Gruppo" + id + "Messaggi(time, Mittente, Testo) VALUES('" + sdf3.format(timestamp) + "', '" + mes.getMittente() + "','" + mes.getTesto() + "')"; 
             statement.executeUpdate(sqlString);
-           
         }
-        
     }
-    
 }

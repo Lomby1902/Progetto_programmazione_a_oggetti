@@ -22,7 +22,7 @@ public abstract class Chat {
     protected ObjectInputStream input;
     
     public Chat(String ID){
-        output= Main.getOutputStream();
+        output = Main.getOutputStream();
         input = Main.getInputStream();
         partecipanti = new ArrayList<String>(0);
         messaggi = new ArrayList<Messaggio> (0);
@@ -42,7 +42,7 @@ public abstract class Chat {
     }
     
     public void eliminaPartecipante(String nickname){
-        for(int i=0;i<partecipanti.size();i++){
+        for(int i = 0; i < partecipanti.size(); i++){
             if(partecipanti.get(i).equals(nickname)){
                 partecipanti.remove(i);
                 break;
@@ -73,8 +73,6 @@ public abstract class Chat {
                 }
                 control = false;
             }
-            
-            
         }
         return temp;
     }
@@ -103,5 +101,4 @@ public abstract class Chat {
     }
     
     public abstract void mostraPartecipanti();
-   
 }
