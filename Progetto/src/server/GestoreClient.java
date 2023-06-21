@@ -181,7 +181,6 @@ public class GestoreClient implements Runnable {
                     String tabella = comando[1];
                     String id = comando[2];    
                     Object risposta = inputStream.readObject();
-                    System.out.println(risposta);
                     Messaggio mess = (Messaggio) risposta ;
                     db.inserisciMessaggio(mess, tabella, id);        
                 }  
