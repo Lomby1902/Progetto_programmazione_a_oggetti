@@ -176,7 +176,6 @@ public class GestoreClient implements Runnable {
                 
                 //Operazioni di inserimento messaggio
                 if(comando[0].equals("w")){
-                    System.out.println(richiesta);
                     //Estrae la tabella (o gruppo o chat privata)
                     String tabella = comando[1];
                     String id = comando[2];    

@@ -266,6 +266,7 @@ public class Main {
                         break;
                     default:
                         listener.stop();
+                        Thread.sleep(100);
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                         gruppo.inviaMessaggio(msg); 
                         listener = new ChatListener(gruppo, nuovoUtente.getNickname());       
@@ -329,6 +330,7 @@ public class Main {
                         break;          
                     default:
                         listener.stop();
+                        Thread.sleep(100);
                         Messaggio msg = new Messaggio(nuovoUtente.getNickname(), text);
                         cp.inviaMessaggio(msg);
                         listener = new ChatListener(cp, nuovoUtente.getNickname());       
